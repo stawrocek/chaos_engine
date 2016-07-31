@@ -1,6 +1,9 @@
 #include <iostream>
 
 #include "include/Window.hpp"
+#include "include/InputHandler.hpp"
+
+static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
 int main(int argc, char* argv[]){
     std::cout << "BigCalm\n";
@@ -11,8 +14,8 @@ int main(int argc, char* argv[]){
     GLboolean mainLoop=true;
     while (mainLoop){
 	    window.clearColor(0.0, 0.4, 0.0, 1.0);
-		SDL_Event event;
-		while (SDL_PollEvent(&event)){
+		chaos::Event event;
+		while (inputHandler.pollEvent(&event)){
 			if (event.type == SDL_QUIT)
 				mainLoop = false;
 
