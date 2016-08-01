@@ -34,6 +34,10 @@ public:
         glUniform1f(loc, v);
     }
 
+    void setUniform(GLuint loc, const GLuint &v){
+        glUniform1i(loc, v);
+    }
+
     void setUniform(GLuint loc, const glm::vec4 &v){
         glUniform4f(loc, v.x, v.y, v.z, v.w);
     }
