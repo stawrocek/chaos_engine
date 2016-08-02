@@ -35,6 +35,7 @@ void Window::clearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a){
 }
 
 GLfloat Window::getDeltaTime(){
+    return deltaTimer.getTimeAsSeconds();
 }
 
 void Window::update(){

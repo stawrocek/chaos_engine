@@ -21,6 +21,7 @@ public:
         return getTime()/1000.0f;
     }
 private:
+    GLuint startTime=0;
 };
 
 }
