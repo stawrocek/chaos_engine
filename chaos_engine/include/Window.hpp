@@ -6,6 +6,9 @@
 
 #include <SDL/SDL.h>
 #include <string>
+#include <iostream>
+
+#include "Timer.hpp"
 
 namespace chaos{
 
@@ -24,22 +27,28 @@ struct WindowStyle{
 class Window
 {
 public:
-    Window();
     Window(WindowStyle);
     virtual ~Window();
     void initOpenGLGlew();
     void clearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
-    void swapBuffers();
+    void update();
     SDL_Window* getWindowHandle()       {return window;}
     SDL_GLContext* getGLContextHandle() {return &context;}
     void setDepthEnabled(GLboolean);
     GLboolean isDepthEnabled()          {return depthEnabled;}
+    GLfloat getDeltaTime();
+    GLuint getFPS();
 
 private:
     SDL_Window* window = nullptr;
     SDL_GLContext context;
 
     GLboolean depthEnabled = true;
+    Timer deltaTimer;
+
+    Timer fpsTimer;
+    GLuint fpsCtr=0;
+    GLuint fpsVal=0;
 };
 
 }

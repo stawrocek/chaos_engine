@@ -2,14 +2,11 @@
 
 using namespace chaos;
 
-Window::Window(){
-    window = SDL_CreateWindow("Hello World!", 100, 100, 640, 480, SDL_WINDOW_OPENGL);
-    initOpenGLGlew();
-}
-
 Window::Window(WindowStyle style){
-     window = SDL_CreateWindow(style.name.c_str(), style.posX, style.posY, style.width, style.height, style.flags);
-     initOpenGLGlew();
+    window = SDL_CreateWindow(style.name.c_str(), style.posX, style.posY, style.width, style.height, style.flags);
+    initOpenGLGlew();
+    deltaTimer.restart();
+    fpsTimer.restart();
 }
 
 Window::~Window(){
@@ -37,8 +34,23 @@ void Window::clearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Window::swapBuffers(){
+GLfloat Window::getDeltaTime(){
+}
+
+void Window::update(){
+    deltaTimer.restart();
+    if(fpsTimer.getTime() >= 1000){
+        fpsVal = fpsCtr;
+        fpsCtr=0;
+        fpsTimer.restart();
+    }
+    fpsCtr++;
+
     SDL_GL_SwapWindow(window);
+}
+
+GLuint Window::getFPS(){
+    return fpsVal;
 }
 
 void Window::setDepthEnabled(GLboolean b){

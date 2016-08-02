@@ -62,6 +62,7 @@ int main(int argc, char* argv[]){
 
     GLboolean mainLoop=true;
     GLfloat r=0.0;
+
     while (mainLoop){
 	    window.clearColor(r, 0.4, 0.0, 1.0);
 		chaos::Event event;
@@ -86,33 +87,34 @@ int main(int argc, char* argv[]){
 		    if(r-0.0001 >= 0.0)
             r-=0.0001;
 		}
+		GLfloat deltaTime = window.getDeltaTime();
+
         if(inputHandler.isKeyDown('a')){
-            testTransform.moveX(-0.001f);
+            testTransform.moveX(-1.f * deltaTime);
         }
         if(inputHandler.isKeyDown('d')){
-            testTransform.moveX(+0.001f);
+            testTransform.moveX(+1.f * deltaTime);
         }
         if(inputHandler.isKeyDown('w')){
-            testTransform.moveY(+0.001f);
+            testTransform.moveY(+1.f * deltaTime);
         }
         if(inputHandler.isKeyDown('s')){
-            testTransform.moveY(-0.001f);
+            testTransform.moveY(-1.f * deltaTime);
         }
 
         shaderProgram.run();
 
-        // Update the uniform color
         GLfloat greenValue = 0.5;
         texture1.use(GL_TEXTURE1);
         shaderProgram.setUniform("ourColor", glm::vec4(0.0, r, 0.0, 1.0));
         shaderProgram.setUniform("mx", testTransform.getGlobalTransformMatrix());
         shaderProgram.setUniform("tex0", texture1.getId());
 
-        // Draw the triangle
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
         glBindVertexArray(0);
 
-        window.swapBuffers();
+
+        window.update();
     }
 }

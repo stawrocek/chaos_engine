@@ -1,3 +1,5 @@
+#ifndef EVENT_HPP
+#define EVENT_HPP
 
 namespace chaos{
 
@@ -100,3 +102,5 @@ struct Event {
 };
 
 }
+
+#endif //EVENT_HPP
