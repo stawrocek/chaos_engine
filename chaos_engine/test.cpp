@@ -5,6 +5,7 @@
 #include "include/Transform.hpp"
 #include "include/ShaderProgram.hpp"
 #include "include/Texture.hpp"
+#include "include/VertexArray.hpp"
 
 static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
@@ -15,15 +16,13 @@ int main(int argc, char* argv[]){
     testTransform.setScale(0.5f, 0.5f, 0.5f);
     chaos::Texture texture1("files/textures/composition-a-1923-piet-mondrian.jpg");
 
-    //chaos::Texture texture1("files/textures/awesomeface.png");
-
-    GLfloat vertices[] = {
-        -1.f, -1.f, 0.f,
-        1.f, -1.f, 0.f,
-        -1.f,  1.f, 0.f,
-        1.f, 1.f, 0.f,
-        1.f, -1.f, 0.f,
-        -1.f,  1.f, 0.f
+    std::vector<GLfloat> vertices = {
+        -1.f, -1.f, 0.f, 0.f, 0.f,
+        1.f, -1.f, 0.f,  1.f, 0.f,
+        -1.f,  1.f, 0.f, 0.f, 1.f,
+        1.f, 1.f, 0.f,   1.f, 1.f,
+        1.f, -1.f, 0.f,  1.f, 0.f,
+        -1.f,  1.f, 0.f, 0.f, 1.f
     };
 
     GLfloat uvVerts[] = {
@@ -38,27 +37,7 @@ int main(int argc, char* argv[]){
     chaos::ShaderProgram shaderProgram{std::make_pair("files/shaders/shader1.vs", GL_VERTEX_SHADER),
                                        std::make_pair("files/shaders/shader1.fs", GL_FRAGMENT_SHADER)};
 
-    GLuint vboVX, VAO, vboUV;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &vboVX);
-    glGenBuffers(1, &vboUV);
-    // Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
-    glBindVertexArray(VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vboVX);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    // Position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-    glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vboUV);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(uvVerts), uvVerts, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid*)0);
-    glEnableVertexAttribArray(1);
-
-    glBindVertexArray(0);
+    chaos::VertexArray vaoVertUV(3, 0, 2, 0, &vertices);
 
     GLboolean mainLoop=true;
     GLfloat r=0.0;
@@ -110,9 +89,9 @@ int main(int argc, char* argv[]){
         shaderProgram.setUniform("mx", testTransform.getGlobalTransformMatrix());
         shaderProgram.setUniform("tex0", texture1.getId());
 
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        glBindVertexArray(0);
+        vaoVertUV.bind();
+        glDrawArrays(GL_TRIANGLES, 0, vaoVertUV.countVertices());
+        vaoVertUV.unbind();
 
 
         window.update();
