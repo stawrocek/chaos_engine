@@ -4,7 +4,9 @@ using namespace chaos;
 
 GLuint Texture::textureCounter = 0;
 
-Texture::Texture(std::string fpath){
+Texture::Texture(std::string fpath)
+:Resource(fpath)
+{
     batchId = textureCounter;
 
     glGenTextures(1, &id);

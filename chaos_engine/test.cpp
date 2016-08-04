@@ -6,15 +6,41 @@
 #include "include/ShaderProgram.hpp"
 #include "include/Texture.hpp"
 #include "include/VertexArray.hpp"
+#include "include/ResourceManager.hpp"
 
 static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
 int main(int argc, char* argv[]){
     chaos::WindowStyle style("Test 1", 100, 100, 600, 480, SDL_WINDOW_OPENGL);
     chaos::Window window(style);
+    chaos::ResourceManager rscManager;
+    chaos::Texture* texture1 = rscManager.loadResource<chaos::Texture>("files/textures/composition-a-1923-piet-mondrian.jpg", "piet");
+    chaos::Texture* test1 = rscManager.loadResource<chaos::Texture>("files/textures/composition-a-1923-piet-mondrian.jpg", "piet");
+    chaos::Texture* test2 = rscManager.getResource<chaos::Texture>("piet");
+    chaos::Texture* test3 = rscManager.loadResource<chaos::Texture>("files/textures/composition-a-1923-piet-mondrian.jpg", "piet2");
+
+    if(test1 != nullptr){
+        std::cout << "test1 ok\n";
+    }
+    if(test2 != nullptr){
+        std::cout << "test2 ok\n";
+    }
+    if(test3 != nullptr){
+        std::cout << "test3 ok\n";
+    }
+
+    std::cout << test2->getBatchId() << " " << test3->getBatchId() << "\n";
+
+    chaos::Texture* test4 = rscManager.getResource<chaos::Texture>("uuuTrudePytanie");
+    if(test4 == nullptr){
+        std::cout << "test4 ok\n";
+    }
+
     chaos::Transform testTransform;
     testTransform.setScale(0.5f, 0.5f, 0.5f);
-    chaos::Texture texture1("files/textures/composition-a-1923-piet-mondrian.jpg");
+    //chaos::Texture texture1("files/textures/composition-a-1923-piet-mondrian.jpg");
+
+    //chaos::Texture* texture1 = rscManager.getResource<chaos::Texture>("piet");
 
     std::vector<GLfloat> vertices = {
         -1.f, -1.f, 0.f, 0.f, 0.f,
@@ -84,10 +110,10 @@ int main(int argc, char* argv[]){
         shaderProgram.run();
 
         GLfloat greenValue = 0.5;
-        texture1.use(GL_TEXTURE1);
+        texture1->use(GL_TEXTURE1);
         shaderProgram.setUniform("ourColor", glm::vec4(0.0, r, 0.0, 1.0));
         shaderProgram.setUniform("mx", testTransform.getGlobalTransformMatrix());
-        shaderProgram.setUniform("tex0", texture1.getId());
+        shaderProgram.setUniform("tex0", texture1->getId());
 
         vaoVertUV.bind();
         glDrawArrays(GL_TRIANGLES, 0, vaoVertUV.countVertices());

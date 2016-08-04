@@ -8,9 +8,11 @@
 #include <iostream>
 #include <FreeImage.h>
 
+#include "Resource.hpp"
+
 namespace chaos{
 
-class Texture
+class Texture: public Resource
 {
 public:
     Texture(std::string fpath);
