@@ -1,12 +1,12 @@
 #include <iostream>
 
-#include "include/Window.hpp"
-#include "include/InputHandler.hpp"
-#include "include/Transform.hpp"
-#include "include/ShaderProgram.hpp"
-#include "include/Texture.hpp"
-#include "include/VertexArray.hpp"
-#include "include/ResourceManager.hpp"
+#include "../include/Window.hpp"
+#include "../include/InputHandler.hpp"
+#include "../include/Transform.hpp"
+#include "../include/ShaderProgram.hpp"
+#include "../include/Texture.hpp"
+#include "../include/VertexArray.hpp"
+#include "../include/ResourceManager.hpp"
 
 static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
