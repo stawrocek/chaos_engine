@@ -18,12 +18,8 @@ int main(int argc, char* argv[]){
     chaos::Window window(style);
     chaos::SceneManager scnMgr;
 
-    std::cout << "test1\n";
-
     scnMgr.registerScene<MainMenu>("Main_Menu");
-    std::cout << "test2\n";
     scnMgr.registerScene<Scene2>("Scene2");
-    std::cout << "test3\n";
     scnMgr.setActiveScene("Main_Menu");
 
     bool mainLoop = true;

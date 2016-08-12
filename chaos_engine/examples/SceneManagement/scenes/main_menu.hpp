@@ -10,7 +10,7 @@ public:
     MainMenu(std::string _name)
     :Scene(_name)
     {
-        std::cout << "Destructor of MainMenu\n";
+        std::cout << "Constructor of MainMenu\n";
     }
 
     virtual ~MainMenu(){
@@ -28,7 +28,7 @@ public:
         //std::cout << "MainMenu::draw(" << deltaTime << ")\n";
     }
     virtual void deliverEvent(chaos::Event& e){
-        std::cout << "MainMenu::deliverEvent()\n";
+        //std::cout << "MainMenu::deliverEvent()\n";
         if(e.getChar() == 'n'){
             std::cout << "next!\n";
             scnManager->setActiveScene("Scene2");

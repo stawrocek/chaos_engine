@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Scene.hpp"
+#include "GameObject.hpp"
 
 class Scene2: public chaos::Scene{
 public:
@@ -28,11 +29,13 @@ public:
         //std::cout << "Scene2::draw(" << deltaTime << ")\n";
     }
     virtual void deliverEvent(chaos::Event& e){
-        std::cout << "Scene2::deliverEvent()\n";
+        //std::cout << "Scene2::deliverEvent()\n";
     }
     virtual void onSceneDeactivate(){
         std::cout << "Scene2::onSceneDeactivate()\n";
     }
+private:
+    chaos::GameObject cube1;
 };
 
 #endif // SCENE2_HPP
