@@ -29,7 +29,7 @@ class Window
 public:
     Window(WindowStyle);
     virtual ~Window();
-    void initOpenGLGlew();
+    void initOpenGL();
     void clearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
     void update();
     SDL_Window* getWindowHandle()       {return window;}

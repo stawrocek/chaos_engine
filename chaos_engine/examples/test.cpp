@@ -7,6 +7,7 @@
 #include "../include/Texture.hpp"
 #include "../include/VertexArray.hpp"
 #include "../include/ResourceManager.hpp"
+#include "../include/Camera.hpp"
 
 static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
@@ -15,32 +16,19 @@ int main(int argc, char* argv[]){
     chaos::Window window(style);
     chaos::ResourceManager rscManager;
     chaos::Texture* texture1 = rscManager.loadResource<chaos::Texture>("files/textures/composition-a-1923-piet-mondrian.jpg", "piet");
-    chaos::Texture* test1 = rscManager.loadResource<chaos::Texture>("files/textures/composition-a-1923-piet-mondrian.jpg", "piet");
-    chaos::Texture* test2 = rscManager.getResource<chaos::Texture>("piet");
-    chaos::Texture* test3 = rscManager.loadResource<chaos::Texture>("files/textures/composition-a-1923-piet-mondrian.jpg", "piet2");
+    chaos::Texture* texture2 = rscManager.loadResource<chaos::Texture>("files/textures/2001.png", "2001");
 
-    if(test1 != nullptr){
-        std::cout << "test1 ok\n";
-    }
-    if(test2 != nullptr){
-        std::cout << "test2 ok\n";
-    }
-    if(test3 != nullptr){
-        std::cout << "test3 ok\n";
-    }
-
-    std::cout << test2->getBatchId() << " " << test3->getBatchId() << "\n";
-
-    chaos::Texture* test4 = rscManager.getResource<chaos::Texture>("uuuTrudePytanie");
-    if(test4 == nullptr){
-        std::cout << "test4 ok\n";
-    }
-
-    chaos::Transform testTransform;
+    chaos::GameObject testTransform;
     testTransform.setScale(0.5f, 0.5f, 0.5f);
-    //chaos::Texture texture1("files/textures/composition-a-1923-piet-mondrian.jpg");
+    chaos::GameObject testTransform2;
+    testTransform2.setScale(0.5f, 0.5f, 0.5f);
+    testTransform2.translate(0.5, 0.5, 0.5);
 
-    //chaos::Texture* texture1 = rscManager.getResource<chaos::Texture>("piet");
+    chaos::Camera cam;
+    cam.moveZ(5.f);
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+
+    glm::mat4 mxProj = glm::perspective(glm::radians(45.0f), (GLfloat)style.width/style.height, 0.1f, 100.0f);
 
     std::vector<GLfloat> vertices = {
         -1.f, -1.f, 0.f, 0.f, 0.f,
@@ -59,7 +47,6 @@ int main(int argc, char* argv[]){
         1.f, 0.f,
         0.f, 1.f
     };
-
     chaos::ShaderProgram shaderProgram{std::make_pair("files/shaders/shader1.vs", GL_VERTEX_SHADER),
                                        std::make_pair("files/shaders/shader1.fs", GL_FRAGMENT_SHADER)};
 
@@ -69,7 +56,7 @@ int main(int argc, char* argv[]){
     GLfloat r=0.0;
 
     while (mainLoop){
-	    window.clearColor(r, 0.4, 0.0, 1.0);
+	    window.clearColor(r, 0, 0.0, 1.0);
 		chaos::Event event;
 		while (inputHandler.pollEvent(&event)){
 			if (event.type == SDL_QUIT)
@@ -82,6 +69,10 @@ int main(int argc, char* argv[]){
 					break;
 				}
 			}
+
+			if(event.type == SDL_MOUSEMOTION) {
+                cam.processMouse(event.motion.xrel, -event.motion.yrel);
+            }
 		}
 
 		if(inputHandler.isKeyDown('r')){
@@ -94,31 +85,44 @@ int main(int argc, char* argv[]){
 		}
 		GLfloat deltaTime = window.getDeltaTime();
 
-        if(inputHandler.isKeyDown('a')){
+        if(inputHandler.isKeyDown('a'))
             testTransform.moveX(-1.f * deltaTime);
-        }
-        if(inputHandler.isKeyDown('d')){
+        if(inputHandler.isKeyDown('d'))
             testTransform.moveX(+1.f * deltaTime);
-        }
-        if(inputHandler.isKeyDown('w')){
+        if(inputHandler.isKeyDown('w'))
             testTransform.moveY(+1.f * deltaTime);
-        }
-        if(inputHandler.isKeyDown('s')){
+        if(inputHandler.isKeyDown('s'))
             testTransform.moveY(-1.f * deltaTime);
-        }
+
+        if(inputHandler.isKeyDown('h'))
+            cam.processKeyboard(chaos::LEFT, deltaTime);
+        if(inputHandler.isKeyDown('k'))
+            cam.processKeyboard(chaos::RIGHT, deltaTime);
+        if(inputHandler.isKeyDown('u'))
+            cam.processKeyboard(chaos::FORWARD, deltaTime);
+        if(inputHandler.isKeyDown('j'))
+            cam.processKeyboard(chaos::BACKWARD, deltaTime);
+
 
         shaderProgram.run();
 
         GLfloat greenValue = 0.5;
         texture1->use(GL_TEXTURE1);
         shaderProgram.setUniform("ourColor", glm::vec4(0.0, r, 0.0, 1.0));
-        shaderProgram.setUniform("mx", testTransform.getGlobalTransformMatrix());
+        shaderProgram.setUniform("mx",mxProj*cam.getViewMatrix()*testTransform.getGlobalTransformMatrix());
         shaderProgram.setUniform("tex0", texture1->getId());
 
         vaoVertUV.bind();
         glDrawArrays(GL_TRIANGLES, 0, vaoVertUV.countVertices());
         vaoVertUV.unbind();
 
+        shaderProgram.setUniform("mx",mxProj*cam.getViewMatrix()* testTransform2.getGlobalTransformMatrix());
+        texture2->use(GL_TEXTURE2);
+        shaderProgram.setUniform("tex0", texture2->getId());
+
+        vaoVertUV.bind();
+        glDrawArrays(GL_TRIANGLES, 0, vaoVertUV.countVertices());
+        vaoVertUV.unbind();
 
         window.update();
     }

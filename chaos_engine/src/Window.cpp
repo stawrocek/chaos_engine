@@ -4,7 +4,7 @@ using namespace chaos;
 
 Window::Window(WindowStyle style){
     window = SDL_CreateWindow(style.name.c_str(), style.posX, style.posY, style.width, style.height, style.flags);
-    initOpenGLGlew();
+    initOpenGL();
     deltaTimer.restart();
     fpsTimer.restart();
 }
@@ -15,7 +15,8 @@ Window::~Window(){
     SDL_Quit();
 }
 
-void Window::initOpenGLGlew(){
+void Window::initOpenGL(){
+    context = SDL_GL_CreateContext(window);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
@@ -23,10 +24,9 @@ void Window::initOpenGLGlew(){
 
     setDepthEnabled(true);
 
-    context = SDL_GL_CreateContext(window);
-
     glewExperimental = GL_TRUE;
     glewInit();
+
 }
 
 void Window::clearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a){

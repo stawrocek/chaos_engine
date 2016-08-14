@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Scene.hpp"
+#include "Camera.hpp"
 #include "GameObject.hpp"
 
 class Scene2: public chaos::Scene{
@@ -22,20 +23,17 @@ public:
         std::cout << "Scene2::onSceneActivate()\n";
     };
     virtual void update(GLfloat deltaTime){
-        //std::cout << "Scene2::update(" << deltaTime << ")\n";
     }
     virtual void draw(GLfloat deltaTime){
         clearWindow(0.0, 1.0, 0.0, 1.0);
-        //std::cout << "Scene2::draw(" << deltaTime << ")\n";
     }
     virtual void deliverEvent(chaos::Event& e){
-        //std::cout << "Scene2::deliverEvent()\n";
     }
     virtual void onSceneDeactivate(){
         std::cout << "Scene2::onSceneDeactivate()\n";
     }
 private:
-    chaos::GameObject cube1;
+    chaos::Camera camera;
 };
 
 #endif // SCENE2_HPP
