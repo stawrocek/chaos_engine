@@ -8,6 +8,7 @@
 #include "../include/VertexArray.hpp"
 #include "../include/ResourceManager.hpp"
 #include "../include/Camera.hpp"
+#include "../include/Renderer.hpp"
 
 static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
@@ -15,6 +16,7 @@ int main(int argc, char* argv[]){
     chaos::WindowStyle style("Test 1", 100, 100, 600, 480, SDL_WINDOW_OPENGL);
     chaos::Window window(style);
     chaos::ResourceManager rscManager;
+    chaos::Renderer renderer;
     chaos::Texture* texture1 = rscManager.loadResource<chaos::Texture>("files/textures/composition-a-1923-piet-mondrian.jpg", "piet");
     chaos::Texture* texture2 = rscManager.loadResource<chaos::Texture>("files/textures/2001.png", "2001");
 
@@ -47,10 +49,11 @@ int main(int argc, char* argv[]){
         1.f, 0.f,
         0.f, 1.f
     };
-    chaos::ShaderProgram shaderProgram{std::make_pair("files/shaders/shader1.vs", GL_VERTEX_SHADER),
-                                       std::make_pair("files/shaders/shader1.fs", GL_FRAGMENT_SHADER)};
 
-    chaos::VertexArray vaoVertUV(3, 0, 2, 0, &vertices);
+    renderer.addShader({std::make_pair("files/shaders/shader1.vs", GL_VERTEX_SHADER),
+                                       std::make_pair("files/shaders/shader1.fs", GL_FRAGMENT_SHADER)}, "testShader");
+
+    renderer.addVAO(3, 0, 2, 0, &vertices, "testVAO");
 
     GLboolean mainLoop=true;
     GLfloat r=0.0;
@@ -103,26 +106,26 @@ int main(int argc, char* argv[]){
         if(inputHandler.isKeyDown('j'))
             cam.processKeyboard(chaos::BACKWARD, deltaTime);
 
-
-        shaderProgram.run();
+        renderer.getShader("testShader")->run();
 
         GLfloat greenValue = 0.5;
         texture1->use(GL_TEXTURE1);
-        shaderProgram.setUniform("ourColor", glm::vec4(0.0, r, 0.0, 1.0));
-        shaderProgram.setUniform("mx",mxProj*cam.getViewMatrix()*testTransform.getGlobalTransformMatrix());
-        shaderProgram.setUniform("tex0", texture1->getId());
 
-        vaoVertUV.bind();
-        glDrawArrays(GL_TRIANGLES, 0, vaoVertUV.countVertices());
-        vaoVertUV.unbind();
+        renderer.getShader("testShader")->setUniform("ourColor", glm::vec4(0.0, r, 0.0, 1.0));
+        renderer.getShader("testShader")->setUniform("mx",mxProj*cam.getViewMatrix()*testTransform.getGlobalTransformMatrix());
+        renderer.getShader("testShader")->setUniform("tex0", texture1->getId());
 
-        shaderProgram.setUniform("mx",mxProj*cam.getViewMatrix()* testTransform2.getGlobalTransformMatrix());
+        renderer.getVAO("testVAO")->bind();
+        glDrawArrays(GL_TRIANGLES, 0, renderer.getVAO("testVAO")->countVertices());
+        renderer.getVAO("testVAO")->unbind();
+
+        renderer.getShader("testShader")->setUniform("mx",mxProj*cam.getViewMatrix()* testTransform2.getGlobalTransformMatrix());
         texture2->use(GL_TEXTURE2);
-        shaderProgram.setUniform("tex0", texture2->getId());
+        renderer.getShader("testShader")->setUniform("tex0", texture2->getId());
 
-        vaoVertUV.bind();
-        glDrawArrays(GL_TRIANGLES, 0, vaoVertUV.countVertices());
-        vaoVertUV.unbind();
+        renderer.getVAO("testVAO")->bind();
+        glDrawArrays(GL_TRIANGLES, 0, renderer.getVAO("testVAO")->countVertices());
+        renderer.getVAO("testVAO")->unbind();
 
         window.update();
     }

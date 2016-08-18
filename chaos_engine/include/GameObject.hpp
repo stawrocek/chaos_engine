@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Transform.hpp"
+#include "Renderer.hpp"
 
 namespace chaos{
 
@@ -15,6 +16,11 @@ public:
     {}
 
     virtual ~GameObject(){}
+
+    virtual void draw(Renderer* ren){
+
+    }
+
     std::string getName(){
         return name;
     }
