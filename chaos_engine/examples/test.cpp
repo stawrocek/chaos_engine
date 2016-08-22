@@ -29,17 +29,18 @@ int main(int argc, char* argv[]){
 
 
     chaos::Rectangle rect1("getShreckt");
-    rect1.setColor(glm::vec4(0, 1, 0, 1));
+    rect1.setColor(glm::vec4(0.0, 1.0, 0.0, 1.0));
+    rect1.translate(1.f, 0.f, 0.f);
 
     chaos::Camera cam("camera", chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)style.width/style.height, 0.1f, 100.0f));
     cam.moveZ(5.f);
     SDL_SetRelativeMouseMode(SDL_TRUE);
 
     GLboolean mainLoop=true;
-    GLfloat r=0.0;
 
     while (mainLoop){
-	    window.clearColor(r, 0, 0.0, 1.0);
+	    window.clearColor(0.4, 0.2, 0.2, 1.0);
+	    renderer.setCamCombined(cam.getProjectionMatrix()*cam.getViewMatrix());
 		chaos::Event event;
 		while (inputHandler.pollEvent(&event)){
 			if (event.type == SDL_QUIT)
@@ -58,14 +59,6 @@ int main(int argc, char* argv[]){
             }
 		}
 
-		if(inputHandler.isKeyDown('r')){
-            if(r+0.0001 <= 1.0)
-            r+=0.0001;
-		}
-		if(inputHandler.isKeyDown('e')){
-		    if(r-0.0001 >= 0.0)
-            r-=0.0001;
-		}
 		GLfloat deltaTime = window.getDeltaTime();
 
         if(inputHandler.isKeyDown('a'))
@@ -86,26 +79,32 @@ int main(int argc, char* argv[]){
         if(inputHandler.isKeyDown('j'))
             cam.processKeyboard(chaos::BACKWARD, deltaTime);
 
+        rect1.rotateX(sin(window.getDeltaTime()));
+
+
         renderer.getShader("Shader_Pos.Uv")->run();
 
         GLfloat greenValue = 0.5;
         texture1->use(GL_TEXTURE1);
 
-        renderer.getShader("Shader_Pos.Uv")->setUniform("ourColor", glm::vec4(0.0, r, 0.0, 1.0));
-        renderer.getShader("Shader_Pos.Uv")->setUniform("mx",cam.getProjectionMatrix()*cam.getViewMatrix()*testTransform.getGlobalTransformMatrix());
+        renderer.getShader("Shader_Pos.Uv")->setUniform("ourColor", glm::vec4(0.0, 0.0, 0.0, 1.0));
+        renderer.getShader("Shader_Pos.Uv")->setUniform("mx",renderer.getCamCombined()*testTransform.getGlobalTransformMatrix());
         renderer.getShader("Shader_Pos.Uv")->setUniform("tex0", texture1->getId());
 
         renderer.getVAO("Vao_Pos.Uv")->bind();
         glDrawArrays(GL_TRIANGLES, 0, renderer.getVAO("Vao_Pos.Uv")->countVertices());
         renderer.getVAO("Vao_Pos.Uv")->unbind();
 
-        renderer.getShader("Shader_Pos.Uv")->setUniform("mx",cam.getProjectionMatrix()*cam.getViewMatrix()* testTransform2.getGlobalTransformMatrix());
+        renderer.getShader("Shader_Pos.Uv")->setUniform("ourColor", glm::vec4(0.0, 0.0, 0.0, 1.0));
+        renderer.getShader("Shader_Pos.Uv")->setUniform("mx",renderer.getCamCombined()* testTransform2.getGlobalTransformMatrix());
         texture2->use(GL_TEXTURE2);
         renderer.getShader("Shader_Pos.Uv")->setUniform("tex0", texture2->getId());
 
         renderer.getVAO("Vao_Pos.Uv")->bind();
         glDrawArrays(GL_TRIANGLES, 0, renderer.getVAO("Vao_Pos.Uv")->countVertices());
         renderer.getVAO("Vao_Pos.Uv")->unbind();
+
+        rect1.draw(&renderer);
 
         window.update();
     }

@@ -12,14 +12,13 @@ public:
     Rectangle(std::string s):GameObject(s){};
     virtual ~Rectangle(){};
     virtual void draw(Renderer* ren){
-        ren->getShader("Shader_Pos")->setUniform("ourColor", color);
-        //to nizej -> przenies viewMatrix do renderera
-        /*ren->getShader("Shader_Pos.Uv")->setUniform("mx",mxProj*cam.getViewMatrix()*testTransform.getGlobalTransformMatrix());
-        renderer.getShader("Shader_Pos.Uv")->setUniform("tex0", texture1->getId());
+        ren->getShader("Shader_Pos")->run();
+        ren->getShader("Shader_Pos")->setUniform("uniColor", color);
+        ren->getShader("Shader_Pos")->setUniform("mx",ren->getCamCombined()*getGlobalTransformMatrix());
 
-        renderer.getVAO("Vao_Pos.Uv")->bind();
-        glDrawArrays(GL_TRIANGLES, 0, renderer.getVAO("Vao_Pos.Uv")->countVertices());
-        renderer.getVAO("Vao_Pos.Uv")->unbind();*/
+        ren->getVAO("Vao_Pos")->bind();
+        glDrawArrays(GL_TRIANGLES, 0, ren->getVAO("Vao_Pos")->countVertices());
+        ren->getVAO("Vao_Pos")->unbind();
     }
 
     glm::vec4 getColor(){

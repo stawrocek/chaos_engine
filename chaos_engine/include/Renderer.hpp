@@ -116,11 +116,18 @@ public:
         addVAO(3, 0, 2, 0, &vx_Pos_Uv, "Vao_Pos.Uv");
     }
 
+    glm::mat4 getCamCombined(){
+        return camCombined;
+    }
+
+    void setCamCombined(glm::mat4 mx){
+        camCombined = mx;
+    }
 
 private:
     std::unordered_map<std::string , ShaderProgram*> cacheShaders;
     std::unordered_map<std::string , VertexArray*> cacheVAO;
-
+    glm::mat4 camCombined = glm::mat4();
 };
 
 }
