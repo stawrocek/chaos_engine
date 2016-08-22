@@ -14,7 +14,7 @@ namespace chaos{
 class Renderer{
 public:
     Renderer(){
-
+        initEngineStuff();
     }
     virtual ~Renderer(){
         std::cout << "Destructor of Renderer{\n";
@@ -87,6 +87,36 @@ public:
         }
     }
 
+    void initEngineStuff(){
+        // shaders will be as strings in final release
+        addShader({std::make_pair("files/shaders/shader2.vs", GL_VERTEX_SHADER),
+                                       std::make_pair("files/shaders/shader2.fs", GL_FRAGMENT_SHADER)}, "Shader_Pos");
+        addShader({std::make_pair("files/shaders/shader1.vs", GL_VERTEX_SHADER),
+                                       std::make_pair("files/shaders/shader1.fs", GL_FRAGMENT_SHADER)}, "Shader_Pos.Uv");
+
+        std::vector<GLfloat> vx_Pos = {
+            -1.f, -1.f, 0.f,
+            1.f, -1.f, 0.f,
+            -1.f,  1.f, 0.f,
+            1.f, 1.f, 0.f,
+            1.f, -1.f, 0.f,
+            -1.f,  1.f, 0.f
+        };
+
+        std::vector<GLfloat> vx_Pos_Uv = {
+            -1.f, -1.f, 0.f, 0.f, 0.f,
+            1.f, -1.f, 0.f,  1.f, 0.f,
+            -1.f,  1.f, 0.f, 0.f, 1.f,
+            1.f, 1.f, 0.f,   1.f, 1.f,
+            1.f, -1.f, 0.f,  1.f, 0.f,
+            -1.f,  1.f, 0.f, 0.f, 1.f
+        };
+
+        addVAO(3, 0, 0, 0, &vx_Pos, "Vao_Pos");
+        addVAO(3, 0, 2, 0, &vx_Pos_Uv, "Vao_Pos.Uv");
+    }
+
+
 private:
     std::unordered_map<std::string , ShaderProgram*> cacheShaders;
     std::unordered_map<std::string , VertexArray*> cacheVAO;
@@ -95,6 +125,6 @@ private:
 
 }
 
-#endif //RENDERER_HPP_HPP
+#endif //RENDERER_HPP
 
 

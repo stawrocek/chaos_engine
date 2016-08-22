@@ -10,7 +10,7 @@ namespace chaos{
 
 class GameObject: public Transform{
 public:
-    GameObject(){}
+    //GameObject(){}
     GameObject(std::string _name)
     :name(_name)
     {}

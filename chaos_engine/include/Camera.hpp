@@ -9,6 +9,10 @@ enum CameraDirection {
     FORWARD, BACKWARD, LEFT, RIGHT
 };
 
+enum ProjectionMode{
+    ORTHOGRAPHIC, PERSPECTIVE
+};
+
 class Camera: public GameObject
 {
 public:
@@ -22,7 +26,9 @@ public:
     float mvSpeed = 6.0f;
     float sens = 0.05f;
 
-    Camera() {
+    Camera(std::string s, ProjectionMode m, glm::mat4 mx)
+    :GameObject(s), projectionMode(m), mxProjection(mx)
+    {
         update();
     }
 
@@ -59,6 +65,27 @@ public:
         right = glm::normalize(glm::cross(front, worldUp));
         up = glm::normalize(glm::cross(right, front));
     }
+
+    glm::mat4 getProjectionMatrix(){
+        return mxProjection;
+    }
+
+    void setProjectionMatrix(glm::mat4 m){
+        mxProjection = m;
+    }
+
+    ProjectionMode getProjectionMode(){
+        return projectionMode;
+    }
+
+    void setProjectionMode(ProjectionMode m){
+        projectionMode = m;
+    }
+
+private:
+    ProjectionMode projectionMode;
+    glm::mat4 mxProjection;
+
 };
 
 }
