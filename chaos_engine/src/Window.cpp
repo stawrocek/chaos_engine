@@ -23,6 +23,7 @@ void Window::initOpenGL(){
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     setDepthEnabled(true);
+    setBlendingEnabled(true);
 
     glewExperimental = GL_TRUE;
     glewInit();
@@ -56,7 +57,7 @@ GLuint Window::getFPS(){
 
 void Window::setDepthEnabled(GLboolean b){
     depthEnabled=b;
-    if(b){
+    if(depthEnabled){
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
     }
@@ -65,3 +66,15 @@ void Window::setDepthEnabled(GLboolean b){
         glDepthFunc(GL_NEVER);
     }
 };
+
+void Window::setBlendingEnabled(GLboolean b){
+    blendingEnabled=b;
+    if(blendingEnabled){
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+    else{
+        glDisable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
+    }
+}

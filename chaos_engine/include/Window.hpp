@@ -36,6 +36,8 @@ public:
     SDL_GLContext* getGLContextHandle() {return &context;}
     void setDepthEnabled(GLboolean);
     GLboolean isDepthEnabled()          {return depthEnabled;}
+    void setBlendingEnabled(GLboolean);
+    GLboolean isBlendingEnabled()       {return blendingEnabled;}
     GLfloat getDeltaTime();
     GLuint getFPS();
 
@@ -44,6 +46,7 @@ private:
     SDL_GLContext context;
 
     GLboolean depthEnabled = true;
+    GLboolean blendingEnabled = true;
     Timer deltaTimer;
 
     Timer fpsTimer;

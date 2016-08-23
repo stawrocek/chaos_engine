@@ -33,9 +33,15 @@ int main(int argc, char* argv[]){
     rect1.translate(1.f, 0.f, 0.f);
 
     chaos::Cube cube1(&renderer);
-    cube1.setColor(glm::vec4(0.2f, 0.4f, 0.6f, 0.5f));
+    cube1.setColor(glm::vec4(0.2f, 0.4f, 0.6f, 0.75f));
     cube1.moveY(1.5f);
     cube1.setScale(0.2f, 0.2f, 0.2f);
+
+    chaos::Circle circle1(&renderer);
+    circle1.setColor(glm::vec4(0.8, 0.8, 0.8, 1));
+    circle1.moveY(1.75);
+    circle1.rotateX(3.1415/2.f);
+    circle1.setParent(&cube1);
 
     chaos::Camera cam(&renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)style.width/style.height, 0.1f, 100.0f));
     cam.moveZ(5.f);
@@ -112,6 +118,7 @@ int main(int argc, char* argv[]){
 
         rect1.draw();
         cube1.draw();
+        circle1.draw();
 
         window.update();
     }

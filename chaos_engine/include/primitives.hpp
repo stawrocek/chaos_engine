@@ -57,7 +57,6 @@ class Rectangle: public Primitive
 public:
     Rectangle(Renderer* ren):Primitive(ren, "Rectangle:Vao_Pos", "Shader_Pos"){
     }
-    virtual ~Rectangle(){}
 };
 
 class Cube: public Primitive
@@ -65,7 +64,13 @@ class Cube: public Primitive
 public:
     Cube(Renderer* ren):Primitive(ren,"Cube:Vao_Pos","Shader_Pos"){
     }
-    virtual ~Cube(){};
+};
+
+class Circle: public Primitive
+{
+public:
+    Circle(Renderer* ren):Primitive(ren,"Circle:Vao_Pos","Shader_Pos"){
+    }
 };
 
 }

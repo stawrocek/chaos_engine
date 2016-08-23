@@ -96,20 +96,20 @@ public:
 
         std::vector<GLfloat> rect_Pos = {
             -1.f, -1.f, 0.f,
-            1.f, -1.f, 0.f,
+             1.f, -1.f, 0.f,
             -1.f,  1.f, 0.f,
-            1.f, 1.f, 0.f,
-            1.f, -1.f, 0.f,
+             1.f,  1.f, 0.f,
+             1.f, -1.f, 0.f,
             -1.f,  1.f, 0.f
         };
 
         std::vector<GLfloat> rect_Pos_Uv = {
-            -1.f, -1.f, 0.f, 0.f, 0.f,
-            1.f, -1.f, 0.f,  1.f, 0.f,
-            -1.f,  1.f, 0.f, 0.f, 1.f,
-            1.f, 1.f, 0.f,   1.f, 1.f,
-            1.f, -1.f, 0.f,  1.f, 0.f,
-            -1.f,  1.f, 0.f, 0.f, 1.f
+            -1.f, -1.f, 0.f,    0.f, 0.f,
+             1.f, -1.f, 0.f,    1.f, 0.f,
+            -1.f,  1.f, 0.f,    0.f, 1.f,
+             1.f,  1.f, 0.f,    1.f, 1.f,
+             1.f, -1.f, 0.f,    1.f, 0.f,
+            -1.f,  1.f, 0.f,    0.f, 1.f
         };
 
         std::vector<GLfloat> cube_Pos = {
@@ -200,10 +200,24 @@ public:
             -1.f,  1.f, -1.f,  0.0f, 1.0f
         };
 
+        GLuint circleCount = 32;
+        GLfloat lastX = 1.f;
+        GLfloat lastY = 0.f;
+        std::vector<GLfloat> circle_Pos;
+        for(GLuint i = 1; i <= circleCount; i++){
+            circle_Pos.insert(circle_Pos.end(), {0.f, 0.f, 0.f});
+            circle_Pos.insert(circle_Pos.end(), {lastX, lastY, 0.f});
+            lastX = cos(i*(6.283f/(GLfloat)circleCount));
+            lastY = sin(i*(6.283f/(GLfloat)circleCount));
+            circle_Pos.insert(circle_Pos.end(), {lastX, lastY, 0.0f});
+        }
+
+
         addVAO(3, 0, 0, 0, &rect_Pos, "Rectangle:Vao_Pos");
         addVAO(3, 0, 2, 0, &rect_Pos_Uv, "Rectangle:Vao_Pos.Uv");
         addVAO(3, 0, 0, 0, &cube_Pos, "Cube:Vao_Pos");
         addVAO(3, 0, 2, 0, &cube_Pos_Uv, "Cube:Vao_Pos.Uv");
+        addVAO(3, 0, 0, 0, &circle_Pos, "Circle:Vao_Pos");
     }
 
     glm::mat4 getCamCombined(){
