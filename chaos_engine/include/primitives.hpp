@@ -10,10 +10,33 @@ class Primitive: public GameObject{
 public:
     Primitive(Renderer* ren)
     :GameObject(ren)
-    {};
+    {}
+
+    Primitive(Renderer* ren, std::string vaoId, std::string shaderId)
+    :GameObject(ren)
+    {
+        setVertexArray(vaoId);
+        setShader(shaderId);
+    }
 
     virtual ~Primitive(){};
-    virtual void draw()=0;
+    virtual void draw(){
+        shader->run();
+        shader->setUniform("uniColor", color);
+        shader->setUniform("mx",renderer->getCamCombined()*getGlobalTransformMatrix());
+
+        vao->bind();
+        glDrawArrays(GL_TRIANGLES, 0, vao->countVertices());
+        vao->unbind();
+    }
+
+    void setVertexArray(std::string id){
+        vao = renderer->getVAO(id);
+    }
+
+    void setShader(std::string id){
+        shader = renderer->getShader(id);
+    }
 
     glm::vec4 getColor(){
         return color;
@@ -32,20 +55,17 @@ protected:
 class Rectangle: public Primitive
 {
 public:
-    Rectangle(Renderer* ren):Primitive(ren){
-        shader = renderer->getShader("Shader_Pos");
-        vao = renderer->getVAO("Vao_Pos");
-    };
-    virtual ~Rectangle(){};
-    virtual void draw(){
-        shader->run();
-        shader->setUniform("uniColor", color);
-        shader->setUniform("mx",renderer->getCamCombined()*getGlobalTransformMatrix());
-
-        vao->bind();
-        glDrawArrays(GL_TRIANGLES, 0, vao->countVertices());
-        vao->unbind();
+    Rectangle(Renderer* ren):Primitive(ren, "Rectangle:Vao_Pos", "Shader_Pos"){
     }
+    virtual ~Rectangle(){}
+};
+
+class Cube: public Primitive
+{
+public:
+    Cube(Renderer* ren):Primitive(ren,"Cube:Vao_Pos","Shader_Pos"){
+    }
+    virtual ~Cube(){};
 };
 
 }

@@ -94,7 +94,7 @@ public:
         addShader({std::make_pair("files/shaders/shader1.vs", GL_VERTEX_SHADER),
                                        std::make_pair("files/shaders/shader1.fs", GL_FRAGMENT_SHADER)}, "Shader_Pos.Uv");
 
-        std::vector<GLfloat> vx_Pos = {
+        std::vector<GLfloat> rect_Pos = {
             -1.f, -1.f, 0.f,
             1.f, -1.f, 0.f,
             -1.f,  1.f, 0.f,
@@ -103,7 +103,7 @@ public:
             -1.f,  1.f, 0.f
         };
 
-        std::vector<GLfloat> vx_Pos_Uv = {
+        std::vector<GLfloat> rect_Pos_Uv = {
             -1.f, -1.f, 0.f, 0.f, 0.f,
             1.f, -1.f, 0.f,  1.f, 0.f,
             -1.f,  1.f, 0.f, 0.f, 1.f,
@@ -112,8 +112,98 @@ public:
             -1.f,  1.f, 0.f, 0.f, 1.f
         };
 
-        addVAO(3, 0, 0, 0, &vx_Pos, "Vao_Pos");
-        addVAO(3, 0, 2, 0, &vx_Pos_Uv, "Vao_Pos.Uv");
+        std::vector<GLfloat> cube_Pos = {
+            -1.f, -1.f, -1.f,
+             1.f, -1.f, -1.f,
+             1.f,  1.f, -1.f,
+             1.f,  1.f, -1.f,
+            -1.f,  1.f, -1.f,
+            -1.f, -1.f, -1.f,
+
+            -1.f, -1.f,  1.f,
+             1.f, -1.f,  1.f,
+             1.f,  1.f,  1.f,
+             1.f,  1.f,  1.f,
+            -1.f,  1.f,  1.f,
+            -1.f, -1.f,  1.f,
+
+            -1.f,  1.f,  1.f,
+            -1.f,  1.f, -1.f,
+            -1.f, -1.f, -1.f,
+            -1.f, -1.f, -1.f,
+            -1.f, -1.f,  1.f,
+            -1.f,  1.f,  1.f,
+
+             1.f,  1.f,  1.f,
+             1.f,  1.f, -1.f,
+             1.f, -1.f, -1.f,
+             1.f, -1.f, -1.f,
+             1.f, -1.f,  1.f,
+             1.f,  1.f,  1.f,
+
+            -1.f, -1.f, -1.f,
+             1.f, -1.f, -1.f,
+             1.f, -1.f,  1.f,
+             1.f, -1.f,  1.f,
+            -1.f, -1.f,  1.f,
+            -1.f, -1.f, -1.f,
+
+            -1.f,  1.f, -1.f,
+             1.f,  1.f, -1.f,
+             1.f,  1.f,  1.f,
+             1.f,  1.f,  1.f,
+            -1.f,  1.f,  1.f,
+            -1.f,  1.f, -1.f
+        };
+
+        std::vector<GLfloat> cube_Pos_Uv = {
+            -1.f, -1.f, -1.f,  0.0f, 0.0f,
+             1.f, -1.f, -1.f,  1.0f, 0.0f,
+             1.f,  1.f, -1.f,  1.0f, 1.0f,
+             1.f,  1.f, -1.f,  1.0f, 1.0f,
+            -1.f,  1.f, -1.f,  0.0f, 1.0f,
+            -1.f, -1.f, -1.f,  0.0f, 0.0f,
+
+            -1.f, -1.f,  1.f,  0.0f, 0.0f,
+             1.f, -1.f,  1.f,  1.0f, 0.0f,
+             1.f,  1.f,  1.f,  1.0f, 1.0f,
+             1.f,  1.f,  1.f,  1.0f, 1.0f,
+            -1.f,  1.f,  1.f,  0.0f, 1.0f,
+            -1.f, -1.f,  1.f,  0.0f, 0.0f,
+
+            -1.f,  1.f,  1.f,  1.0f, 0.0f,
+            -1.f,  1.f, -1.f,  1.0f, 1.0f,
+            -1.f, -1.f, -1.f,  0.0f, 1.0f,
+            -1.f, -1.f, -1.f,  0.0f, 1.0f,
+            -1.f, -1.f,  1.f,  0.0f, 0.0f,
+            -1.f,  1.f,  1.f,  1.0f, 0.0f,
+
+             1.f,  1.f,  1.f,  1.0f, 0.0f,
+             1.f,  1.f, -1.f,  1.0f, 1.0f,
+             1.f, -1.f, -1.f,  0.0f, 1.0f,
+             1.f, -1.f, -1.f,  0.0f, 1.0f,
+             1.f, -1.f,  1.f,  0.0f, 0.0f,
+             1.f,  1.f,  1.f,  1.0f, 0.0f,
+
+            -1.f, -1.f, -1.f,  0.0f, 1.0f,
+             1.f, -1.f, -1.f,  1.0f, 1.0f,
+             1.f, -1.f,  1.f,  1.0f, 0.0f,
+             1.f, -1.f,  1.f,  1.0f, 0.0f,
+            -1.f, -1.f,  1.f,  0.0f, 0.0f,
+            -1.f, -1.f, -1.f,  0.0f, 1.0f,
+
+            -1.f,  1.f, -1.f,  0.0f, 1.0f,
+             1.f,  1.f, -1.f,  1.0f, 1.0f,
+             1.f,  1.f,  1.f,  1.0f, 0.0f,
+             1.f,  1.f,  1.f,  1.0f, 0.0f,
+            -1.f,  1.f,  1.f,  0.0f, 0.0f,
+            -1.f,  1.f, -1.f,  0.0f, 1.0f
+        };
+
+        addVAO(3, 0, 0, 0, &rect_Pos, "Rectangle:Vao_Pos");
+        addVAO(3, 0, 2, 0, &rect_Pos_Uv, "Rectangle:Vao_Pos.Uv");
+        addVAO(3, 0, 0, 0, &cube_Pos, "Cube:Vao_Pos");
+        addVAO(3, 0, 2, 0, &cube_Pos_Uv, "Cube:Vao_Pos.Uv");
     }
 
     glm::mat4 getCamCombined(){

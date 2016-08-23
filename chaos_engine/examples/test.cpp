@@ -25,12 +25,17 @@ int main(int argc, char* argv[]){
     testTransform.setScale(0.5f, 0.5f, 0.5f);
     chaos::GameObject testTransform2(&renderer);
     testTransform2.setScale(0.5f, 0.5f, 0.5f);
-    testTransform2.translate(0.5, 0.5, 0.5);
+    testTransform2.translate(0.5f, 0.5f, 0.5f);
 
 
     chaos::Rectangle rect1(&renderer);
-    rect1.setColor(glm::vec4(0.0, 1.0, 0.0, 1.0));
+    rect1.setColor(glm::vec4(0.f, 1.f, 0.f, 1.f));
     rect1.translate(1.f, 0.f, 0.f);
+
+    chaos::Cube cube1(&renderer);
+    cube1.setColor(glm::vec4(0.2f, 0.4f, 0.6f, 0.5f));
+    cube1.moveY(1.5f);
+    cube1.setScale(0.2f, 0.2f, 0.2f);
 
     chaos::Camera cam(&renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)style.width/style.height, 0.1f, 100.0f));
     cam.moveZ(5.f);
@@ -80,6 +85,7 @@ int main(int argc, char* argv[]){
             cam.processKeyboard(chaos::BACKWARD, deltaTime);
 
         rect1.rotateX(sin(window.getDeltaTime()));
+        cube1.rotateY(sin(window.getDeltaTime()));
 
 
         renderer.getShader("Shader_Pos.Uv")->run();
@@ -91,20 +97,21 @@ int main(int argc, char* argv[]){
         renderer.getShader("Shader_Pos.Uv")->setUniform("mx",renderer.getCamCombined()*testTransform.getGlobalTransformMatrix());
         renderer.getShader("Shader_Pos.Uv")->setUniform("tex0", texture1->getId());
 
-        renderer.getVAO("Vao_Pos.Uv")->bind();
-        glDrawArrays(GL_TRIANGLES, 0, renderer.getVAO("Vao_Pos.Uv")->countVertices());
-        renderer.getVAO("Vao_Pos.Uv")->unbind();
+        renderer.getVAO("Rectangle:Vao_Pos.Uv")->bind();
+        glDrawArrays(GL_TRIANGLES, 0, renderer.getVAO("Rectangle:Vao_Pos.Uv")->countVertices());
+        renderer.getVAO("Rectangle:Vao_Pos.Uv")->unbind();
 
         renderer.getShader("Shader_Pos.Uv")->setUniform("ourColor", glm::vec4(0.0, 0.0, 0.0, 1.0));
         renderer.getShader("Shader_Pos.Uv")->setUniform("mx",renderer.getCamCombined()* testTransform2.getGlobalTransformMatrix());
         texture2->use(GL_TEXTURE2);
         renderer.getShader("Shader_Pos.Uv")->setUniform("tex0", texture2->getId());
 
-        renderer.getVAO("Vao_Pos.Uv")->bind();
-        glDrawArrays(GL_TRIANGLES, 0, renderer.getVAO("Vao_Pos.Uv")->countVertices());
-        renderer.getVAO("Vao_Pos.Uv")->unbind();
+        renderer.getVAO("Rectangle:Vao_Pos.Uv")->bind();
+        glDrawArrays(GL_TRIANGLES, 0, renderer.getVAO("Rectangle:Vao_Pos.Uv")->countVertices());
+        renderer.getVAO("Rectangle:Vao_Pos.Uv")->unbind();
 
         rect1.draw();
+        cube1.draw();
 
         window.update();
     }
