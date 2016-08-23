@@ -6,20 +6,14 @@
 
 namespace chaos{
 
-class Rectangle: public GameObject
-{
+class Primitive: public GameObject{
 public:
-    Rectangle(Renderer* ren):GameObject(ren){};
-    virtual ~Rectangle(){};
-    virtual void draw(Renderer* ren){
-        ren->getShader("Shader_Pos")->run();
-        ren->getShader("Shader_Pos")->setUniform("uniColor", color);
-        ren->getShader("Shader_Pos")->setUniform("mx",ren->getCamCombined()*getGlobalTransformMatrix());
+    Primitive(Renderer* ren)
+    :GameObject(ren)
+    {};
 
-        ren->getVAO("Vao_Pos")->bind();
-        glDrawArrays(GL_TRIANGLES, 0, ren->getVAO("Vao_Pos")->countVertices());
-        ren->getVAO("Vao_Pos")->unbind();
-    }
+    virtual ~Primitive(){};
+    virtual void draw()=0;
 
     glm::vec4 getColor(){
         return color;
@@ -29,8 +23,29 @@ public:
         color = c;
     }
 
-private:
+protected:
     glm::vec4 color;
+    ShaderProgram* shader = nullptr;
+    VertexArray* vao = nullptr;
+};
+
+class Rectangle: public Primitive
+{
+public:
+    Rectangle(Renderer* ren):Primitive(ren){
+        shader = renderer->getShader("Shader_Pos");
+        vao = renderer->getVAO("Vao_Pos");
+    };
+    virtual ~Rectangle(){};
+    virtual void draw(){
+        shader->run();
+        shader->setUniform("uniColor", color);
+        shader->setUniform("mx",renderer->getCamCombined()*getGlobalTransformMatrix());
+
+        vao->bind();
+        glDrawArrays(GL_TRIANGLES, 0, vao->countVertices());
+        vao->unbind();
+    }
 };
 
 }

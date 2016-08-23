@@ -104,7 +104,7 @@ int main(int argc, char* argv[]){
         glDrawArrays(GL_TRIANGLES, 0, renderer.getVAO("Vao_Pos.Uv")->countVertices());
         renderer.getVAO("Vao_Pos.Uv")->unbind();
 
-        rect1.draw(&renderer);
+        rect1.draw();
 
         window.update();
     }
