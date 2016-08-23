@@ -9,7 +9,7 @@ namespace chaos{
 class Rectangle: public GameObject
 {
 public:
-    Rectangle(std::string s):GameObject(s){};
+    Rectangle(Renderer* ren):GameObject(ren){};
     virtual ~Rectangle(){};
     virtual void draw(Renderer* ren){
         ren->getShader("Shader_Pos")->run();

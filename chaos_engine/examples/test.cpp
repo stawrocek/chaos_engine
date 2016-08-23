@@ -21,18 +21,18 @@ int main(int argc, char* argv[]){
     chaos::Texture* texture1 = rscManager.loadResource<chaos::Texture>("files/textures/composition-a-1923-piet-mondrian.jpg", "piet");
     chaos::Texture* texture2 = rscManager.loadResource<chaos::Texture>("files/textures/2001.png", "2001");
 
-    chaos::GameObject testTransform("testTransform1");
+    chaos::GameObject testTransform(&renderer);
     testTransform.setScale(0.5f, 0.5f, 0.5f);
-    chaos::GameObject testTransform2("testTransform2");
+    chaos::GameObject testTransform2(&renderer);
     testTransform2.setScale(0.5f, 0.5f, 0.5f);
     testTransform2.translate(0.5, 0.5, 0.5);
 
 
-    chaos::Rectangle rect1("getShreckt");
+    chaos::Rectangle rect1(&renderer);
     rect1.setColor(glm::vec4(0.0, 1.0, 0.0, 1.0));
     rect1.translate(1.f, 0.f, 0.f);
 
-    chaos::Camera cam("camera", chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)style.width/style.height, 0.1f, 100.0f));
+    chaos::Camera cam(&renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)style.width/style.height, 0.1f, 100.0f));
     cam.moveZ(5.f);
     SDL_SetRelativeMouseMode(SDL_TRUE);
 

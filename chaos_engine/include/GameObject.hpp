@@ -10,22 +10,26 @@ namespace chaos{
 
 class GameObject: public Transform{
 public:
-    //GameObject(){}
-    GameObject(std::string _name)
-    :name(_name)
+    GameObject(Renderer* ren)
+    :renderer(ren)
     {}
 
     virtual ~GameObject(){}
 
-    virtual void draw(Renderer* ren){
+    virtual void draw(){
 
     }
 
-    std::string getName(){
-        return name;
+    Renderer* getRenderer(){
+        return renderer;
     }
+
+    void setRenderer(Renderer* ren){
+        renderer = ren;
+    }
+
 protected:
-    std::string name;
+    Renderer* renderer;
 };
 
 }

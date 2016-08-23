@@ -26,8 +26,8 @@ public:
     float mvSpeed = 6.0f;
     float sens = 0.05f;
 
-    Camera(std::string s, ProjectionMode m, glm::mat4 mx)
-    :GameObject(s), projectionMode(m), mxProjection(mx)
+    Camera(Renderer* ren, ProjectionMode m, glm::mat4 mx)
+    :GameObject(ren), projectionMode(m), mxProjection(mx)
     {
         update();
     }
