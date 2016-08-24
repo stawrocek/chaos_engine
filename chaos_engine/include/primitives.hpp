@@ -6,70 +6,24 @@
 
 namespace chaos{
 
-class Primitive: public GameObject{
-public:
-    Primitive(Renderer* ren)
-    :GameObject(ren)
-    {}
-
-    Primitive(Renderer* ren, std::string vaoId, std::string shaderId)
-    :GameObject(ren)
-    {
-        setVertexArray(vaoId);
-        setShader(shaderId);
-    }
-
-    virtual ~Primitive(){};
-    virtual void draw(){
-        shader->run();
-        shader->setUniform("uniColor", color);
-        shader->setUniform("mx",renderer->getCamCombined()*getGlobalTransformMatrix());
-
-        vao->bind();
-        glDrawArrays(GL_TRIANGLES, 0, vao->countVertices());
-        vao->unbind();
-    }
-
-    void setVertexArray(std::string id){
-        vao = renderer->getVAO(id);
-    }
-
-    void setShader(std::string id){
-        shader = renderer->getShader(id);
-    }
-
-    glm::vec4 getColor(){
-        return color;
-    }
-
-    void setColor(glm::vec4 c){
-        color = c;
-    }
-
-protected:
-    glm::vec4 color;
-    ShaderProgram* shader = nullptr;
-    VertexArray* vao = nullptr;
-};
-
-class Rectangle: public Primitive
+class Rectangle: public DrawableGameObject
 {
 public:
-    Rectangle(Renderer* ren):Primitive(ren, "Rectangle:Vao_Pos", "Shader_Pos"){
+    Rectangle(Renderer* ren):DrawableGameObject(ren, "Rectangle:Vao_Pos", "Shader_Pos"){
     }
 };
 
-class Cube: public Primitive
+class Cube: public DrawableGameObject
 {
 public:
-    Cube(Renderer* ren):Primitive(ren,"Cube:Vao_Pos","Shader_Pos"){
+    Cube(Renderer* ren):DrawableGameObject(ren,"Cube:Vao_Pos","Shader_Pos"){
     }
 };
 
-class Circle: public Primitive
+class Circle: public DrawableGameObject
 {
 public:
-    Circle(Renderer* ren):Primitive(ren,"Circle:Vao_Pos","Shader_Pos"){
+    Circle(Renderer* ren):DrawableGameObject(ren,"Circle:Vao_Pos","Shader_Pos"){
     }
 };
 

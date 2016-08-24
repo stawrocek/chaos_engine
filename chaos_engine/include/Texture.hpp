@@ -25,8 +25,8 @@ public:
     GLuint getBatchId();
     GLenum getTextureType();
     void loadFromTextureData(Texture* txtData);
-    void bind(GLenum type);
-    void use(GLenum slot);
+    void bind(GLenum type=GL_TEXTURE_2D);
+    //void bindOnSlot(GLenum slot);
     void unbind();
 
 private:

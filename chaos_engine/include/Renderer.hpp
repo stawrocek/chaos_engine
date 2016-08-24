@@ -1,8 +1,6 @@
 #ifndef RENDERER_HPP
 #define RENDERER_HPP
 
-#include <string>
-
 #include "Transform.hpp"
 #include "ShaderProgram.hpp"
 #include "VertexArray.hpp"

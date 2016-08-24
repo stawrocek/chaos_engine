@@ -10,6 +10,7 @@
 #include "../include/Camera.hpp"
 #include "../include/Renderer.hpp"
 #include "../include/Primitives.hpp"
+#include "../include/Sprite.hpp"
 
 static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
@@ -42,6 +43,10 @@ int main(int argc, char* argv[]){
     circle1.moveY(1.75);
     circle1.rotateX(3.1415/2.f);
     circle1.setParent(&cube1);
+
+    chaos::Sprite sprite1(&renderer, texture1);
+    sprite1.moveY(-2);
+    sprite1.scaleUp(0.5, 0.5, 0.5);
 
     chaos::Camera cam(&renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)style.width/style.height, 0.1f, 100.0f));
     cam.moveZ(5.f);
@@ -94,14 +99,12 @@ int main(int argc, char* argv[]){
         cube1.rotateY(sin(window.getDeltaTime()));
 
 
-        renderer.getShader("Shader_Pos.Uv")->run();
-
         GLfloat greenValue = 0.5;
-        texture1->use(GL_TEXTURE1);
-
+        texture1->bind();
+        glBindTexture(GL_TEXTURE_2D, texture1->getId());
+        renderer.getShader("Shader_Pos.Uv")->run();
         renderer.getShader("Shader_Pos.Uv")->setUniform("ourColor", glm::vec4(0.0, 0.0, 0.0, 1.0));
         renderer.getShader("Shader_Pos.Uv")->setUniform("mx",renderer.getCamCombined()*testTransform.getGlobalTransformMatrix());
-        renderer.getShader("Shader_Pos.Uv")->setUniform("tex0", texture1->getId());
 
         renderer.getVAO("Rectangle:Vao_Pos.Uv")->bind();
         glDrawArrays(GL_TRIANGLES, 0, renderer.getVAO("Rectangle:Vao_Pos.Uv")->countVertices());
@@ -109,8 +112,7 @@ int main(int argc, char* argv[]){
 
         renderer.getShader("Shader_Pos.Uv")->setUniform("ourColor", glm::vec4(0.0, 0.0, 0.0, 1.0));
         renderer.getShader("Shader_Pos.Uv")->setUniform("mx",renderer.getCamCombined()* testTransform2.getGlobalTransformMatrix());
-        texture2->use(GL_TEXTURE2);
-        renderer.getShader("Shader_Pos.Uv")->setUniform("tex0", texture2->getId());
+        texture2->bind();
 
         renderer.getVAO("Rectangle:Vao_Pos.Uv")->bind();
         glDrawArrays(GL_TRIANGLES, 0, renderer.getVAO("Rectangle:Vao_Pos.Uv")->countVertices());
@@ -119,6 +121,7 @@ int main(int argc, char* argv[]){
         rect1.draw();
         cube1.draw();
         circle1.draw();
+        sprite1.draw();
 
         window.update();
     }

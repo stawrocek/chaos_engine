@@ -58,10 +58,10 @@ void Texture::bind(GLenum t) {
     glBindTexture(type, id);
 }
 
-void Texture::use(GLenum slot){
+/*void Texture::bindOnSlot(GLenum slot){
     glActiveTexture(slot);
     glBindTexture(type, id);
-}
+}*/
 
 void Texture::unbind(){
     glBindTexture(type, 0);
