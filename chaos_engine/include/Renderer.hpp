@@ -92,6 +92,9 @@ public:
         addShader({std::make_pair("files/shaders/shader1.vs", GL_VERTEX_SHADER),
                                        std::make_pair("files/shaders/shader1.fs", GL_FRAGMENT_SHADER)}, "Shader_Pos.Uv");
 
+        addShader({std::make_pair("files/shaders/font0.vs", GL_VERTEX_SHADER),
+                                       std::make_pair("files/shaders/font0.fs", GL_FRAGMENT_SHADER)}, "Shader_Font2d");
+
         std::vector<GLfloat> rect_Pos = {
             -1.f, -1.f, 0.f,
              1.f, -1.f, 0.f,

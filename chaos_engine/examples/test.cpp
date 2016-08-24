@@ -11,11 +11,12 @@
 #include "../include/Renderer.hpp"
 #include "../include/Primitives.hpp"
 #include "../include/Sprite.hpp"
+#include "../include/BitmapFont.hpp"
 
 static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
 int main(int argc, char* argv[]){
-    chaos::WindowStyle style("Test 1", 100, 100, 600, 480, SDL_WINDOW_OPENGL);
+    chaos::WindowStyle style("Test 1", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
     chaos::Window window(style);
     chaos::ResourceManager rscManager;
     chaos::Renderer renderer;
@@ -47,6 +48,8 @@ int main(int argc, char* argv[]){
     chaos::Sprite sprite1(&renderer, texture1);
     sprite1.moveY(-2);
     sprite1.scaleUp(0.5, 0.5, 0.5);
+
+    chaos::BitmapFont bmf1("files/fonts/CalibriBitmap2.fnt", &renderer, &window);
 
     chaos::Camera cam(&renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)style.width/style.height, 0.1f, 100.0f));
     cam.moveZ(5.f);
@@ -101,7 +104,6 @@ int main(int argc, char* argv[]){
 
         GLfloat greenValue = 0.5;
         texture1->bind();
-        glBindTexture(GL_TEXTURE_2D, texture1->getId());
         renderer.getShader("Shader_Pos.Uv")->run();
         renderer.getShader("Shader_Pos.Uv")->setUniform("ourColor", glm::vec4(0.0, 0.0, 0.0, 1.0));
         renderer.getShader("Shader_Pos.Uv")->setUniform("mx",renderer.getCamCombined()*testTransform.getGlobalTransformMatrix());
@@ -122,6 +124,9 @@ int main(int argc, char* argv[]){
         cube1.draw();
         circle1.draw();
         sprite1.draw();
+        bmf1.drawString("Your SPECIAL SECRET KEY:\n"
+                        "https://www.youtube.com/watch?v=dQw4w9WgXcQ", 42, 420);
+
 
         window.update();
     }
