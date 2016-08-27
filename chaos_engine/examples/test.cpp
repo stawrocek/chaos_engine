@@ -11,7 +11,7 @@
 #include "../include/Renderer.hpp"
 #include "../include/Primitives.hpp"
 #include "../include/Sprite.hpp"
-#include "../include/BitmapFont.hpp"
+#include "../include/BitmapFontSprite.hpp"
 
 static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
@@ -19,9 +19,10 @@ int main(int argc, char* argv[]){
     chaos::WindowStyle style("Test 1", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
     chaos::Window window(style);
     chaos::ResourceManager rscManager;
-    chaos::Renderer renderer;
+    chaos::Renderer renderer(&window);
     chaos::Texture* texture1 = rscManager.loadResource<chaos::Texture>("files/textures/composition-a-1923-piet-mondrian.jpg", "piet");
     chaos::Texture* texture2 = rscManager.loadResource<chaos::Texture>("files/textures/2001.png", "2001");
+    chaos::BitmapFont* bmf1 = rscManager.loadResource<chaos::BitmapFont>("files/fonts/CalibriBitmap2.fnt", "Calibri");
 
     chaos::GameObject testTransform(&renderer);
     testTransform.setScale(0.5f, 0.5f, 0.5f);
@@ -40,7 +41,7 @@ int main(int argc, char* argv[]){
     cube1.setScale(0.2f, 0.2f, 0.2f);
 
     chaos::Circle circle1(&renderer);
-    circle1.setColor(glm::vec4(0.8, 0.8, 0.8, 1));
+    circle1.setColor(glm::vec4(0.8, 0.8, 0.8, 0.25));
     circle1.moveY(1.75);
     circle1.rotateX(3.1415/2.f);
     circle1.setParent(&cube1);
@@ -49,8 +50,15 @@ int main(int argc, char* argv[]){
     sprite1.moveY(-2);
     sprite1.scaleUp(0.5, 0.5, 0.5);
 
-    chaos::BitmapFont bmf1("files/fonts/CalibriBitmap2.fnt", &renderer, &window);
+    //chaos::BitmapFont bmf1("files/fonts/CalibriBitmap2.fnt");
 
+    chaos::BitmapFontSprite bmf1Sprite(&renderer, bmf1, "Your SPECIAL SECRET KEY:\nhttps://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    chaos::BitmapFontSprite bmf2Sprite(&renderer, bmf1);
+    bmf2Sprite.setParent(&circle1);
+    bmf2Sprite.moveY(0.25);
+    bmf2Sprite.setColor(glm::vec4(0.0, 1.0, 0.2, 1.0));
+    bmf2Sprite.rotateX(3.1415/2.0+3.1415);
+    bmf2Sprite.scaleUp(0.5, 0.5, 0.5);
     chaos::Camera cam(&renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)style.width/style.height, 0.1f, 100.0f));
     cam.moveZ(5.f);
     SDL_SetRelativeMouseMode(SDL_TRUE);
@@ -66,11 +74,14 @@ int main(int argc, char* argv[]){
 				mainLoop = false;
 
 			if (event.type == SDL_KEYDOWN){
-				switch (event.key.keysym.sym){
-				case SDLK_ESCAPE:
-					mainLoop = false;
-					break;
-				}
+                if(event.key.keysym.sym == SDLK_ESCAPE)
+                    mainLoop = false;
+
+                if(event.key.keysym.sym ==  SDLK_c){
+                    bmf1Sprite.setFitToScreen(!bmf1Sprite.isFitToScreen());
+                    bmf2Sprite.setFitToScreen(!bmf2Sprite.isFitToScreen());
+                }
+
 			}
 
 			if(event.type == SDL_MOUSEMOTION) {
@@ -98,9 +109,18 @@ int main(int argc, char* argv[]){
         if(inputHandler.isKeyDown('j'))
             cam.processKeyboard(chaos::BACKWARD, deltaTime);
 
+        if(inputHandler.isKeyDown('l'))
+            bmf1Sprite.moveX(-1.f * deltaTime);
+        if(inputHandler.isKeyDown('\''))
+            bmf1Sprite.moveX(+1.f * deltaTime);
+        if(inputHandler.isKeyDown('p'))
+            bmf1Sprite.moveY(+1.f * deltaTime);
+        if(inputHandler.isKeyDown(';'))
+            bmf1Sprite.moveY(-1.f * deltaTime);
+
         rect1.rotateX(sin(window.getDeltaTime()));
         cube1.rotateY(sin(window.getDeltaTime()));
-
+        bmf1Sprite.rotateY(sin(window.getDeltaTime()));
 
         GLfloat greenValue = 0.5;
         texture1->bind();
@@ -124,10 +144,8 @@ int main(int argc, char* argv[]){
         cube1.draw();
         circle1.draw();
         sprite1.draw();
-        bmf1.drawString("Your SPECIAL SECRET KEY:\n"
-                        "https://www.youtube.com/watch?v=dQw4w9WgXcQ", 42, 420);
-
-
+        bmf1Sprite.draw();
+        bmf2Sprite.draw("HELLO WORLD");
         window.update();
     }
 }

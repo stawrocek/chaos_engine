@@ -1,10 +1,12 @@
 #ifndef BITMAP_FONT_HPP
 #define BITMAP_FONT_HPP
 
-#include <glm/gtx/string_cast.hpp>
-
-#include <vector>
 #include "ShaderProgram.hpp"
+#include "Utils.hpp"
+#include "Resource.hpp"
+
+#include <glm/gtx/string_cast.hpp>
+#include <vector>
 #include <map>
 #include <sstream>
 
@@ -20,49 +22,24 @@ struct CharData {
     CharData(){}
 };
 
-class BitmapFont{
+class BitmapFont: public Resource{
 public:
-    BitmapFont(std::string fpath, Renderer* shr, Window* _win)
+    BitmapFont(std::string fpath)
+    :Resource(fpath)
     {
-        load(fpath, shr, _win);
+        load(fpath);
     }
     virtual ~BitmapFont(){
         for(GLuint i = 0; i < vecPages.size(); i++){
             delete vecPages[i];
         }
+        std::cout << "Destructor of BitmapFont(" << face << ")\n";
     }
-    long get_file_size(FILE* f) {
-        long size = 0;
-        fseek(f, 0L, SEEK_END), size = ftell(f), fseek(f, 0L, SEEK_SET);
-        return size;
-    };
-
-    std::string get_file_as_string(const std::string& path) {
-        FILE* f = fopen(path.c_str(), "rb");
-        long size_bytes = 0;
-
-        if(!f) {
-            printf("Failed to open file %s\n", path.c_str());
-            exit(0);
-        }
-        size_bytes = get_file_size(f);
-
-        std::vector<GLchar> code;
-        code.resize(size_bytes + 1);
-
-        if(fread(&code[0], size_bytes, 1, f) != 1) {
-            printf("Unable to read %s\n", path.c_str());
-            exit(0);
-        }
-
-        code[size_bytes] = 0;
-        return std::string(code.begin(), code.end());
-    }
-    void load(std::string fpath, Renderer* shr, Window* _win) {
+    void load(std::string fpath) {
         std::cout << "load\n";
         vecPages.clear();
         mapChars.clear();
-        std::string file = get_file_as_string(fpath);
+        std::string file = getFileAsString(fpath);
         std::string tmp="";
         std::string dir = fpath.substr(0,fpath.find_last_of("/\\"));
         if(dir == fpath)dir="";
@@ -76,13 +53,6 @@ public:
         }
         if(tmp.size() > 1)
             readLine(tmp, dir);
-
-
-        std::cout << "ld vao\n";
-        loadVAO(shr);
-        std::cout << "ld vao2\n";
-        win = _win;
-        std::cout << "woo!\n";
     }
 
     int getInt(std::map<std::string, std::string>& m, std::string key) {
@@ -187,82 +157,6 @@ public:
         }
     }
 
-    void loadVAO(Renderer* ren) {
-        shr = ren->getShader("Shader_Font2d");
-
-        /*
-        1    2
-        *----*
-        |    *
-        |    *
-        *----*
-        4    3
-        */
-
-        std::vector<glm::vec4> verts {
-            {0.0f,  0.0f, 0.0f, 4.0f},
-            {1.0f,  0.0f, 0.0f, 3.0f},
-            {0.0f,  1.0f, 0.0f, 1.0f},
-            {0.0f,  1.0f, 0.0f, 1.0f},
-            {1.0f,  0.0f, 0.0f, 3.0f},
-            {1.0f,  1.0f, 0.0f, 2.0f}
-        };
-
-        glGenVertexArrays(1, &vao);
-        glGenBuffers(1, &vbo);
-        glBindVertexArray(vao);
-
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glBufferData(GL_ARRAY_BUFFER, verts.size()*sizeof(glm::vec4), verts.data() , GL_STATIC_DRAW);
-
-        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), (GLvoid*)0);
-        glEnableVertexAttribArray(0);
-
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        glBindVertexArray(0);
-    }
-
-    void drawChar(int c, int x, int y) {
-        if(mapChars.find(c) == mapChars.end())return;
-        CharData data = mapChars[c];
-        vecPages[data.page]->bind(GL_TEXTURE_2D);
-        shr->run();
-        GLint winWidth, winHeight;
-        SDL_GetWindowSize(win->getWindowHandle(), &winWidth, &winHeight);
-        glm::mat4 mx = glm::mat4();
-        mx = glm::translate(mx, glm::vec3(-1.0f, -1.0f, 0.0f));
-        //-> punkt(0,0) jest w lewym dolnym rogu, os y dodatnia do gory
-        mx = glm::translate(mx, glm::vec3((2.0f*x)/winWidth, (2.0f*y)/winHeight, 0.0f));
-        mx = glm::scale(mx, glm::vec3((2.0f*data.width)/winWidth, (2.0f*data.height)/winHeight, 1.0));
-        shr->setUniform("mvp", mx);
-        shr->setUniform("minx", data.x/(float)scaleW);
-        shr->setUniform("maxx", (data.x+data.xadvance)/(float)scaleW);
-        shr->setUniform("miny", (scaleH-data.y-lineHeight)/(float)scaleH);
-        shr->setUniform("maxy", (scaleH-data.y)/(float)scaleH);
-
-        glBindVertexArray(vao);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        glBindVertexArray(0);
-    }
-
-    void drawString(std::string str, int x, int y) {
-        int tmpY = y, tmpX = x;
-        for(int i = 0; i < str.size(); i++) {
-            if(str[i] == '\n') {
-                tmpX = x;
-                tmpY -= lineHeight;
-            }
-            else {
-                if(mapChars.find(str[i]) == mapChars.end())
-                    continue;
-                CharData data = mapChars[str[i]];
-                drawChar(str[i], tmpX, tmpY);
-                tmpX += data.xadvance;
-            }
-        }
-    }
-
     /*font data*/
     std::string face="", charset="";
     int size=0, bold=0, italic=0, unicode=0, stretchH=0, smooth=0, aa=0, outline=0, lineHeight=0;
@@ -272,12 +166,6 @@ public:
 
     std::map<int, CharData> mapChars;
     std::vector<Texture*> vecPages;
-
-protected:
-    GLuint vao;
-    GLuint vbo;
-    ShaderProgram* shr;
-    Window * win;
 };
 
 }

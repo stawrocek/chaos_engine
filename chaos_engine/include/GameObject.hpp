@@ -65,7 +65,7 @@ public:
     }
 
 protected:
-    glm::vec4 color;
+    glm::vec4 color = glm::vec4(1.f, 1.f, 1.f, 1.f);
     ShaderProgram* shader = nullptr;
     VertexArray* vao = nullptr;
 };

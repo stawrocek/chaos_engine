@@ -11,7 +11,8 @@ namespace chaos{
 
 class Renderer{
 public:
-    Renderer(){
+    Renderer(Window* w){
+        setTargetWindow(w);
         initEngineStuff();
     }
     virtual ~Renderer(){
@@ -111,6 +112,15 @@ public:
              1.f,  1.f, 0.f,    1.f, 1.f,
              1.f, -1.f, 0.f,    1.f, 0.f,
             -1.f,  1.f, 0.f,    0.f, 1.f
+        };
+
+        std::vector<GLfloat> rect_Pos_Id {
+            0.0f,  0.0f, 0.0f, 4.0f,
+            1.0f,  0.0f, 0.0f, 3.0f,
+            0.0f,  1.0f, 0.0f, 1.0f,
+            0.0f,  1.0f, 0.0f, 1.0f,
+            1.0f,  0.0f, 0.0f, 3.0f,
+            1.0f,  1.0f, 0.0f, 2.0f
         };
 
         std::vector<GLfloat> cube_Pos = {
@@ -216,6 +226,7 @@ public:
 
         addVAO(3, 0, 0, 0, &rect_Pos, "Rectangle:Vao_Pos");
         addVAO(3, 0, 2, 0, &rect_Pos_Uv, "Rectangle:Vao_Pos.Uv");
+        addVAO(3, 0, 0, 1, &rect_Pos_Id,"Rectangle:Pos_Id");
         addVAO(3, 0, 0, 0, &cube_Pos, "Cube:Vao_Pos");
         addVAO(3, 0, 2, 0, &cube_Pos_Uv, "Cube:Vao_Pos.Uv");
         addVAO(3, 0, 0, 0, &circle_Pos, "Circle:Vao_Pos");
@@ -229,10 +240,19 @@ public:
         camCombined = mx;
     }
 
+    void setTargetWindow(Window* _win){
+        win = _win;
+    }
+
+    Window* getTargetWindow(){
+        return win;
+    }
+
 private:
     std::unordered_map<std::string , ShaderProgram*> cacheShaders;
     std::unordered_map<std::string , VertexArray*> cacheVAO;
     glm::mat4 camCombined = glm::mat4();
+    Window* win = nullptr;
 };
 
 }
