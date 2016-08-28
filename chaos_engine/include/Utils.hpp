@@ -2,8 +2,18 @@
 #define UTILS_HPP
 
 #include <cstdio>
+#include <sstream>
+#include <string>
 
 namespace chaos{
+
+template <typename T>
+std::string toString ( T Number )
+{
+    std::ostringstream ss;
+    ss << Number;
+    return ss.str();
+}
 
 long getFileSize(FILE* f)
 {

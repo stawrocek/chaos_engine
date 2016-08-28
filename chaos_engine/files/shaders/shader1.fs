@@ -4,8 +4,8 @@ out vec4 color;
 in vec2 uvCoords;
 
 uniform sampler2D tex0;
-uniform vec4 ourColor;
+uniform vec4 uniColor;
 
 void main(){
-	color = mix(texture(tex0, uvCoords), ourColor, 0.2);
+	color = texture(tex0, uvCoords) * uniColor;
 }

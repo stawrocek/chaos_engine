@@ -32,3 +32,6 @@
 *.cbp
 *.depend
 *.layout
+
+#.obj
+!*.obj

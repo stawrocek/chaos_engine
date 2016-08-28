@@ -12,6 +12,7 @@
 #include "../include/Primitives.hpp"
 #include "../include/Sprite.hpp"
 #include "../include/BitmapFontSprite.hpp"
+#include "../include/Model.hpp"
 
 static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
@@ -22,7 +23,13 @@ int main(int argc, char* argv[]){
     chaos::Renderer renderer(&window);
     chaos::Texture* texture1 = rscManager.loadResource<chaos::Texture>("files/textures/composition-a-1923-piet-mondrian.jpg", "piet");
     chaos::Texture* texture2 = rscManager.loadResource<chaos::Texture>("files/textures/2001.png", "2001");
+    chaos::Texture* uvCube = rscManager.loadResource<chaos::Texture>("files/textures/uv_maps/cubeUV.png", "uvMap:Cube");
+    chaos::Texture* uvSword = rscManager.loadResource<chaos::Texture>("files/textures/uv_maps/swordUV.png", "uvMap:Sword");
     chaos::BitmapFont* bmf1 = rscManager.loadResource<chaos::BitmapFont>("files/fonts/CalibriBitmap2.fnt", "Calibri");
+    chaos::MeshPrefab* mesh1 = rscManager.loadResource<chaos::MeshPrefab>("files/models3d/cube2.obj", "cube");
+    chaos::MeshPrefab* mesh2 = rscManager.loadResource<chaos::MeshPrefab>("files/models3d/sword.obj", "sword");
+    renderer.addMeshVAO(mesh1);
+    renderer.addMeshVAO(mesh2);
 
     chaos::GameObject testTransform(&renderer);
     testTransform.setScale(0.5f, 0.5f, 0.5f);
@@ -59,6 +66,15 @@ int main(int argc, char* argv[]){
     bmf2Sprite.setColor(glm::vec4(0.0, 1.0, 0.2, 1.0));
     bmf2Sprite.rotateX(3.1415/2.0+3.1415);
     bmf2Sprite.scaleUp(0.5, 0.5, 0.5);
+
+    chaos::Model model1(&renderer, mesh1);
+    model1.setColor(glm::vec4(1.f,0.f,0.f,1.f));
+    model1.setScale(0.1f, 0.1f, 0.1f);
+
+    chaos::Model model2(&renderer, mesh2);
+    model2.setScale(0.2f, 0.2f, 0.2f);
+    model2.moveY(3);
+
     chaos::Camera cam(&renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)style.width/style.height, 0.1f, 100.0f));
     cam.moveZ(5.f);
     SDL_SetRelativeMouseMode(SDL_TRUE);
@@ -146,6 +162,10 @@ int main(int argc, char* argv[]){
         sprite1.draw();
         bmf1Sprite.draw();
         bmf2Sprite.draw("HELLO WORLD");
+        uvCube->bind();
+        model1.draw();
+        uvSword->bind();
+        model2.draw();
         window.update();
     }
 }

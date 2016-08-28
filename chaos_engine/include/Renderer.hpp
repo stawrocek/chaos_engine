@@ -4,6 +4,8 @@
 #include "Transform.hpp"
 #include "ShaderProgram.hpp"
 #include "VertexArray.hpp"
+#include "MeshPrefab.hpp"
+#include "Utils.hpp"
 
 #include <unordered_map>
 
@@ -95,6 +97,8 @@ public:
 
         addShader({std::make_pair("files/shaders/font0.vs", GL_VERTEX_SHADER),
                                        std::make_pair("files/shaders/font0.fs", GL_FRAGMENT_SHADER)}, "Shader_Font2d");
+        addShader({std::make_pair("files/shaders/Model3d.vs", GL_VERTEX_SHADER),
+                                       std::make_pair("files/shaders/Model3d.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d");
 
         std::vector<GLfloat> rect_Pos = {
             -1.f, -1.f, 0.f,
@@ -230,6 +234,11 @@ public:
         addVAO(3, 0, 0, 0, &cube_Pos, "Cube:Vao_Pos");
         addVAO(3, 0, 2, 0, &cube_Pos_Uv, "Cube:Vao_Pos.Uv");
         addVAO(3, 0, 0, 0, &circle_Pos, "Circle:Vao_Pos");
+    }
+
+    void addMeshVAO(MeshPrefab* mesh){
+        addVAO(3, 0, 2, 0, mesh->getVBOData(), "Mesh:Vao_Pos.Uv("+toString(mesh->getMeshId())+")");
+        std::cout << "adding mesh vao as: " << "Mesh:Vao_Pos.Uv("+toString(mesh->getMeshId())+")" << "\n";
     }
 
     glm::mat4 getCamCombined(){
