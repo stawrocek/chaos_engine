@@ -40,6 +40,8 @@ public:
     GLboolean isBlendingEnabled()       {return blendingEnabled;}
     GLfloat getDeltaTime();
     GLuint getFPS();
+    GLfloat getRunningTime()            {return totalTimer.getTime();}
+    GLfloat getRunningTimeAsSeconds()   {return totalTimer.getTimeAsSeconds();}
 
 private:
     SDL_Window* window = nullptr;
@@ -50,6 +52,8 @@ private:
     Timer deltaTimer;
 
     Timer fpsTimer;
+    Timer totalTimer;
+
     GLuint fpsCtr=0;
     GLuint fpsVal=0;
 };

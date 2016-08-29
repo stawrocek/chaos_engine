@@ -54,9 +54,16 @@ public:
     void setVertexArray(std::string id){
         vao = renderer->getVAO(id);
     }
+    VertexArray* getVertexArray(){
+        return vao;
+    }
     void setShader(std::string id){
         shader = renderer->getShader(id);
     }
+    ShaderProgram* getShader(){
+        return shader;
+    }
+
     glm::vec4 getColor(){
         return color;
     }

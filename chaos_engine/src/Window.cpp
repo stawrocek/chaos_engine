@@ -7,6 +7,7 @@ Window::Window(WindowStyle style){
     initOpenGL();
     deltaTimer.restart();
     fpsTimer.restart();
+    totalTimer.restart();
 }
 
 Window::~Window(){

@@ -17,6 +17,7 @@
 static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
 int main(int argc, char* argv[]){
+    std::cout << "example 1\n";
     chaos::WindowStyle style("Test 1", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
     chaos::Window window(style);
     chaos::ResourceManager rscManager;
@@ -74,6 +75,7 @@ int main(int argc, char* argv[]){
     chaos::Model model2(&renderer, mesh2);
     model2.setScale(0.2f, 0.2f, 0.2f);
     model2.moveY(3);
+    model2.setShader("Shader_Mesh3d#Explosion");
 
     chaos::Camera cam(&renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)style.width/style.height, 0.1f, 100.0f));
     cam.moveZ(5.f);
@@ -164,6 +166,11 @@ int main(int argc, char* argv[]){
         bmf2Sprite.draw("HELLO WORLD");
         uvCube->bind();
         model1.draw();
+
+        GLfloat currTime = window.getRunningTimeAsSeconds();
+
+        model2.getShader()->run();
+        model2.getShader()->setUniform("time", currTime);
         uvSword->bind();
         model2.draw();
         window.update();

@@ -14,17 +14,9 @@ public:
     Model(Renderer*r, MeshPrefab* prefab)
     :DrawableGameObject(r)
     {
-        if(shader == nullptr){
-            std::cout << "nullptr shader\n";
-        }
-        if(vao == nullptr){
-            std::cout << "nullptr vao\n";
-        }
         setMesh(prefab);
         shader = renderer->getShader("Shader_Mesh3d");
         vao = renderer->getVAO("Mesh:Vao_Pos.Uv("+toString(prefab->getMeshId())+")");
-        std::cout << "setting mesh vao = " << "Mesh:Vao_Pos.Uv("+toString(prefab->getMeshId())+")" << "\n";
-        std::cout << "vao.getId()=" << vao->getId() << "\n";
     }
 
     virtual void draw(){

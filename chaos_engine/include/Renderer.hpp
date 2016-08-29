@@ -90,15 +90,21 @@ public:
 
     void initEngineStuff(){
         // shaders will be as strings in final release
-        addShader({std::make_pair("files/shaders/shader2.vs", GL_VERTEX_SHADER),
-                                       std::make_pair("files/shaders/shader2.fs", GL_FRAGMENT_SHADER)}, "Shader_Pos");
-        addShader({std::make_pair("files/shaders/shader1.vs", GL_VERTEX_SHADER),
-                                       std::make_pair("files/shaders/shader1.fs", GL_FRAGMENT_SHADER)}, "Shader_Pos.Uv");
+        addShader({ std::make_pair("files/shaders/shader2.vs", GL_VERTEX_SHADER),
+                    std::make_pair("files/shaders/shader2.fs", GL_FRAGMENT_SHADER)}, "Shader_Pos");
 
-        addShader({std::make_pair("files/shaders/font0.vs", GL_VERTEX_SHADER),
-                                       std::make_pair("files/shaders/font0.fs", GL_FRAGMENT_SHADER)}, "Shader_Font2d");
-        addShader({std::make_pair("files/shaders/Model3d.vs", GL_VERTEX_SHADER),
-                                       std::make_pair("files/shaders/Model3d.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d");
+        addShader({ std::make_pair("files/shaders/shader1.vs", GL_VERTEX_SHADER),
+                    std::make_pair("files/shaders/shader1.fs", GL_FRAGMENT_SHADER)}, "Shader_Pos.Uv");
+
+        addShader({ std::make_pair("files/shaders/font0.vs", GL_VERTEX_SHADER),
+                    std::make_pair("files/shaders/font0.fs", GL_FRAGMENT_SHADER)}, "Shader_Font2d");
+
+        addShader({ std::make_pair("files/shaders/Model3d.vs", GL_VERTEX_SHADER),
+                    std::make_pair("files/shaders/Model3d.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d");
+
+        addShader({ std::make_pair("files/shaders/Model3dExplosion.vs", GL_VERTEX_SHADER),
+                    std::make_pair("files/shaders/Model3dExplosion.gs", GL_GEOMETRY_SHADER),
+                    std::make_pair("files/shaders/Model3dExplosion.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d#Explosion");
 
         std::vector<GLfloat> rect_Pos = {
             -1.f, -1.f, 0.f,
