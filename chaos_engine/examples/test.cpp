@@ -58,8 +58,6 @@ int main(int argc, char* argv[]){
     sprite1.moveY(-2);
     sprite1.scaleUp(0.5, 0.5, 0.5);
 
-    //chaos::BitmapFont bmf1("files/fonts/CalibriBitmap2.fnt");
-
     chaos::BitmapFontSprite bmf1Sprite(&renderer, bmf1, "Your SPECIAL SECRET KEY:\nhttps://www.youtube.com/watch?v=dQw4w9WgXcQ");
     chaos::BitmapFontSprite bmf2Sprite(&renderer, bmf1);
     bmf2Sprite.setParent(&circle1);
@@ -76,6 +74,10 @@ int main(int argc, char* argv[]){
     model2.setScale(0.2f, 0.2f, 0.2f);
     model2.moveY(3);
     model2.setShader("Shader_Mesh3d#Explosion");
+
+    chaos::Model model3(&renderer, mesh1);
+    model3.setScale(0.25f, 0.25f, 0.25f);
+    model3.translate(3.f, 3.f, 0.f);
 
     chaos::Camera cam(&renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)style.width/style.height, 0.1f, 100.0f));
     cam.moveZ(5.f);
@@ -173,6 +175,15 @@ int main(int argc, char* argv[]){
         model2.getShader()->setUniform("time", currTime);
         uvSword->bind();
         model2.draw();
+
+        uvCube->bind();
+        model3.setShader("Shader_Mesh3d#Normals");
+        //model3.getShader()->run();
+        //model3.getShader()->setUniform("mxText", cam.getProjectionMatrix()*model3.getGlobalTransformMatrix());
+        model3.draw();
+        model3.setShader("Shader_Mesh3d");
+        model3.draw();
+
         window.update();
     }
 }

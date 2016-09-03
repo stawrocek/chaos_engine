@@ -106,6 +106,10 @@ public:
                     std::make_pair("files/shaders/Model3dExplosion.gs", GL_GEOMETRY_SHADER),
                     std::make_pair("files/shaders/Model3dExplosion.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d#Explosion");
 
+        addShader({ std::make_pair("files/shaders/Model3dNormals.vs", GL_VERTEX_SHADER),
+                    std::make_pair("files/shaders/Model3dNormals.gs", GL_GEOMETRY_SHADER),
+                    std::make_pair("files/shaders/Model3dNormals.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d#Normals");
+
         std::vector<GLfloat> rect_Pos = {
             -1.f, -1.f, 0.f,
              1.f, -1.f, 0.f,

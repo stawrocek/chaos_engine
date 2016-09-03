@@ -1,4 +1,4 @@
-#version 330 compatibility
+#version 330 core
 layout(triangles) in;
 layout(triangle_strip, max_vertices=3) out;
 
@@ -9,13 +9,6 @@ in VS_OUT{
 } gs_in[];
 
 out vec2 uv;
-
-vec4 explode(vec4 position, vec3 normal)
-{
-    float magnitude = 2.0f;
-    vec3 direction = normal * ((sin(time) + 1.0f) / 2.0f) * magnitude; 
-    return position + vec4(direction, 0.0f);
-}
 
 vec3 GetNormal()
 {
