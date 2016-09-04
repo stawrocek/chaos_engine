@@ -12,11 +12,11 @@ namespace chaos{
 
 struct VertexData{
     VertexData();
-    VertexData(const std::initializer_list<GLfloat>& vV, const std::initializer_list<GLfloat>& vC,
+    VertexData(const std::initializer_list<GLfloat>& vV, const std::initializer_list<GLfloat>& vN,
                const std::initializer_list<GLfloat>& vU, const std::initializer_list<GLfloat>& vD);
 
     std::vector<GLfloat> vVerts;
-    std::vector<GLfloat> vColor;
+    std::vector<GLfloat> vNormal;
     std::vector<GLfloat> vUV;
     std::vector<GLfloat> vData;
 };
@@ -24,13 +24,13 @@ struct VertexData{
 class VertexArray
 {
 public:
-    VertexArray(GLuint vertsSize, GLuint colorSize, GLuint uvSize, GLuint dataSize);
-    VertexArray(GLuint vertsSize, GLuint colorSize, GLuint uvSize, GLuint dataSize, std::vector<GLfloat>* vec);
+    VertexArray(GLuint vertsSize, GLuint normalSize, GLuint uvSize, GLuint dataSize);
+    VertexArray(GLuint vertsSize, GLuint normalSize, GLuint uvSize, GLuint dataSize, std::vector<GLfloat>* vec);
     virtual ~VertexArray();
 
     void addVertex(VertexData vd);
     void setVertices(GLuint id, const std::initializer_list<GLfloat>& v);
-    void setColor(GLuint id, const std::initializer_list<GLfloat>& v);
+    void setNormal(GLuint id, const std::initializer_list<GLfloat>& v);
     void setUV(GLuint id, const std::initializer_list<GLfloat>& v);
     void setData(GLuint id, const std::initializer_list<GLfloat>& v);
     void buildArrayOfPlainData(std::vector<GLfloat>* v);
@@ -44,7 +44,7 @@ public:
 
 private:
     GLuint vertsSize;
-    GLuint colorSize;
+    GLuint normalSize;
     GLuint uvSize;
     GLuint dataSize;
 

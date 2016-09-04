@@ -4,27 +4,27 @@ using namespace chaos;
 
 VertexData::VertexData(){}
 
-VertexData::VertexData(const std::initializer_list<GLfloat>& vV, const std::initializer_list<GLfloat>& vC,
+VertexData::VertexData(const std::initializer_list<GLfloat>& vV, const std::initializer_list<GLfloat>& vN,
              const std::initializer_list<GLfloat>& vU, const std::initializer_list<GLfloat>& vD)
 {
     for(GLfloat x: vV)vVerts.push_back(x);
-    for(GLfloat x: vC)vColor.push_back(x);
+    for(GLfloat x: vN)vNormal.push_back(x);
     for(GLfloat x: vU)vUV.push_back(x);
     for(GLfloat x: vD)vData.push_back(x);
 }
 
-VertexArray::VertexArray(GLuint _vertsSize, GLuint _colorSize, GLuint _uvSize, GLuint _dataSize, std::vector<GLfloat>* vec)
-:vertsSize(_vertsSize), colorSize(_colorSize), uvSize(_uvSize), dataSize(_dataSize)
+VertexArray::VertexArray(GLuint _vertsSize, GLuint _normalSize, GLuint _uvSize, GLuint _dataSize, std::vector<GLfloat>* vec)
+:vertsSize(_vertsSize), normalSize(_normalSize), uvSize(_uvSize), dataSize(_dataSize)
 {
-    GLuint totalSize = vertsSize + colorSize + uvSize + dataSize;
+    GLuint totalSize = vertsSize + normalSize + uvSize + dataSize;
     GLuint ctr=0;
     for(int i = 0; i < vec->size()/totalSize; i++){
         VertexData vd;
         for(int j = 0; j < vertsSize; j++){
             vd.vVerts.push_back(vec->at(ctr++));
         }
-        for(int j = 0; j < colorSize; j++){
-            vd.vColor.push_back(vec->at(ctr++));
+        for(int j = 0; j < normalSize; j++){
+            vd.vNormal.push_back(vec->at(ctr++));
         }
         for(int j = 0; j < uvSize; j++){
             vd.vUV.push_back(vec->at(ctr++));
@@ -40,8 +40,8 @@ VertexArray::VertexArray(GLuint _vertsSize, GLuint _colorSize, GLuint _uvSize, G
     unbind();
 }
 
-VertexArray::VertexArray(GLuint _vertsSize, GLuint _colorSize, GLuint _uvSize, GLuint _dataSize)
-:vertsSize(_vertsSize), colorSize(_colorSize), uvSize(_uvSize), dataSize(_dataSize)
+VertexArray::VertexArray(GLuint _vertsSize, GLuint _normalSize, GLuint _uvSize, GLuint _dataSize)
+:vertsSize(_vertsSize), normalSize(_normalSize), uvSize(_uvSize), dataSize(_dataSize)
 {
 
 }
@@ -57,10 +57,10 @@ void VertexArray::setVertices(GLuint id, const std::initializer_list<GLfloat>& v
         vVertices[id].vVerts.push_back(x);
     }
 }
-void VertexArray::setColor(GLuint id, const std::initializer_list<GLfloat>& v){
-    vVertices[id].vColor.clear();
+void VertexArray::setNormal(GLuint id, const std::initializer_list<GLfloat>& v){
+    vVertices[id].vNormal.clear();
     for(GLfloat x: v){
-        vVertices[id].vColor.push_back(x);
+        vVertices[id].vNormal.push_back(x);
     }
 }
 void VertexArray::setUV(GLuint id, const std::initializer_list<GLfloat>& v){
@@ -80,8 +80,8 @@ void VertexArray::buildArrayOfPlainData(std::vector<GLfloat>* v){
     for(int i = 0; i < vVertices.size(); i++){
         for(int j = 0; j < vertsSize; j++)
             v->push_back(vVertices[i].vVerts[j]);
-        for(int j = 0; j < colorSize; j++)
-            v->push_back(vVertices[i].vColor[j]);
+        for(int j = 0; j < normalSize; j++)
+            v->push_back(vVertices[i].vNormal[j]);
         for(int j = 0; j < uvSize; j++)
             v->push_back(vVertices[i].vUV[j]);
         for(int j = 0; j < dataSize; j++)
@@ -102,25 +102,25 @@ void VertexArray::generateVertexArray(GLenum _target, GLenum _usage){
     glBindBuffer(target, VBO);
     glBufferData(target, vxData.size()*sizeof(GLfloat), vxData.data(), usage);
 
-    GLuint stride = vertsSize+colorSize+uvSize+dataSize;
+    GLuint stride = vertsSize+normalSize+uvSize+dataSize;
 
     if(vertsSize != 0){
         glVertexAttribPointer(0, vertsSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)0);
         glEnableVertexAttribArray(0);
     }
-    if(colorSize != 0){
-        glVertexAttribPointer(1, colorSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
+    if(normalSize != 0){
+        glVertexAttribPointer(1, normalSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
                               (GLvoid*)(sizeof(GLfloat)*(vertsSize)));
         glEnableVertexAttribArray(1);
     }
     if(uvSize != 0){
         glVertexAttribPointer(2, uvSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
-                              (GLvoid*)(sizeof(GLfloat)*(vertsSize+colorSize)));
+                              (GLvoid*)(sizeof(GLfloat)*(vertsSize+normalSize)));
         glEnableVertexAttribArray(2);
     }
     if(dataSize != 0){
         glVertexAttribPointer(3, dataSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
-                              (GLvoid*)(sizeof(GLfloat)*(vertsSize+colorSize+uvSize)));
+                              (GLvoid*)(sizeof(GLfloat)*(vertsSize+normalSize+uvSize)));
         glEnableVertexAttribArray(3);
     }
     glBindVertexArray(0);

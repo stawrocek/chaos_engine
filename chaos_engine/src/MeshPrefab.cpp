@@ -100,6 +100,9 @@ void MeshPrefab::recalculateVertexData(){
         vboData.push_back(vertex.x);   //x
         vboData.push_back(vertex.y);   //y
         vboData.push_back(vertex.z);   //z
+        vboData.push_back(normal.x);
+        vboData.push_back(normal.y);
+        vboData.push_back(normal.z);
         vboData.push_back(uv.x);       //u
         vboData.push_back(uv.y);       //v
     }
