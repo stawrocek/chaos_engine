@@ -15,7 +15,7 @@ glm::mat4 Transform::getLocalTransformMatrix() {
     if(!needUpdate)
         return mxTransform;
     mxTransform = glm::mat4();
-    mxTransform = glm::translate(mxTransform, glm::vec3(posX, posY, posZ));
+    mxTransform = glm::translate(mxTransform, glm::vec3(posX, posY, -posZ));
     mxTransform = glm::scale(mxTransform, glm::vec3(scaleX, scaleY, scaleZ));
     mxTransform = glm::rotate(mxTransform, rotX, glm::vec3(1.0, 0.0, 0.0));
     mxTransform = glm::rotate(mxTransform, rotY, glm::vec3(0.0, 1.0, 0.0));

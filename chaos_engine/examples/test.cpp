@@ -176,11 +176,16 @@ int main(int argc, char* argv[]){
         uvSword->bind();
         model2.draw();
 
+        renderer.setCamCombined(cam.getProjectionMatrix()*cam.getViewMatrix());
         uvCube->bind();
         model3.setShader("Shader_Mesh3d#Normals");
-        //model3.getShader()->run();
+        //model3.getShader()->setUniform("mxCamModel", cam.getViewMatrix()*model3.getGlobalTransformMatrix());
+        model3.getShader()->run();
+        model3.getShader()->setUniform("mxViewModel", cam.getViewMatrix()*model3.getGlobalTransformMatrix());
         //model3.getShader()->setUniform("mxText", cam.getProjectionMatrix()*model3.getGlobalTransformMatrix());
         model3.draw();
+        renderer.setCamCombined(cam.getProjectionMatrix()*cam.getViewMatrix());
+
         model3.setShader("Shader_Mesh3d");
         model3.draw();
 

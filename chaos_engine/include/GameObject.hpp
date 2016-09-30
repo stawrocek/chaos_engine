@@ -71,6 +71,10 @@ public:
         color = c;
     }
 
+    void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a){
+        color = glm::vec4(r, g, b, a);
+    }
+
 protected:
     glm::vec4 color = glm::vec4(1.f, 1.f, 1.f, 1.f);
     ShaderProgram* shader = nullptr;

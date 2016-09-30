@@ -17,6 +17,7 @@ class Cube: public DrawableGameObject
 {
 public:
     Cube(Renderer* ren):DrawableGameObject(ren,"Cube:Vao_Pos","Shader_Pos"){
+        std::cout << "asd\n";
     }
 };
 

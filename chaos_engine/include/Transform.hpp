@@ -14,6 +14,12 @@
 
 namespace chaos {
 
+/*
+    Axis x -> from left(-) to right(+)
+    Axis y -> from bottom(-) to top(+)
+    Axis z -> from to user(-) to screen(+)
+*/
+
 class Transform
 {
 public:
@@ -79,7 +85,7 @@ public:
         std::cout << glm::to_string(mxTransform) << "\n";
     }
 
-private:
+protected:
     glm::mat4 mxTransform;
     bool needUpdate=false;
     GLfloat posX, posY, posZ;
