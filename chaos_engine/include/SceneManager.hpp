@@ -8,7 +8,11 @@ namespace chaos{
 
 class SceneManager{
 public:
-    SceneManager(){}
+    SceneManager(ResourceManager* rsc, Renderer* ren, InputHandler* ipth){
+        resourceManager = rsc;
+        renderer = ren;
+        inputHandler = ipth;
+    }
     virtual ~SceneManager(){
         std::cout << "Destructor of SceneManager{\n";
         std::cout << scenes.size() << "\n";
@@ -24,6 +28,10 @@ public:
     void registerScene(std::string name){
         scenes[name] = new T(name);
         scenes[name]->setSceneManager(this);
+        scenes[name]->setRenderer(renderer);
+        scenes[name]->setResourceManager(resourceManager);
+        scenes[name]->setInputHandler(inputHandler);
+        scenes[name]->onSceneLoadToMemory();
     }
     void unregisterScene(std::string nameId){
         if(scenes.find(nameId) != scenes.end()){
@@ -52,6 +60,9 @@ public:
 private:
     std::unordered_map<std::string, Scene*> scenes;
     Scene* actScene= nullptr;
+    Renderer* renderer;
+    ResourceManager* resourceManager;
+    InputHandler* inputHandler;
 };
 
 }

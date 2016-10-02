@@ -17,7 +17,6 @@
 static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
 int main(int argc, char* argv[]){
-    std::cout << "example 1\n";
     chaos::WindowStyle style("Test 1", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
     chaos::Window window(style);
     chaos::ResourceManager rscManager;

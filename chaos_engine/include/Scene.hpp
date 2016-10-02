@@ -3,6 +3,9 @@
 
 #include <string>
 
+#include "Renderer.hpp"
+#include "ResourceManager.hpp"
+
 namespace chaos{
 
 class SceneManager;
@@ -15,11 +18,13 @@ public:
 
     virtual ~Scene(){}
 
-    virtual void onSceneActivate() = 0;
-    virtual void update(GLfloat deltaTime) = 0;
-    virtual void draw(GLfloat deltaTime) = 0;
-    virtual void deliverEvent(chaos::Event&) = 0;
-    virtual void onSceneDeactivate() = 0;
+
+    virtual void onSceneLoadToMemory(){};
+    virtual void onSceneActivate(){};// = 0;
+    virtual void update(GLfloat deltaTime){};// = 0;
+    virtual void draw(GLfloat deltaTime){};// = 0;
+    virtual void deliverEvent(chaos::Event&){};// = 0;
+    virtual void onSceneDeactivate(){};// = 0;
 
     std::string getName(){
         return name;
@@ -27,6 +32,19 @@ public:
 
     void setSceneManager(SceneManager* mgr){
         scnManager = mgr;
+    }
+
+    void setRenderer(Renderer* ren){
+        renderer = ren;
+        window = renderer->getTargetWindow();
+    }
+
+    void setResourceManager(ResourceManager* mgr){
+        resourceManager = mgr;
+    }
+
+    void setInputHandler(InputHandler* ipth){
+        inputHandler = ipth;
     }
 
     void clearWindow(GLfloat r, GLfloat g, GLfloat b, GLfloat a){
@@ -37,6 +55,10 @@ public:
 protected:
     std::string name;
     SceneManager* scnManager=nullptr;
+    Renderer* renderer;
+    ResourceManager* resourceManager;
+    Window* window;
+    InputHandler* inputHandler;
 };
 
 }

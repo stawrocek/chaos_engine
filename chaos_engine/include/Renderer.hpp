@@ -248,7 +248,6 @@ public:
 
     void addMeshVAO(MeshPrefab* mesh){
         addVAO(3, 3, 2, 0, mesh->getVBOData(), "Mesh:Vao_Pos.Uv("+toString(mesh->getMeshId())+")");
-        std::cout << "adding mesh vao as: " << "Mesh:Vao_Pos.Uv("+toString(mesh->getMeshId())+")" << "\n";
     }
 
     glm::mat4 getCamCombined(){
