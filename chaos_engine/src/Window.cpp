@@ -3,6 +3,7 @@
 using namespace chaos;
 
 Window::Window(WindowStyle style){
+    winStyle = style;
     window = SDL_CreateWindow(style.name.c_str(), style.posX, style.posY, style.width, style.height, style.flags);
     initOpenGL();
     deltaTimer.restart();

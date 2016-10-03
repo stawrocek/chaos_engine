@@ -13,6 +13,7 @@
 namespace chaos{
 
 struct WindowStyle{
+    WindowStyle(){}
     std::string name;
     GLuint posX;
     GLuint posY;
@@ -42,7 +43,7 @@ public:
     GLuint getFPS();
     GLfloat getRunningTime()            {return totalTimer.getTime();}
     GLfloat getRunningTimeAsSeconds()   {return totalTimer.getTimeAsSeconds();}
-
+    WindowStyle getStyle()              {return winStyle;}
 private:
     SDL_Window* window = nullptr;
     SDL_GLContext context;
@@ -56,6 +57,8 @@ private:
 
     GLuint fpsCtr=0;
     GLuint fpsVal=0;
+
+    WindowStyle winStyle;
 };
 
 }

@@ -14,11 +14,13 @@
 static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
 int main(int argc, char* argv[]){
-    chaos::WindowStyle style("chaos::engine demo", 300, 100, 600, 480, SDL_WINDOW_OPENGL);
+    chaos::WindowStyle style("chaos::engine demo", 50, 50, 1024, 600, SDL_WINDOW_OPENGL);
     chaos::Window window(style);
     glEnable(GL_MULTISAMPLE);
     chaos::Renderer renderer(&window);
     chaos::ResourceManager rscManager;
+    rscManager.loadResource<chaos::BitmapFont>("files/fonts/CalibriBitmap2.fnt", "Calibri");
+
     chaos::SceneManager scnMgr(&rscManager, &renderer, &inputHandler);
     scnMgr.registerScene<ObjViewer>("ObjViewer");
     scnMgr.setActiveScene("ObjViewer");
