@@ -25,15 +25,18 @@ public:
     }
 
     virtual void onSceneLoadToMemory(){
-        chestPrefab = resourceManager->loadResource<chaos::MeshPrefab>("files/models3d/Chest2.obj", "chest");
+        chestPrefab = resourceManager->loadResource<chaos::MeshPrefab>("files/models3d/Chest3.obj", "chest");
+        dicePrefab = resourceManager->loadResource<chaos::MeshPrefab>("files/models3d/cube2.obj", "dice");
         renderer->addMeshVAO(chestPrefab);
+        renderer->addMeshVAO(dicePrefab);
         chestTexture = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/chestUV.png", "uvMap:Chest");
+        diceTexture = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/cubeUV.png", "uvMap:Cube");
         backgroundTexture = resourceManager->loadResource<chaos::Texture>("files/textures/brick.jpg", "background");
         bitmapFont = resourceManager->getResource<chaos::BitmapFont>("Calibri");
 
         actModel = new chaos::Model(renderer, chestPrefab);
-        actModel->setScale(.1f, .1f, .1f);
         actTexture = resourceManager->getResource<chaos::Texture>("uvMap:Chest");
+        loadModel(0);
         cam = new chaos::Camera(renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)window->getStyle().width/window->getStyle().height, 0.1f, 100.0f));
         cam->moveZ(21.f);
         cam->moveY(3.5f);
@@ -41,7 +44,9 @@ public:
         textLeft = new chaos::BitmapFontSprite(renderer, bitmapFont,    "press [key] to change shader\n"
                                                                         "[e] -> \"explosion\"\n"
                                                                         "[v] -> normal vectors visualizer\n"
-                                                                        "[n] -> standard display\n");
+                                                                        "[n] -> standard display\n"
+                                                                        "[z] -> previous model\n"
+                                                                        "[x] -> next model");
         textLeft->setFitToScreen(true);
         textLeft->moveY(2.0-64.f/window->getStyle().height);
 
@@ -117,9 +122,33 @@ public:
         if(e.getChar() == 'g'){
             launchGithub();
         }
+        if(e.getChar() == 'z'){
+            loadModel(-1);
+        }
+        if(e.getChar() == 'x'){
+            loadModel(+1);
+        }
 
         if(e.type == SDL_MOUSEMOTION) {
             cam->processMouse(e.motion.xrel, -e.motion.yrel);
+        }
+    }
+
+    void loadModel(GLint delta){
+        modelCtr += delta;
+        if(modelCtr < 0)modelCtr = 1;
+        if(modelCtr > 1)modelCtr = 0;
+        if(modelCtr == 0){
+            actTexture = chestTexture;
+            actModel->setMesh(chestPrefab);
+            actModel->setScale(0.4f, 0.4f, 0.4f);
+            actModel->setY(0.f);
+        }
+        if(modelCtr == 1){
+            actTexture = diceTexture;
+            actModel->setMesh(dicePrefab);
+            actModel->setScale(2.f, 2.f, 2.f);
+            actModel->setY(2.f);
         }
     }
 
@@ -152,12 +181,15 @@ private:
 
     chaos::Texture* backgroundTexture;
     chaos::Texture* chestTexture;
+    chaos::Texture* diceTexture;
     chaos::MeshPrefab* chestPrefab;
+    chaos::MeshPrefab* dicePrefab;
     chaos::BitmapFont* bitmapFont;
 
     chaos::Camera* cam;
-    int renderMode = 0; //0->normal, 1->explosion shader, 2->normals shader
+    GLuint renderMode = 0; //0->normal, 1->explosion shader, 2->normals shader
     GLfloat moveSpeed=5.f;
+    GLint modelCtr=0;
 };
 
 #endif // OBJ_VIEWER_HPP

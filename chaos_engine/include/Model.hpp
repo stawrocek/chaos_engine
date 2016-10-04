@@ -16,7 +16,7 @@ public:
     {
         setMesh(prefab);
         shader = renderer->getShader("Shader_Mesh3d");
-        vao = renderer->getVAO("Mesh:Vao_Pos.Uv("+toString(prefab->getMeshId())+")");
+        //vao = renderer->getVAO("Mesh:Vao_Pos.Uv("+toString(prefab->getMeshId())+")");
     }
 
     virtual void draw(){
@@ -30,6 +30,7 @@ public:
 
     void setMesh(MeshPrefab* prefab){
         meshPrefab = prefab;
+        vao = renderer->getVAO("Mesh:Vao_Pos.Uv("+toString(meshPrefab->getMeshId())+")");
     }
 
 protected:
