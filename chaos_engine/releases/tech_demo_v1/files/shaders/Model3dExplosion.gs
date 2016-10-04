@@ -20,8 +20,8 @@ vec3 GetNormal()
 
 void main()
 {
-	//vec3 normal = (gs_in[0].vNormal + gs_in[1].vNormal + gs_in[2].vNormal)/3.0;
-	vec3 normal = GetNormal()*1.5f;
+	vec3 normal = (gs_in[0].vNormal + gs_in[1].vNormal + gs_in[2].vNormal)/3.0;
+	//vec3 normal = GetNormal()*1.5f;
 	for(int i=0; i<3; i++)
 	{
 		gl_Position = gl_in[i].gl_Position+normal*((sin(time)+1.0)/2.0);

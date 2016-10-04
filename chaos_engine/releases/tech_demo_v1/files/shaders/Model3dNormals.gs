@@ -27,7 +27,7 @@ void main()
 	EmitVertex();
 	
 	outColor=vec4(0.0, 0.0, 1.0, 1.0);
-	gl_Position = mx *vec4((P + N * 30.0), 1.0);
+	gl_Position = mx *vec4((P + N * 5.0), 1.0);
 	EmitVertex();
 	EndPrimitive();
 }
