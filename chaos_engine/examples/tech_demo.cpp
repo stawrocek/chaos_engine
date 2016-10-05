@@ -18,6 +18,9 @@ int main(int argc, char* argv[]){
     chaos::Window window(style);
     glEnable(GL_MULTISAMPLE);
     chaos::Renderer renderer(&window);
+    renderer.addShader({ std::make_pair("files/shaders/Model3dExplosion.vs", GL_VERTEX_SHADER),
+                    std::make_pair("files/shaders/Model3dRandom.gs", GL_GEOMETRY_SHADER),
+                    std::make_pair("files/shaders/Model3dExplosion.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d#Random");
     chaos::ResourceManager rscManager;
     rscManager.loadResource<chaos::BitmapFont>("files/fonts/CalibriBitmap2.fnt", "Calibri");
 

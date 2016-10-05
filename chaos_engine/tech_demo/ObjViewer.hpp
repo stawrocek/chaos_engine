@@ -51,16 +51,16 @@ public:
                                                                         "[shift+e] -> \"explosion\"\n"
                                                                         "[shift+v] -> normal vectors visualizer\n"
                                                                         "[shift+n] -> standard display\n"
+                                                                        "[shift+r] -> randomization on Y axis\n"
                                                                         "[z] -> previous model\n"
                                                                         "[x] -> next model");
         textLeft->setFitToScreen(true);
         textLeft->moveY(2.0-64.f/window->getStyle().height);
 
         textRight = new chaos::BitmapFontSprite(renderer, bitmapFont,   "source code:\n"
-                                                                        "https://github.com/stawrocek/chaos_engine\n"
-                                                                        "press [shift+`g] to visit\n");
+                                                                        "https://github.com/stawrocek/chaos_engine\n");
         textRight->setFitToScreen(true);
-        textRight->moveY(128.f/window->getStyle().height);
+        textRight->moveY(64.f/window->getStyle().height);
 
         spriteBackground = new chaos::Sprite(renderer, backgroundTexture);
         spriteBackground->rotateX(3.1415f/2.f);
@@ -108,6 +108,15 @@ public:
                 actModel->setShader("Shader_Mesh3d");
                 actModel->draw();
             }
+            if(renderMode == 3){
+                GLfloat currTime = window->getRunningTimeAsSeconds();
+                actModel->setShader("Shader_Mesh3d#Random");
+                actModel->getShader()->run();
+                actModel->getShader()->setUniform("time", currTime);
+                actTexture->bind();
+                actModel->draw();
+            }
+
 
             textLeft->draw();
             textRight->draw();
@@ -125,9 +134,12 @@ public:
         if(e.key.keysym.sym == SDLK_v && (e.key.keysym.mod & KMOD_SHIFT)){
             renderMode=2;
         }
-        if(e.key.keysym.sym == SDLK_g && (e.key.keysym.mod & KMOD_SHIFT)){
-            launchGithub();
+        if(e.key.keysym.sym == SDLK_r && (e.key.keysym.mod & KMOD_SHIFT)){
+            renderMode=3;
         }
+        /*if(e.key.keysym.sym == SDLK_g && (e.key.keysym.mod & KMOD_SHIFT)){
+            launchGithub();
+        }*/
         if(e.key.keysym.sym == SDLK_z){
             loadModel(-1);
         }

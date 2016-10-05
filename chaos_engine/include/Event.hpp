@@ -39,7 +39,7 @@ struct Event {
            within the union, which is 8 bytes.
            So... we'll add padding to force the size to be 56 bytes for both.
         */
-        Uint8 padding[56];
+        //Uint8 padding[56];
     };
 
     int getChar() {
