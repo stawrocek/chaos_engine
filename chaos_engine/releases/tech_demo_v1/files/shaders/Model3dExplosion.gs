@@ -29,16 +29,4 @@ void main()
 		EmitVertex();
 	}
 	EndPrimitive();
-	
-	//gl_Position = gl_in[0].gl_Position;
-	//uv = gs_in[0].uvCoords;
-	//EmitVertex();
-	
-	//gl_Position = gl_in[1].gl_Position+vec4(0.0, 1.0, 1.0, 1.0);
-	//uv = gs_in[1].uvCoords;
-	//EmitVertex();
-	
-	//gl_Position = gl_in[2].gl_Position + vec4(1.0, 1.0, 1.0, 1.0);
-	//uv = gs_in[2].uvCoords;
-	//EmitVertex();
 } 
