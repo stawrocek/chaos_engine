@@ -26,11 +26,17 @@ public:
 
     virtual void onSceneLoadToMemory(){
         chestPrefab = resourceManager->loadResource<chaos::MeshPrefab>("files/models3d/Chest3.obj", "chest");
-        dicePrefab = resourceManager->loadResource<chaos::MeshPrefab>("files/models3d/cube2.obj", "dice");
+        skeletonPrefab = resourceManager->loadResource<chaos::MeshPrefab>("files/models3d/skeleton.obj", "skeleton");
+        demonPrefab = resourceManager->loadResource<chaos::MeshPrefab>("files/models3d/demon.obj", "demon");
+        mechPrefab = resourceManager->loadResource<chaos::MeshPrefab>("files/models3d/Mech.obj", "mech");
         renderer->addMeshVAO(chestPrefab);
-        renderer->addMeshVAO(dicePrefab);
+        renderer->addMeshVAO(skeletonPrefab);
+        renderer->addMeshVAO(demonPrefab);
+        renderer->addMeshVAO(mechPrefab);
         chestTexture = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/chestUV.png", "uvMap:Chest");
-        diceTexture = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/cubeUV.png", "uvMap:Cube");
+        skeletonTexture = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/skeletonUV.png", "uvMap:Skeleton");
+        demonTexture = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/demonUV.png", "uvMap:Demon");
+        mechTexture = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/mechUV.png", "uvMap:Mech");
         backgroundTexture = resourceManager->loadResource<chaos::Texture>("files/textures/brick.jpg", "background");
         bitmapFont = resourceManager->getResource<chaos::BitmapFont>("Calibri");
 
@@ -42,9 +48,9 @@ public:
         cam->moveY(3.5f);
         SDL_SetRelativeMouseMode(SDL_TRUE);
         textLeft = new chaos::BitmapFontSprite(renderer, bitmapFont,    "press [key] to change shader\n"
-                                                                        "[e] -> \"explosion\"\n"
-                                                                        "[v] -> normal vectors visualizer\n"
-                                                                        "[n] -> standard display\n"
+                                                                        "[shift+e] -> \"explosion\"\n"
+                                                                        "[shift+v] -> normal vectors visualizer\n"
+                                                                        "[shift+n] -> standard display\n"
                                                                         "[z] -> previous model\n"
                                                                         "[x] -> next model");
         textLeft->setFitToScreen(true);
@@ -52,7 +58,7 @@ public:
 
         textRight = new chaos::BitmapFontSprite(renderer, bitmapFont,   "source code:\n"
                                                                         "https://github.com/stawrocek/chaos_engine\n"
-                                                                        "press [g] to visit\n");
+                                                                        "press [shift+`g] to visit\n");
         textRight->setFitToScreen(true);
         textRight->moveY(128.f/window->getStyle().height);
 
@@ -110,22 +116,22 @@ public:
         cam->update();
     }
     virtual void deliverEvent(chaos::Event& e){
-        if(e.getChar() == 'n'){
+        if(e.key.keysym.sym == SDLK_n && (e.key.keysym.mod & KMOD_SHIFT)){
             renderMode=0;
         }
-        if(e.getChar() == 'e'){
+        if(e.key.keysym.sym == SDLK_e && (e.key.keysym.mod & KMOD_SHIFT)){
             renderMode=1;
         }
-        if(e.getChar() == 'v'){
+        if(e.key.keysym.sym == SDLK_v && (e.key.keysym.mod & KMOD_SHIFT)){
             renderMode=2;
         }
-        if(e.getChar() == 'g'){
+        if(e.key.keysym.sym == SDLK_g && (e.key.keysym.mod & KMOD_SHIFT)){
             launchGithub();
         }
-        if(e.getChar() == 'z'){
+        if(e.key.keysym.sym == SDLK_z){
             loadModel(-1);
         }
-        if(e.getChar() == 'x'){
+        if(e.key.keysym.sym == SDLK_x){
             loadModel(+1);
         }
 
@@ -136,19 +142,35 @@ public:
 
     void loadModel(GLint delta){
         modelCtr += delta;
-        if(modelCtr < 0)modelCtr = 1;
-        if(modelCtr > 1)modelCtr = 0;
+        if(modelCtr < 0)modelCtr = 3;
+        if(modelCtr > 3)modelCtr = 0;
         if(modelCtr == 0){
             actTexture = chestTexture;
             actModel->setMesh(chestPrefab);
             actModel->setScale(0.4f, 0.4f, 0.4f);
             actModel->setY(0.f);
+            actModel->setColor(1.f, 1.f, 1.f, 1.f);
         }
         if(modelCtr == 1){
-            actTexture = diceTexture;
-            actModel->setMesh(dicePrefab);
-            actModel->setScale(2.f, 2.f, 2.f);
-            actModel->setY(2.f);
+            actTexture = skeletonTexture;
+            actModel->setMesh(skeletonPrefab);
+            actModel->setScale(.12f, .12f, .12f);
+            actModel->setY(0.f);
+            actModel->setColor(1.f, 1.f, 1.f, 0.5f);
+        }
+        if(modelCtr == 2){
+            actTexture = demonTexture;
+            actModel->setMesh(demonPrefab);
+            actModel->setScale(2.5f, 2.5f, 2.5f);
+            actModel->setY(0.f);
+            actModel->setColor(1.f, 1.f, 1.f, 1.f);
+        }
+        if(modelCtr == 3){
+            actTexture = mechTexture;
+            actModel->setMesh(mechPrefab);
+            actModel->setScale(0.5f, 0.5f, 0.5f);
+            actModel->setY(0.f);
+            actModel->setColor(1.f, 1.f, 1.f, 1.f);
         }
     }
 
@@ -181,14 +203,18 @@ private:
 
     chaos::Texture* backgroundTexture;
     chaos::Texture* chestTexture;
-    chaos::Texture* diceTexture;
+    chaos::Texture* skeletonTexture;
+    chaos::Texture* demonTexture;
+    chaos::Texture* mechTexture;
     chaos::MeshPrefab* chestPrefab;
-    chaos::MeshPrefab* dicePrefab;
+    chaos::MeshPrefab* skeletonPrefab;
+    chaos::MeshPrefab* demonPrefab;
+    chaos::MeshPrefab* mechPrefab;
     chaos::BitmapFont* bitmapFont;
 
     chaos::Camera* cam;
     GLuint renderMode = 0; //0->normal, 1->explosion shader, 2->normals shader
-    GLfloat moveSpeed=5.f;
+    GLfloat moveSpeed=10.f;
     GLint modelCtr=0;
 };
 
