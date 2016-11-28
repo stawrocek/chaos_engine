@@ -1,6 +1,8 @@
 #ifndef MESH_PREFAB_HPP
 #define MESH_PREFAB_HPP
 
+#include "Export.hpp"
+
 #include "VertexArray.hpp"
 #include "Resource.hpp"
 
@@ -14,7 +16,7 @@
 
 namespace chaos
 {
-class MeshPrefab: public Resource
+class CHAOS_EXPORT MeshPrefab: public Resource
 {
 public:
     MeshPrefab(std::string fpath);

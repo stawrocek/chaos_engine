@@ -1,6 +1,8 @@
 #ifndef TRANSFORM_HPP
 #define TRANSFORM_HPP
 
+#include "Export.hpp"
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 
@@ -20,7 +22,7 @@ namespace chaos {
     Axis z -> from to user(-) to screen(+)
 */
 
-class Transform
+class CHAOS_EXPORT Transform
 {
 public:
     Transform();

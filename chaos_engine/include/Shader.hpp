@@ -1,6 +1,8 @@
 #ifndef SHADER_HPP
 #define SHADER_HPP
 
+#include "Export.hpp"
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <string>
@@ -10,7 +12,7 @@
 
 namespace chaos{
 
-class Shader
+class CHAOS_EXPORT Shader
 {
 public:
     Shader(std::string fpath, GLenum type);

@@ -1,4 +1,4 @@
-#include "VertexArray.hpp"
+#include "../include/VertexArray.hpp"
 
 using namespace chaos;
 
@@ -18,18 +18,18 @@ VertexArray::VertexArray(GLuint _vertsSize, GLuint _normalSize, GLuint _uvSize, 
 {
     GLuint totalSize = vertsSize + normalSize + uvSize + dataSize;
     GLuint ctr=0;
-    for(int i = 0; i < vec->size()/totalSize; i++){
+    for(GLuint i = 0; i < vec->size()/totalSize; i++){
         VertexData vd;
-        for(int j = 0; j < vertsSize; j++){
+        for(GLuint j = 0; j < vertsSize; j++){
             vd.vVerts.push_back(vec->at(ctr++));
         }
-        for(int j = 0; j < normalSize; j++){
+        for(GLuint j = 0; j < normalSize; j++){
             vd.vNormal.push_back(vec->at(ctr++));
         }
-        for(int j = 0; j < uvSize; j++){
+        for(GLuint j = 0; j < uvSize; j++){
             vd.vUV.push_back(vec->at(ctr++));
         }
-        for(int j = 0; j < dataSize; j++){
+        for(GLuint j = 0; j < dataSize; j++){
             vd.vData.push_back(vec->at(ctr++));
         }
         addVertex(vd);
@@ -77,14 +77,14 @@ void VertexArray::setData(GLuint id, const std::initializer_list<GLfloat>& v){
 }
 void VertexArray::buildArrayOfPlainData(std::vector<GLfloat>* v){
     v->clear();
-    for(int i = 0; i < vVertices.size(); i++){
-        for(int j = 0; j < vertsSize; j++)
+    for(GLuint i = 0; i < vVertices.size(); i++){
+        for(GLuint j = 0; j < vertsSize; j++)
             v->push_back(vVertices[i].vVerts[j]);
-        for(int j = 0; j < normalSize; j++)
+        for(GLuint j = 0; j < normalSize; j++)
             v->push_back(vVertices[i].vNormal[j]);
-        for(int j = 0; j < uvSize; j++)
+        for(GLuint j = 0; j < uvSize; j++)
             v->push_back(vVertices[i].vUV[j]);
-        for(int j = 0; j < dataSize; j++)
+        for(GLuint j = 0; j < dataSize; j++)
             v->push_back(vVertices[i].vData[j]);
     }
 }

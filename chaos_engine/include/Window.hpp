@@ -8,11 +8,13 @@
 #include <string>
 #include <iostream>
 
+#include "Export.hpp"
+
 #include "Timer.hpp"
 
 namespace chaos{
 
-struct WindowStyle{
+struct CHAOS_EXPORT WindowStyle{
     WindowStyle(){}
     std::string name;
     GLuint posX;
@@ -25,7 +27,7 @@ struct WindowStyle{
     {}
 };
 
-class Window
+class CHAOS_EXPORT Window
 {
 public:
     Window(WindowStyle);

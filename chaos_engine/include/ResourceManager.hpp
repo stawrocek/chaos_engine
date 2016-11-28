@@ -1,6 +1,8 @@
 #ifndef RESOURCEMANAGER_HPP
 #define RESOURCEMANAGER_HPP
 
+#include "Export.hpp"
+
 #include <unordered_map>
 #include <string>
 #include <iostream>
@@ -9,7 +11,7 @@
 
 namespace chaos{
 
-class ResourceManager
+class CHAOS_EXPORT ResourceManager
 {
 public:
     ResourceManager(){};

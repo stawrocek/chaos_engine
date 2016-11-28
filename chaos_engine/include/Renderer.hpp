@@ -1,17 +1,20 @@
 #ifndef RENDERER_HPP
 #define RENDERER_HPP
 
+#include "Export.hpp"
+
 #include "Transform.hpp"
 #include "ShaderProgram.hpp"
 #include "VertexArray.hpp"
 #include "MeshPrefab.hpp"
 #include "Utils.hpp"
+#include "Window.hpp"
 
 #include <unordered_map>
 
 namespace chaos{
 
-class Renderer{
+class CHAOS_EXPORT Renderer{
 public:
     Renderer(Window* w){
         setTargetWindow(w);

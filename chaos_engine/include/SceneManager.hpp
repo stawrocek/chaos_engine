@@ -1,12 +1,14 @@
 #ifndef SCENEMANAGER_HPP
 #define SCENEMANAGER_HPP
 
+#include "Export.hpp"
+
 #include <string>
 #include "Scene.hpp"
 
 namespace chaos{
 
-class SceneManager{
+class CHAOS_EXPORT SceneManager{
 public:
     SceneManager(ResourceManager* rsc, Renderer* ren, InputHandler* ipth){
         resourceManager = rsc;

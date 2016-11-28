@@ -1,11 +1,13 @@
 #ifndef SPRITE_HPP
 #define SPRITE_HPP
 
+#include "Export.hpp"
+
 #include "GameObject.hpp"
 
 namespace chaos{
 
-class Sprite: public DrawableGameObject{
+class CHAOS_EXPORT Sprite: public DrawableGameObject{
 public:
     Sprite(Renderer* ren, Texture* tex)
     :DrawableGameObject(ren,"Rectangle:Vao_Pos.Uv", "Shader_Pos.Uv")

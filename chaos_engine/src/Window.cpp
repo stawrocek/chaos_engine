@@ -1,4 +1,4 @@
-#include "Window.hpp"
+#include "../include/Window.hpp"
 
 using namespace chaos;
 

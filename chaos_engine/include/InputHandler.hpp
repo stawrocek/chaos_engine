@@ -1,6 +1,8 @@
 #ifndef INPUT_HANDLER_HPP
 #define INPUT_HANDLER_HPP
 
+#include "Export.hpp"
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 
@@ -14,7 +16,7 @@
 
 namespace chaos {
 
-class InputHandler
+class CHAOS_EXPORT InputHandler
 {
 public:
 

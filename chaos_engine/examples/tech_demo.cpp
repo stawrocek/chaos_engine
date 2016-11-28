@@ -14,7 +14,7 @@
 static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
 int main(int argc, char* argv[]){
-    chaos::WindowStyle style("chaos::engine demo   ~Stanislaw Koza", 50, 50, 1024, 600, SDL_WINDOW_OPENGL);
+    chaos::WindowStyle style("chaos::engine demo", 50, 50, 1024, 600, SDL_WINDOW_OPENGL);
     chaos::Window window(style);
     glEnable(GL_MULTISAMPLE);
     chaos::Renderer renderer(&window);
@@ -52,5 +52,6 @@ int main(int argc, char* argv[]){
 		scnMgr.runSceneFrame(deltaTime);
         window.update();
     }
+    return 0;
 }
 

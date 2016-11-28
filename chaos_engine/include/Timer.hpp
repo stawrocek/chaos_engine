@@ -1,6 +1,8 @@
 #ifndef TIMER_HPP
 #define TIMER_HPP
 
+#include "Export.hpp"
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 
@@ -8,7 +10,7 @@
 
 namespace chaos{
 
-class Timer{
+class CHAOS_EXPORT Timer{
 public:
     Timer(){}
     void restart(){

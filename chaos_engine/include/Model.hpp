@@ -1,6 +1,8 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
+#include "Export.hpp"
+
 #include <string>
 #include <fstream>
 
@@ -9,7 +11,7 @@
 
 namespace chaos
 {
-class Model: public DrawableGameObject{
+class CHAOS_EXPORT Model: public DrawableGameObject{
 public:
     Model(Renderer*r, MeshPrefab* prefab)
     :DrawableGameObject(r)

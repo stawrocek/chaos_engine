@@ -1,4 +1,4 @@
-#include "InputHandler.hpp"
+#include "../include/InputHandler.hpp"
 
 using namespace chaos;
 

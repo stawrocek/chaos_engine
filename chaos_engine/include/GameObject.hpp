@@ -1,12 +1,15 @@
 #ifndef GAME_OBJECT_HPP
 #define GAME_OBJECT_HPP
 
+#include "Export.hpp"
+
 #include "Transform.hpp"
 #include "Renderer.hpp"
+#include <ShaderProgram.hpp>
 
 namespace chaos{
 
-class GameObject: public Transform{
+class CHAOS_EXPORT GameObject: public Transform{
 public:
     GameObject(Renderer* ren)
     :renderer(ren)
@@ -30,7 +33,7 @@ protected:
     Renderer* renderer;
 };
 
-class DrawableGameObject: public GameObject{
+class CHAOS_EXPORT DrawableGameObject: public GameObject{
 public:
     DrawableGameObject(Renderer* ren)
     :GameObject(ren)

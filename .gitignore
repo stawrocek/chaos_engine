@@ -20,8 +20,8 @@
 # Compiled Static libraries
 *.lai
 *.la
-*.a
-*.lib
+#*.a
+#*.lib
 
 # Executables
 *.exe
@@ -32,6 +32,9 @@
 *.cbp
 *.depend
 *.layout
+
+#test folder
+test/*
 
 #.obj
 !*.obj

@@ -1,6 +1,8 @@
 #ifndef SHADERPROGRAM_HPP
 #define SHADERPROGRAM_HPP
 
+#include "Export.hpp"
+
 #include <vector>
 #include <initializer_list>
 #include <algorithm>
@@ -14,7 +16,7 @@
 
 namespace chaos{
 
-class ShaderProgram
+class CHAOS_EXPORT ShaderProgram
 {
 public:
     ShaderProgram(const std::initializer_list<std::pair<std::string, GLenum>> &v);

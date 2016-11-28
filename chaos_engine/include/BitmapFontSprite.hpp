@@ -1,13 +1,16 @@
 #ifndef BITMAP_FONT_SPRITE_HPP
 #define BITMAP_FONT_SPRITE_HPP
 
+#include "Export.hpp"
 #include "BitmapFont.hpp"
+#include "GameObject.hpp"
 
+#include <SDL/SDL.h>
 #include <string>
 
 namespace chaos{
 
-class BitmapFontSprite: public DrawableGameObject{
+class CHAOS_EXPORT BitmapFontSprite: public DrawableGameObject{
 public:
     BitmapFontSprite(Renderer* ren, BitmapFont* b, std::string str="")
     :DrawableGameObject(ren,"Rectangle:Pos_Id", "Shader_Font2d")
@@ -56,7 +59,7 @@ public:
 
     virtual void draw(std::string str) {
         int tmpY = getY(), tmpX = getX();
-        for(int i = 0; i < str.size(); i++) {
+        for(GLuint i = 0; i < str.size(); i++) {
             if(str[i] == '\n') {
                 tmpX = getX();
                 tmpY -= bitmapFont->lineHeight;

@@ -1,28 +1,31 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
+#include "Export.hpp"
+
 #include <cstdio>
 #include <sstream>
 #include <string>
+#include <vector>
 
 namespace chaos{
 
 template <typename T>
-std::string toString ( T Number )
+std::string CHAOS_EXPORT toString ( T Number )
 {
     std::ostringstream ss;
     ss << Number;
     return ss.str();
 }
 
-long getFileSize(FILE* f)
+long CHAOS_EXPORT getFileSize(FILE* f)
 {
     long size = 0;
     fseek(f, 0L, SEEK_END), size = ftell(f), fseek(f, 0L, SEEK_SET);
     return size;
 };
 
-std::string getFileAsString(const std::string& path)
+std::string CHAOS_EXPORT getFileAsString(const std::string& path)
 {
     FILE* f = fopen(path.c_str(), "rb");
     long sizeBytes = 0;

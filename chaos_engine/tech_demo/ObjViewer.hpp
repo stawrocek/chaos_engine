@@ -68,7 +68,6 @@ public:
     }
 
     virtual void onSceneActivate(){};
-
     virtual void draw(GLfloat deltaTime){
         if(inputHandler->isKeyDown('a'))
             cam->processKeyboard(chaos::LEFT, deltaTime*moveSpeed);

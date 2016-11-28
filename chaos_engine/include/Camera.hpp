@@ -1,19 +1,20 @@
 #ifndef DEBUG_CAMERA_HPP
 #define DEBUG_CAMERA_HPP
 
+#include "Export.hpp"
 #include "Gameobject.hpp"
 
 namespace chaos {
 
-enum CameraDirection {
+enum CHAOS_EXPORT CameraDirection {
     FORWARD, BACKWARD, LEFT, RIGHT
 };
 
-enum ProjectionMode{
+enum CHAOS_EXPORT ProjectionMode{
     ORTHOGRAPHIC, PERSPECTIVE
 };
 
-class Camera: public GameObject
+class CHAOS_EXPORT Camera: public GameObject
 {
 public:
     glm::vec3 front = glm::vec3(0.0f, 0.0f, 0.0f);

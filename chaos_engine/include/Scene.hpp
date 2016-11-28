@@ -1,6 +1,8 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
+#include "Export.hpp"
+
 #include <string>
 
 #include "Renderer.hpp"
@@ -10,7 +12,7 @@ namespace chaos{
 
 class SceneManager;
 
-class Scene{
+class CHAOS_EXPORT Scene{
 public:
     Scene(std::string _name)
     :name(_name)

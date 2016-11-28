@@ -1,6 +1,8 @@
 #ifndef TEXTURE_HPP
 #define TEXTURE_HPP
 
+#include "Export.hpp"
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 
@@ -12,7 +14,7 @@
 
 namespace chaos{
 
-class Texture: public Resource
+class CHAOS_EXPORT Texture: public Resource
 {
 public:
     Texture(std::string fpath);

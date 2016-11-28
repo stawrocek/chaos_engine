@@ -1,4 +1,4 @@
-#include "MeshPrefab.hpp"
+#include "../include/MeshPrefab.hpp"
 
 using namespace chaos;
 
@@ -12,7 +12,7 @@ MeshPrefab::MeshPrefab(std::string fpath)
 }
 
 GLboolean MeshPrefab::load(std::string fpath){
-    loadObj(fpath);
+    return loadObj(fpath);
 }
 
 GLboolean MeshPrefab::loadObj(std::string fpath){

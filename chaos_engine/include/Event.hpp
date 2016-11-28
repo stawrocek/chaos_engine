@@ -1,9 +1,12 @@
 #ifndef EVENT_HPP
 #define EVENT_HPP
 
+#include "Export.hpp"
+#include <SDL/SDL.h>
+
 namespace chaos{
 
-struct Event {
+struct CHAOS_EXPORT Event {
     //union copied from sdl 2.0.4 source
     union {
         Uint32 type;                    /**< Event type, shared with all events */

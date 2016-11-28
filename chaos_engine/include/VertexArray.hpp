@@ -1,6 +1,8 @@
 #ifndef VERTEXARRAY_HPP
 #define VERTEXARRAY_HPP
 
+#include "Export.hpp"
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 
@@ -10,7 +12,7 @@
 
 namespace chaos{
 
-struct VertexData{
+struct CHAOS_EXPORT VertexData{
     VertexData();
     VertexData(const std::initializer_list<GLfloat>& vV, const std::initializer_list<GLfloat>& vN,
                const std::initializer_list<GLfloat>& vU, const std::initializer_list<GLfloat>& vD);
@@ -21,7 +23,7 @@ struct VertexData{
     std::vector<GLfloat> vData;
 };
 
-class VertexArray
+class CHAOS_EXPORT VertexArray
 {
 public:
     VertexArray(GLuint vertsSize, GLuint normalSize, GLuint uvSize, GLuint dataSize);

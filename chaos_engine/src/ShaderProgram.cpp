@@ -1,4 +1,4 @@
-#include "ShaderProgram.hpp"
+#include "../include/ShaderProgram.hpp"
 
 using namespace chaos;
 
@@ -18,7 +18,7 @@ ShaderProgram::ShaderProgram(const std::initializer_list<std::pair<std::string, 
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
     }
     //destructor of Shader will call glDeleteShader on every element of vecShader
-    for (int i = 0; i < vecShaders.size(); i++) {
+    for (unsigned int i = 0; i < vecShaders.size(); i++) {
         delete vecShaders[i];
     }
 }

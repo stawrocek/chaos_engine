@@ -1,9 +1,11 @@
 #ifndef BITMAP_FONT_HPP
 #define BITMAP_FONT_HPP
 
+#include "Export.hpp"
 #include "ShaderProgram.hpp"
 #include "Utils.hpp"
 #include "Resource.hpp"
+#include "Texture.hpp"
 
 #include <glm/gtx/string_cast.hpp>
 #include <vector>
@@ -12,7 +14,7 @@
 
 namespace chaos {
 
-struct CharData {
+struct CHAOS_EXPORT CharData {
     int id, x, y, width, height, xoffset, yoffset, xadvance, page, chnl;
     CharData(int _id, int _x, int _y, int _width, int _height, int _xoffset, int _yoffset,
              int _xadvance, int _page, int _chnl)
@@ -22,7 +24,7 @@ struct CharData {
     CharData(){}
 };
 
-class BitmapFont: public Resource{
+class CHAOS_EXPORT BitmapFont: public Resource{
 public:
     BitmapFont(std::string fpath)
     :Resource(fpath)
@@ -43,7 +45,7 @@ public:
         std::string tmp="";
         std::string dir = fpath.substr(0,fpath.find_last_of("/\\"));
         if(dir == fpath)dir="";
-        for(int i = 0; i < file.size(); i++){
+        for(GLuint i = 0; i < file.size(); i++){
             if(file[i]=='\n'){
                 readLine(tmp, dir);
                 tmp="";
@@ -73,7 +75,7 @@ public:
         if(s[s.size()-1] == '\r')s.pop_back();
         s+=" ";
         std::string typeId="";
-        int i=0;
+        GLuint i=0;
         for(i = 0; i < s.size(); i++) {
             if(s[i] == ' ')
                 break;
