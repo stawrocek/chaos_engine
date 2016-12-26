@@ -7,23 +7,27 @@
 #include <GL/glew.h>
 
 #include <SDL/SDL.h>
+#include <chrono>
 
 namespace chaos{
 
 class CHAOS_EXPORT Timer{
 public:
-    Timer(){}
+    Timer(){
+        startTime = std::chrono::system_clock::now();
+    }
     void restart(){
-        startTime = SDL_GetTicks();
+        startTime = std::chrono::system_clock::now();
     }
     GLuint getTime(){
-        return SDL_GetTicks() - startTime;
+        auto diff = std::chrono::system_clock::now()-startTime;
+        return std::chrono::duration_cast <std::chrono::milliseconds> (diff).count();
     }
     GLfloat getTimeAsSeconds(){
         return getTime()/1000.0f;
     }
 private:
-    GLuint startTime=0;
+    std::chrono::system_clock::time_point startTime;
 };
 
 }

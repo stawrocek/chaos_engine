@@ -5,7 +5,6 @@
 #include "BitmapFont.hpp"
 #include "GameObject.hpp"
 
-#include <SDL/SDL.h>
 #include <string>
 
 namespace chaos{

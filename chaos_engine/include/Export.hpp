@@ -4,7 +4,7 @@
 namespace chaos{
 
 //uncomment DEVELOPMENT_MODE if you want to build dll
-//#define DEVELOPMENT_MODE
+#define DEVELOPMENT_MODE
 
 
 #ifndef DEVELOPMENT_MODE
