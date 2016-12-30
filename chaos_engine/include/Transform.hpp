@@ -11,6 +11,9 @@
 #include <glm/gtx/string_cast.hpp>
 //#include "header_only/ObjectData.hpp"
 
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
+
 #include <vector>
 #include <iostream>
 
@@ -93,8 +96,10 @@ protected:
     GLfloat posX, posY, posZ;
     GLfloat scaleX, scaleY, scaleZ;
     GLfloat rotX, rotY, rotZ;
+    glm::quat rotQuat;
     Transform* parent;
     std::vector<Transform* > vecChildren;
+
 };
 
 }

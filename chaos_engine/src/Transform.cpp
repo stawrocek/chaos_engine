@@ -15,11 +15,14 @@ glm::mat4 Transform::getLocalTransformMatrix() {
     if(!needUpdate)
         return mxTransform;
     mxTransform = glm::mat4();
-    mxTransform = glm::translate(mxTransform, glm::vec3(posX, posY, -posZ));
+
     mxTransform = glm::scale(mxTransform, glm::vec3(scaleX, scaleY, scaleZ));
-    mxTransform = glm::rotate(mxTransform, rotX, glm::vec3(1.0, 0.0, 0.0));
+    glm::quat q(glm::vec3(rotX, rotY, rotZ));
+    /*mxTransform = glm::rotate(mxTransform, rotX, glm::vec3(1.0, 0.0, 0.0));
     mxTransform = glm::rotate(mxTransform, rotY, glm::vec3(0.0, 1.0, 0.0));
-    mxTransform = glm::rotate(mxTransform, rotZ, glm::vec3(0.0, 0.0, 1.0));
+    mxTransform = glm::rotate(mxTransform, rotZ, glm::vec3(0.0, 0.0, 1.0));*/
+    mxTransform = mxTransform*glm::toMat4(q);
+    mxTransform = glm::translate(mxTransform, glm::vec3(posX, posY, -posZ));
 
     needUpdate=false;
     return mxTransform;
