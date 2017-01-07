@@ -269,6 +269,19 @@ public:
         return win;
     }
 
+    //slow af
+    void drawDebugLine(glm::vec3 start, glm::vec3 end, glm::vec4 color){
+        std::vector<GLfloat> vTmp = {start.x,start.y,start.z,end.x,end.y,end.z};
+        VertexArray vaoTmp(3,0,0,0,&vTmp);
+        getShader("Shader_Pos")->run();
+        getShader("Shader_Pos")->setUniform("uniColor", color);
+        getShader("Shader_Pos")->setUniform("mx", getCamCombined());
+        vaoTmp.bind();
+        glDrawArrays(GL_LINES, 0, vaoTmp.countVertices());
+        vaoTmp.unbind();
+
+    }
+
 private:
     std::unordered_map<std::string , ShaderProgram*> cacheShaders;
     std::unordered_map<std::string , VertexArray*> cacheVAO;

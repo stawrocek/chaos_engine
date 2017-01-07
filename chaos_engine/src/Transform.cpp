@@ -15,14 +15,14 @@ glm::mat4 Transform::getLocalTransformMatrix() {
     if(!needUpdate)
         return mxTransform;
     mxTransform = glm::mat4();
-
+    mxTransform = glm::translate(mxTransform, glm::vec3(posX, posY, posZ));
     mxTransform = glm::scale(mxTransform, glm::vec3(scaleX, scaleY, scaleZ));
     glm::quat q(glm::vec3(rotX, rotY, rotZ));
-    /*mxTransform = glm::rotate(mxTransform, rotX, glm::vec3(1.0, 0.0, 0.0));
-    mxTransform = glm::rotate(mxTransform, rotY, glm::vec3(0.0, 1.0, 0.0));
-    mxTransform = glm::rotate(mxTransform, rotZ, glm::vec3(0.0, 0.0, 1.0));*/
+    /*mxTransform = glm::rotate(mxTransform, rotX, getRight());
+    mxTransform = glm::rotate(mxTransform, rotY, getUp());
+    mxTransform = glm::rotate(mxTransform, rotZ, getFront());*/
     mxTransform = mxTransform*glm::toMat4(q);
-    mxTransform = glm::translate(mxTransform, glm::vec3(posX, posY, -posZ));
+
 
     needUpdate=false;
     return mxTransform;
@@ -128,3 +128,26 @@ void Transform::setParent(Transform* t) {
     t->vecChildren.push_back(this);
 }
 
+glm::vec3 Transform::getFront(){
+    glm::vec3 vFront(0,0,1);
+    vFront = glm::rotate(vFront, rotX, glm::vec3(1,0,0));
+    vFront = glm::rotate(vFront, rotY, glm::vec3(0,1,0));
+    vFront = glm::rotate(vFront, rotZ, glm::vec3(0,0,1));
+    return -glm::normalize(vFront);
+}
+
+glm::vec3 Transform::getRight(){
+    glm::vec3 vRight(1,0,0);
+    vRight = glm::rotate(vRight, rotX, glm::vec3(1,0,0));
+    vRight = glm::rotate(vRight, rotY, glm::vec3(0,1,0));
+    vRight = glm::rotate(vRight, rotZ, glm::vec3(0,0,1));
+    return glm::normalize(vRight);
+}
+
+glm::vec3 Transform::getUp(){
+    glm::vec3 vUp(0,1,0);
+    vUp = glm::rotate(vUp, rotX, glm::vec3(1,0,0));
+    vUp = glm::rotate(vUp, rotY, glm::vec3(0,1,0));
+    vUp = glm::rotate(vUp, rotZ, glm::vec3(0,0,1));
+    return glm::normalize(vUp);
+}

@@ -46,7 +46,10 @@ VertexArray::VertexArray(GLuint _vertsSize, GLuint _normalSize, GLuint _uvSize, 
 
 }
 
-VertexArray::~VertexArray(){}
+VertexArray::~VertexArray(){
+    glDeleteBuffers(1, &VBO);
+    glDeleteVertexArrays(1, &VAO);
+}
 
 void VertexArray::addVertex(VertexData vd){
     vVertices.push_back(vd);

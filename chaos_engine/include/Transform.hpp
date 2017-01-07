@@ -8,6 +8,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/string_cast.hpp>
 //#include "header_only/ObjectData.hpp"
 
@@ -24,6 +25,11 @@ namespace chaos {
     Axis y -> from bottom(-) to top(+)
     Axis z -> from to user(-) to screen(+)
 */
+
+enum Space{
+    LOCAL = 1,
+    GLOBAL = 2
+};
 
 class CHAOS_EXPORT Transform
 {
@@ -86,6 +92,10 @@ public:
     glm::vec3 getRotation(){return glm::vec3(rotX,rotY,rotZ);}
     glm::vec3 getScale()   {return glm::vec3(scaleX,scaleY,scaleX);}
 
+    glm::vec3 getFront();   //z
+    glm::vec3 getRight();   //x
+    glm::vec3 getUp();      //y
+
     void print(){
         std::cout << glm::to_string(mxTransform) << "\n";
     }
@@ -99,7 +109,6 @@ protected:
     glm::quat rotQuat;
     Transform* parent;
     std::vector<Transform* > vecChildren;
-
 };
 
 }

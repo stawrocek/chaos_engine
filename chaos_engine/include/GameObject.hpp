@@ -5,7 +5,7 @@
 
 #include "Transform.hpp"
 #include "Renderer.hpp"
-#include <ShaderProgram.hpp>
+#include "ShaderProgram.hpp"
 
 namespace chaos{
 
@@ -19,6 +19,12 @@ public:
 
     virtual void draw(){
 
+    }
+
+    virtual void drawGizmo(GLfloat scale=3.0f){
+        renderer->drawDebugLine(getPosition(), getPosition()-scale*getFront(), glm::vec4(0,1,0,1));
+        renderer->drawDebugLine(getPosition(), getPosition()+scale*getRight(), glm::vec4(1,0,0,1));
+        renderer->drawDebugLine(getPosition(), getPosition()+scale*getUp(), glm::vec4(0,0,1,1));
     }
 
     Renderer* getRenderer(){
