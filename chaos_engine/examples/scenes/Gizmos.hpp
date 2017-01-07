@@ -1,5 +1,5 @@
-#ifndef OBJ_VIEWER_HPP
-#define OBJ_VIEWER_HPP
+#ifndef GIZMOS_HPP
+#define GIZMOS_HPP
 
 #include <string>
 
@@ -86,7 +86,6 @@ public:
             }
         }
         actModel->drawGizmo();
-        cam->update();
     }
     virtual void deliverEvent(chaos::Event& e){
         if(e.type == SDL_MOUSEMOTION) {
@@ -108,7 +107,7 @@ private:
     GLfloat moveSpeed=1.f;
 };
 
-#endif // OBJ_VIEWER_HPP
+#endif // GIZMOS_HPP
 
 
 

@@ -30,7 +30,6 @@ public:
 
     void processMouse(float xoff, float yoff) {
         xoff *= sens, yoff *= sens;
-        //yaw += xoff, pitch += yoff;
         rotateY(-xoff);
         rotateX(yoff);
 
@@ -39,7 +38,6 @@ public:
         if(getRotX() < -M_PI/2.0+0.01)
             setRotX(M_PI/2.0+0.01);
 
-        //update();
     }
 
     void processKeyboard(CameraDirection dir, float delta) {
@@ -48,10 +46,6 @@ public:
         if(dir == BACKWARD) translate(-vel*getFront());
         if(dir == LEFT)     translate(-vel*getRight());
         if(dir == RIGHT)    translate(vel*getRight());
-    }
-
-    void update() {
-
     }
 
     glm::mat4 getProjectionMatrix(){

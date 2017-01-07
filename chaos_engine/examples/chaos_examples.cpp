@@ -9,7 +9,8 @@
 #include "../include/ResourceManager.hpp"
 #include "../include/SceneManager.hpp"
 
-#include "../tech_demo/ObjViewer.hpp"
+#include "../examples/scenes/Gizmos.hpp"
+#include "../examples/scenes/ObjViewer.hpp"
 
 static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
@@ -25,8 +26,9 @@ int main(int argc, char* argv[]){
     rscManager.loadResource<chaos::BitmapFont>("files/fonts/CalibriBitmap2.fnt", "Calibri");
 
     chaos::SceneManager scnMgr(&rscManager, &renderer, &inputHandler);
+    scnMgr.registerScene<GizmosTest>("GizmosTest");
     scnMgr.registerScene<ObjViewer>("ObjViewer");
-    scnMgr.setActiveScene("ObjViewer");
+    scnMgr.setActiveScene("GizmosTest");
 
     bool mainLoop = true;
     while (mainLoop){
@@ -54,4 +56,5 @@ int main(int argc, char* argv[]){
     }
     return 0;
 }
+
 

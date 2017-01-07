@@ -120,8 +120,6 @@ public:
             textLeft->draw();
             textRight->draw();
         }
-
-        cam->update();
     }
     virtual void deliverEvent(chaos::Event& e){
         if(e.key.keysym.sym == SDLK_n && (e.key.keysym.mod & KMOD_SHIFT)){
