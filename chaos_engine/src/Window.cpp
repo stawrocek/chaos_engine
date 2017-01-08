@@ -4,31 +4,12 @@ using namespace chaos;
 
 Window::Window(WindowStyle style){
     winStyle = style;
-    window = SDL_CreateWindow(style.name.c_str(), style.posX, style.posY, style.width, style.height, style.flags);
-    initOpenGL();
     deltaTimer.restart();
     fpsTimer.restart();
     totalTimer.restart();
 }
 
 Window::~Window(){
-    SDL_GL_DeleteContext(context);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-}
-
-void Window::initOpenGL(){
-    context = SDL_GL_CreateContext(window);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-    setDepthEnabled(true);
-    setBlendingEnabled(true);
-
-    glewExperimental = GL_TRUE;
-    glewInit();
 
 }
 
@@ -39,18 +20,6 @@ void Window::clearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a){
 
 GLfloat Window::getDeltaTime(){
     return deltaTimer.getTimeAsSeconds();
-}
-
-void Window::update(){
-    deltaTimer.restart();
-    if(fpsTimer.getTime() >= 1000){
-        fpsVal = fpsCtr;
-        fpsCtr=0;
-        fpsTimer.restart();
-    }
-    fpsCtr++;
-
-    SDL_GL_SwapWindow(window);
 }
 
 GLuint Window::getFPS(){

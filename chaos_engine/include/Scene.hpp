@@ -25,7 +25,7 @@ public:
     virtual void onSceneActivate(){};// = 0;
     virtual void update(GLfloat deltaTime){};// = 0;
     virtual void draw(GLfloat deltaTime){};// = 0;
-    virtual void deliverEvent(chaos::Event&){};// = 0;
+    virtual void deliverEvent(void* e){};// = 0;
     virtual void onSceneDeactivate(){};// = 0;
 
     std::string getName(){

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "../include/Window.hpp"
+#include "../lib-loaders/chaos-sdl2.hpp"
 #include "../include/InputHandler.hpp"
 #include "../include/Transform.hpp"
 #include "../include/ShaderProgram.hpp"
@@ -15,8 +15,8 @@
 static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
 
 int main(int argc, char* argv[]){
-    chaos::WindowStyle style("chaos::engine demo", 50, 50, 1024, 600, SDL_WINDOW_OPENGL);
-    chaos::Window window(style);
+    chaos::WindowStyle style("chaos::engine demo", 50, 50, 1024, 600);
+    chaos::SDL2Window window(style, SDL_WINDOW_OPENGL);
     glEnable(GL_MULTISAMPLE);
     chaos::Renderer renderer(&window);
     renderer.addShader({ std::make_pair("files/shaders/Model3dExplosion.vs", GL_VERTEX_SHADER),
@@ -24,7 +24,6 @@ int main(int argc, char* argv[]){
                     std::make_pair("files/shaders/Model3dExplosion.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d#Random");
     chaos::ResourceManager rscManager;
     rscManager.loadResource<chaos::BitmapFont>("files/fonts/CalibriBitmap2.fnt", "Calibri");
-
     chaos::SceneManager scnMgr(&rscManager, &renderer, &inputHandler);
     scnMgr.registerScene<GizmosTest>("GizmosTest");
     scnMgr.registerScene<ObjViewer>("ObjViewer");
@@ -32,7 +31,7 @@ int main(int argc, char* argv[]){
 
     bool mainLoop = true;
     while (mainLoop){
-	    //window.clearColor(0.2, 0.4, 0.6, 1.0);
+	    window.clearColor(0.2, 0.4, 0.6, 1.0);
 		chaos::Event event;
 		while (inputHandler.pollEvent(&event)){
 			if (event.type == SDL_QUIT)
@@ -46,7 +45,7 @@ int main(int argc, char* argv[]){
 				}
 			}
             else
-                scnMgr.deliverEvent(event);
+                scnMgr.deliverEvent((void*)&event);
 
 		}
 

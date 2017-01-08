@@ -6,7 +6,6 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
-#include <SDL/SDL.h>
 #include <chrono>
 
 namespace chaos{

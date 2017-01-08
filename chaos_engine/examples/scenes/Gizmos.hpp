@@ -8,6 +8,7 @@
 #include "../include/MeshPrefab.hpp"
 #include "../include/Camera.hpp"
 #include "../include/BitmapFontSprite.hpp"
+#include "../include/BitmapFontSprite.hpp"
 #include "../include/Sprite.hpp"
 
 class GizmosTest: public chaos::Scene{
@@ -87,9 +88,10 @@ public:
         }
         actModel->drawGizmo();
     }
-    virtual void deliverEvent(chaos::Event& e){
-        if(e.type == SDL_MOUSEMOTION) {
-            cam->processMouse(e.motion.xrel, -e.motion.yrel);
+    virtual void deliverEvent(void* event){
+        chaos::Event* e = (chaos::Event*)event;
+        if(e->type == SDL_MOUSEMOTION) {
+            cam->processMouse(e->motion.xrel, -e->motion.yrel);
         }
     }
 

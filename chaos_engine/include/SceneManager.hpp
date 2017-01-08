@@ -51,7 +51,7 @@ public:
     std::string getActiveSceneName(){
         return actScene->getName();
     }
-    void deliverEvent(chaos::Event& e){
+    void deliverEvent(void* e){
         actScene->deliverEvent(e);
     }
     void runSceneFrame(GLfloat delta){

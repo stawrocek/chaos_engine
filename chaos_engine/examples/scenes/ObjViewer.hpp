@@ -121,31 +121,32 @@ public:
             textRight->draw();
         }
     }
-    virtual void deliverEvent(chaos::Event& e){
-        if(e.key.keysym.sym == SDLK_n && (e.key.keysym.mod & KMOD_SHIFT)){
+    virtual void deliverEvent(void* event){
+        chaos::Event* e = (chaos::Event*)event;
+        if(e->key.keysym.sym == SDLK_n && (e->key.keysym.mod & KMOD_SHIFT)){
             renderMode=0;
         }
-        if(e.key.keysym.sym == SDLK_e && (e.key.keysym.mod & KMOD_SHIFT)){
+        if(e->key.keysym.sym == SDLK_e && (e->key.keysym.mod & KMOD_SHIFT)){
             renderMode=1;
         }
-        if(e.key.keysym.sym == SDLK_v && (e.key.keysym.mod & KMOD_SHIFT)){
+        if(e->key.keysym.sym == SDLK_v && (e->key.keysym.mod & KMOD_SHIFT)){
             renderMode=2;
         }
-        if(e.key.keysym.sym == SDLK_r && (e.key.keysym.mod & KMOD_SHIFT)){
+        if(e->key.keysym.sym == SDLK_r && (e->key.keysym.mod & KMOD_SHIFT)){
             renderMode=3;
         }
         /*if(e.key.keysym.sym == SDLK_g && (e.key.keysym.mod & KMOD_SHIFT)){
             launchGithub();
         }*/
-        if(e.key.keysym.sym == SDLK_z){
+        if(e->key.keysym.sym == SDLK_z){
             loadModel(-1);
         }
-        if(e.key.keysym.sym == SDLK_x){
+        if(e->key.keysym.sym == SDLK_x){
             loadModel(+1);
         }
 
-        if(e.type == SDL_MOUSEMOTION) {
-            cam->processMouse(e.motion.xrel, -e.motion.yrel);
+        if(e->type == SDL_MOUSEMOTION) {
+            cam->processMouse(e->motion.xrel, -e->motion.yrel);
         }
     }
 

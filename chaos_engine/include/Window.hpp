@@ -4,7 +4,6 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
-#include <SDL/SDL.h>
 #include <string>
 #include <iostream>
 
@@ -21,9 +20,8 @@ struct CHAOS_EXPORT WindowStyle{
     GLuint posY;
     GLuint width;
     GLuint height;
-    SDL_WindowFlags flags;
-    WindowStyle(std::string _name, GLuint _posX, GLuint _posY, GLuint _width, GLuint _height, SDL_WindowFlags _flags)
-    :name(_name), posX(_posX), posY(_posY), width(_width), height(_height), flags(_flags)
+    WindowStyle(std::string _name, GLuint _posX, GLuint _posY, GLuint _width, GLuint _height)
+    :name(_name), posX(_posX), posY(_posY), width(_width), height(_height)
     {}
 };
 
@@ -32,11 +30,13 @@ class CHAOS_EXPORT Window
 public:
     Window(WindowStyle);
     virtual ~Window();
-    void initOpenGL();
-    void clearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
-    void update();
-    SDL_Window* getWindowHandle()       {return window;}
-    SDL_GLContext* getGLContextHandle() {return &context;}
+    virtual void clearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+    virtual void update() = 0;
+    virtual void swapBuffers() = 0;
+    virtual GLint getWidth() = 0;
+    virtual GLint getHeight() = 0;
+    virtual GLint getPosX() = 0;
+    virtual GLint getPosY() = 0;
     void setDepthEnabled(GLboolean);
     GLboolean isDepthEnabled()          {return depthEnabled;}
     void setBlendingEnabled(GLboolean);
@@ -46,10 +46,7 @@ public:
     GLfloat getRunningTime()            {return totalTimer.getTime();}
     GLfloat getRunningTimeAsSeconds()   {return totalTimer.getTimeAsSeconds();}
     WindowStyle getStyle()              {return winStyle;}
-private:
-    SDL_Window* window = nullptr;
-    SDL_GLContext context;
-
+protected:
     GLboolean depthEnabled = true;
     GLboolean blendingEnabled = true;
     Timer deltaTimer;

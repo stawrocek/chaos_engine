@@ -2,7 +2,7 @@
 #define EVENT_HPP
 
 #include "Export.hpp"
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 namespace chaos{
 

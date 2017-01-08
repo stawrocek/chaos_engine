@@ -27,8 +27,8 @@ public:
         CharData data = bitmapFont->mapChars[c];
         bitmapFont->vecPages[data.page]->bind(GL_TEXTURE_2D);
         shader->run();
-        GLint winWidth, winHeight;
-        SDL_GetWindowSize(renderer->getTargetWindow()->getWindowHandle(), &winWidth, &winHeight);
+        GLint winWidth = renderer->getTargetWindow()->getWidth();
+        GLint winHeight = renderer->getTargetWindow()->getHeight();
         glm::mat4 mx = glm::mat4();
         if(fitToScreen){
             //-> punkt(0,0) jest w lewym dolnym rogu, os y dodatnia do gory
