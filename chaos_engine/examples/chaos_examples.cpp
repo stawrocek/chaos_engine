@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "../lib-loaders/chaos-sdl2.hpp"
+#include "../include/Application.hpp"
 #include "../include/InputHandler.hpp"
 #include "../include/Transform.hpp"
 #include "../include/ShaderProgram.hpp"

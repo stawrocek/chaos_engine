@@ -3,9 +3,6 @@
 
 #include "Export.hpp"
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-
 #include <vector>
 #include <iostream>
 #include <initializer_list>
@@ -37,7 +34,9 @@ public:
     void setData(GLuint id, const std::initializer_list<GLfloat>& v);
     void buildArrayOfPlainData(std::vector<GLfloat>* v);
 
+#ifdef VAO_ENABLED
     GLuint getId()          {return VAO;}
+#endif
     GLuint getVboId()       {return VBO;}
     GLuint countVertices()  {return vVertices.size();}
     void generateVertexArray(GLenum target, GLenum usage);
@@ -52,9 +51,9 @@ private:
 
     std::vector<VertexData> vVertices;
 
-
-    //opengl stuff
+#ifdef VAO_ENABLED
     GLuint VAO;
+#endif
     GLuint VBO;
     GLenum target;
     GLenum usage;

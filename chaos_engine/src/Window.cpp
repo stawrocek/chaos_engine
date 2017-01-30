@@ -13,6 +13,11 @@ Window::~Window(){
 
 }
 
+void Window::runApplication(Application* app){
+    application=app;
+    app->run();
+}
+
 void Window::clearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a){
     glClearColor(r,g,b,a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

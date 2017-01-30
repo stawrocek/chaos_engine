@@ -3,8 +3,6 @@
 
 #include "Export.hpp"
 
-#define GLEW_STATIC
-#include <GL/glew.h>
 #include <string>
 #include <iostream>
 #include <streambuf>
@@ -15,6 +13,7 @@ namespace chaos{
 class CHAOS_EXPORT Shader
 {
 public:
+    Shader();
     Shader(std::string fpath, GLenum type);
     virtual ~Shader();
     void loadFromFile(std::string fpath, GLenum type);

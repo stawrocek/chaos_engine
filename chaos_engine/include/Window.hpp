@@ -1,15 +1,13 @@
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include "Export.hpp"
 
 #include <string>
 #include <iostream>
 
-#include "Export.hpp"
-
 #include "Timer.hpp"
+#include "Application.hpp"
 
 namespace chaos{
 
@@ -30,6 +28,7 @@ class CHAOS_EXPORT Window
 public:
     Window(WindowStyle);
     virtual ~Window();
+    void runApplication(Application*);
     virtual void clearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
     virtual void update() = 0;
     virtual void swapBuffers() = 0;
@@ -46,6 +45,7 @@ public:
     GLfloat getRunningTime()            {return totalTimer.getTime();}
     GLfloat getRunningTimeAsSeconds()   {return totalTimer.getTimeAsSeconds();}
     WindowStyle getStyle()              {return winStyle;}
+
 protected:
     GLboolean depthEnabled = true;
     GLboolean blendingEnabled = true;
@@ -58,6 +58,7 @@ protected:
     GLuint fpsVal=0;
 
     WindowStyle winStyle;
+    Application* application;
 };
 
 }

@@ -2,6 +2,10 @@
 
 using namespace chaos;
 
+Shader::Shader()
+:id(-1)
+{}
+
 Shader::Shader(std::string fpath, GLenum type){
     loadFromFile(fpath, type);
 }
@@ -40,6 +44,9 @@ bool Shader::compile(GLenum type){
     {
         glGetShaderInfoLog(id, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::"+getShaderName()+"::COMPILATION_FAILED\n" << infoLog << std::endl;
+        #ifdef ANDROID
+        LOGI("ERROR::SHADER::COMPILATION_FAILED: %s", infoLog);
+        #endif // ANDROID
     }
     return success;
 }
@@ -51,6 +58,9 @@ GLuint Shader::getId(){
 std::string Shader::getShaderName(){
     if(shaderType == GL_VERTEX_SHADER)return "VERTEX_SHADER";
     if(shaderType == GL_FRAGMENT_SHADER)return "FRAGMENT_SHADER";
+    //opengl ES 3.2 and higher
+    #ifndef ANDROID
     if(shaderType == GL_GEOMETRY_SHADER) return "GEOMETRY_SHADER";
+    #endif
     return "[error] UNKNOWN_SHADER [error]";
 }

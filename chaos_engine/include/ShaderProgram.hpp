@@ -20,6 +20,7 @@ class CHAOS_EXPORT ShaderProgram
 {
 public:
     ShaderProgram(const std::initializer_list<std::pair<std::string, GLenum>> &v);
+    ShaderProgram(const std::initializer_list<Shader> &v);
     virtual ~ShaderProgram();
 
     GLuint getId();

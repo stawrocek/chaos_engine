@@ -3,9 +3,6 @@
 
 #include "Export.hpp"
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-
 #include <chrono>
 
 namespace chaos{

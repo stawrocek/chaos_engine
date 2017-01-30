@@ -48,7 +48,9 @@ VertexArray::VertexArray(GLuint _vertsSize, GLuint _normalSize, GLuint _uvSize, 
 
 VertexArray::~VertexArray(){
     glDeleteBuffers(1, &VBO);
+#ifdef VAO_ENABLED
     glDeleteVertexArrays(1, &VAO);
+#endif
 }
 
 void VertexArray::addVertex(VertexData vd){
@@ -98,10 +100,14 @@ void VertexArray::generateVertexArray(GLenum _target, GLenum _usage){
     target = _target;
     usage = _usage;
 
+#ifdef VAO_ENABLED
     glGenVertexArrays(1, &VAO);
+#endif
     glGenBuffers(1, &VBO);
 
+#ifdef VAO_ENABLED
     glBindVertexArray(VAO);
+#endif
     glBindBuffer(target, VBO);
     glBufferData(target, vxData.size()*sizeof(GLfloat), vxData.data(), usage);
 
@@ -126,13 +132,25 @@ void VertexArray::generateVertexArray(GLenum _target, GLenum _usage){
                               (GLvoid*)(sizeof(GLfloat)*(vertsSize+normalSize+uvSize)));
         glEnableVertexAttribArray(3);
     }
+#ifdef VAO_ENABLED
     glBindVertexArray(0);
+#else
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+#endif // VAO_ENABLED
 }
 
 void VertexArray::bind(){
+#ifdef VAO_ENABLED
     glBindVertexArray(VAO);
+#else
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+#endif // VAO_ENABLED
 }
 
 void VertexArray::unbind(){
+#ifdef VAO_ENABLED
     glBindVertexArray(0);
+#else
+    glBindBuffer(GL_ARRAY_BUFFER,0);
+#endif
 }
