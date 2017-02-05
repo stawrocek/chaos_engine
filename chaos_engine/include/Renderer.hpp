@@ -93,18 +93,16 @@ public:
 
     void initEngineStuff(){
         // shaders will be as strings in final release
+        // hehe
         addShader({ std::make_pair("files/shaders/shader2.vs", GL_VERTEX_SHADER),
                     std::make_pair("files/shaders/shader2.fs", GL_FRAGMENT_SHADER)}, "Shader_Pos");
-
         addShader({ std::make_pair("files/shaders/shader1.vs", GL_VERTEX_SHADER),
                     std::make_pair("files/shaders/shader1.fs", GL_FRAGMENT_SHADER)}, "Shader_Pos.Uv");
-
         addShader({ std::make_pair("files/shaders/font0.vs", GL_VERTEX_SHADER),
                     std::make_pair("files/shaders/font0.fs", GL_FRAGMENT_SHADER)}, "Shader_Font2d");
-
         addShader({ std::make_pair("files/shaders/Model3d.vs", GL_VERTEX_SHADER),
                     std::make_pair("files/shaders/Model3d.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d");
-
+        #ifdef GEOMETRY_SHADER_ENABLED
         addShader({ std::make_pair("files/shaders/Model3dExplosion.vs", GL_VERTEX_SHADER),
                     std::make_pair("files/shaders/Model3dExplosion.gs", GL_GEOMETRY_SHADER),
                     std::make_pair("files/shaders/Model3dExplosion.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d#Explosion");
@@ -112,7 +110,7 @@ public:
         addShader({ std::make_pair("files/shaders/Model3dNormals.vs", GL_VERTEX_SHADER),
                     std::make_pair("files/shaders/Model3dNormals.gs", GL_GEOMETRY_SHADER),
                     std::make_pair("files/shaders/Model3dNormals.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d#Normals");
-
+        #endif
         std::vector<GLfloat> rect_Pos = {
             -1.f, -1.f, 0.f,
              1.f, -1.f, 0.f,
@@ -241,12 +239,12 @@ public:
         }
 
 
-        addVAO(3, 0, 0, 0, &rect_Pos, "Rectangle:Vao_Pos");
+        /*addVAO(3, 0, 0, 0, &rect_Pos, "Rectangle:Vao_Pos");
         addVAO(3, 0, 2, 0, &rect_Pos_Uv, "Rectangle:Vao_Pos.Uv");
         addVAO(3, 0, 0, 1, &rect_Pos_Id,"Rectangle:Pos_Id");
         addVAO(3, 0, 0, 0, &cube_Pos, "Cube:Vao_Pos");
         addVAO(3, 0, 2, 0, &cube_Pos_Uv, "Cube:Vao_Pos.Uv");
-        addVAO(3, 0, 0, 0, &circle_Pos, "Circle:Vao_Pos");
+        addVAO(3, 0, 0, 0, &circle_Pos, "Circle:Vao_Pos");*/
     }
 
     void addMeshVAO(MeshPrefab* mesh){
@@ -279,7 +277,6 @@ public:
         vaoTmp.bind();
         glDrawArrays(GL_LINES, 0, vaoTmp.countVertices());
         vaoTmp.unbind();
-
     }
 
 private:

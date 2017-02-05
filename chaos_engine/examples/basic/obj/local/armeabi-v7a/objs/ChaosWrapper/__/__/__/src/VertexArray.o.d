@@ -2,12 +2,15 @@
   jni/../../../src/VertexArray.cpp \
   jni/../../../src/../include/VertexArray.hpp \
   jni/../../../src/../include/Export.hpp \
+  C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\string \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\vector \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\iostream
 
 jni/../../../src/../include/VertexArray.hpp:
 
 jni/../../../src/../include/Export.hpp:
+
+C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\string:
 
 C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\vector:
 

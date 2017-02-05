@@ -12,12 +12,30 @@
 extern "C"
 {
 	BasicApplication app;
-	
 	JNIEXPORT void JNICALL
 	Java_com_chaos_example_basic_RendererWrapper_nativeOnSurfaceCreated(
-	JNIEnv* env, jobject obj )
+	JNIEnv* env, jobject obj, jstring dataStoragePath )
 	{
-		LOGI( "Chaos_Engine_Basic_Example" );
+		/*jclass activityClass = env->GetObjectClass(obj);
+		jmethodID getAppStorageID = env->GetMethodID(activityClass,
+									"getApplicationExternalStoragePrefix", "()Ljava/lang/String;");
+		if (getAppStorageID == 0){
+			LOGI("Function getApplicationExternalStoragePrefix() not found.");
+			return;
+		}
+		jstring result = (jstring)env->CallObjectMethod(obj, getAppStorageID);
+		const char* str = env->GetStringUTFChars(result, NULL);
+		std::string storageDir=str;
+		storageDir += "/";
+		chaos::Application::setDataStorageDirectory(storageDir);
+		env->ReleaseStringUTFChars(result, str);
+		LOGI("data_storage (c++): %s", chaos::Application::getDataStorageDirectory().c_str());*/
+		
+		std::string tmpPath = env->GetStringUTFChars(dataStoragePath, NULL);
+		if(tmpPath != "")
+			tmpPath+="/";
+		chaos::Application::setDataStorageDirectory(tmpPath);
+		LOGI("chos storage_path: %s", chaos::Application::getDataStorageDirectory().c_str());
 		app.onCreate();
 	}
 

@@ -1,6 +1,8 @@
 #ifndef EXPORT_HPP
 #define EXPORT_HPP
 
+#include <string>
+
 #ifdef ANDROID
 #include <GLES2/gl2.h>
 #include <android/log.h>
@@ -12,6 +14,7 @@
 
 #ifndef ANDROID
     #define VAO_ENABLED
+    #define GEOMETRY_SHADER_ENABLED
 #endif // ANDROID
 
 namespace chaos{
@@ -33,7 +36,6 @@ namespace chaos{
 #else
     #define CHAOS_EXPORT
 #endif
-
 }
 
 #endif // EXPORT_HPP

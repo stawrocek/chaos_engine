@@ -16,9 +16,13 @@ Shader::~Shader(){
 }
 
 void Shader::loadFromFile(std::string fpath, GLenum type){
+    fpath = chaos::Application::getDataStorageDirectory()+fpath;
     std::ifstream file(fpath);
     if(!file){
         std::cout << "[error]: couldn't open " << fpath << "\n";
+        #ifdef ANDROID
+        LOGI("[error]: couldn't open %s", fpath.c_str());
+        #endif // ANDROID
     }
     shaderCode = std::string((std::istreambuf_iterator<char>(file)),
     std::istreambuf_iterator<char>());
@@ -31,6 +35,9 @@ void Shader::loadFromString(std::string str, GLenum type){
 }
 
 bool Shader::compile(GLenum type){
+    #ifdef ANDROID
+    shaderCode = translateGL3ShaderGLES2Shader(shaderCode, type);
+    #endif // ANDROID
     shaderType = type;
     id = glCreateShader(type);
     const GLchar* tmpCode = &shaderCode[0];
@@ -45,7 +52,7 @@ bool Shader::compile(GLenum type){
         glGetShaderInfoLog(id, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::"+getShaderName()+"::COMPILATION_FAILED\n" << infoLog << std::endl;
         #ifdef ANDROID
-        LOGI("ERROR::SHADER::COMPILATION_FAILED: %s", infoLog);
+        LOGI("ERROR::SHADER::COMPILATION_FAILED: %s, (%s)", infoLog, getShaderName().c_str());
         #endif // ANDROID
     }
     return success;
@@ -59,8 +66,96 @@ std::string Shader::getShaderName(){
     if(shaderType == GL_VERTEX_SHADER)return "VERTEX_SHADER";
     if(shaderType == GL_FRAGMENT_SHADER)return "FRAGMENT_SHADER";
     //opengl ES 3.2 and higher
-    #ifndef ANDROID
+    #ifdef GEOMETRY_SHADER_ENABLED
     if(shaderType == GL_GEOMETRY_SHADER) return "GEOMETRY_SHADER";
     #endif
     return "[error] UNKNOWN_SHADER [error]";
+}
+
+//temporary solution, need real parser
+std::string Shader::translateGL3ShaderGLES2Shader(std::string shader, GLenum type){
+    std::stringstream ss(shader);
+    std::string line;
+    std::string out;
+    bool main=false;
+    if (shader != "") {
+        while(std::getline(ss,line,'\n')){
+            if(main || (line.find("main(") != -1 || line.find("main (") != -1)){
+                main=true;
+            }
+
+            if(line.find("#") != std::string::npos && line.find("version") != std::string::npos){
+                out += "#version 100\n";
+                if(type == GL_FRAGMENT_SHADER)
+                    out += "precision mediump float;\n";
+                else
+                    out += "precision highp float;\n";
+            }
+            else if(line.find("layout") != std::string::npos && line.find("location") != std::string::npos){
+                out += "attribute ";
+                bool spaceEnd=false;
+                for(size_t i = line.find("in")+2; i < line.size(); i++){
+                    if(line[i] != ' '){
+                        spaceEnd=true;
+                    }
+                    if(spaceEnd)
+                        out += line[i];
+                }
+                out += "\n";
+            }
+            else if(type == GL_FRAGMENT_SHADER && line.find("out vec4 color;") != std::string::npos){
+                //skip
+            }
+            else if(getToken(line) == "out"){
+                out += "varying ";
+                bool spaceEnd=false;
+                for(size_t i = line.find("out")+3; i < line.size(); i++){
+                    if(line[i] != ' '){
+                        spaceEnd=true;
+                    }
+                    if(spaceEnd)
+                        out += line[i];
+                }
+                out += "\n";
+            }
+            else if(getToken(line) == "in"){
+                if(type == GL_FRAGMENT_SHADER)
+                    out += "varying ";
+                else if(type == GL_VERTEX_SHADER)
+                    out += "attribute ";
+
+                bool spaceEnd=false;
+                for(size_t i = line.find("in")+2; i < line.size(); i++){
+                    if(line[i] != ' '){
+                        spaceEnd=true;
+                    }
+                    if(spaceEnd)
+                        out += line[i];
+                }
+                out += "\n";
+            }
+            else if(type == GL_FRAGMENT_SHADER && line.find("texture") != std::string::npos && line.find("texture2d") == std::string::npos){
+                std::string tmp = std::string(line.begin(), line.begin()+line.find("texture")) +
+                                    "texture2D"
+                                    + std::string(line.begin()+line.find("texture")+7, line.end());
+                if(main && getToken(tmp) == "color"){
+                    std::string tmp2 = std::string(tmp.begin(), tmp.begin()+tmp.find("color")) +
+                                    "gl_FragColor"
+                                    + std::string(tmp.begin()+tmp.find("color")+5, tmp.end());
+                    out += tmp2+"\n";
+                }
+                else
+                    out += tmp+"\n";
+            }
+            else if(main && getToken(line) == "color"){
+                std::string tmp = std::string(line.begin(), line.begin()+line.find("color")) +
+                                    "gl_FragColor"
+                                    + std::string(line.begin()+line.find("color")+5, line.end());
+                out += tmp+"\n";
+            }
+            else
+                out += line+"\n";
+        }
+    }
+    return out;
 }

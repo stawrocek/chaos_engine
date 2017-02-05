@@ -13,11 +13,21 @@ public:
     Application(Window* w)
     :window(w)
     {};
+
     virtual void onCreate(){};
     virtual void onDraw(){};
     virtual void onResize(int newWidth, int newHeight){};
     virtual void run(){};
 
+    static std::string const& getDataStorageDirectory(){
+        return dataStorageDir;
+    }
+
+    static void setDataStorageDirectory(std::string str){
+        dataStorageDir = str;
+    }
+
+    static std::string dataStorageDir;
     Window* window;
 };
 

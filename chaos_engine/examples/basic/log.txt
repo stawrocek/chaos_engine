@@ -1,0 +1,86 @@
+Buildfile: C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\build.xml
+
+-check-env:
+ [checkenv] Android SDK Tools Revision 25.2.2
+ [checkenv] Installed at C:\ANDROID_SDK\sdk
+
+-setup:
+     [echo] Project Name: App1
+  [gettype] Project Type: Application
+
+-pre-clean:
+
+clean:
+[getlibpath] Library dependencies:
+[getlibpath] No Libraries
+   [subant] No sub-builds to iterate on
+
+-set-mode-check:
+
+-set-debug-files:
+
+-check-env:
+ [checkenv] Android SDK Tools Revision 25.2.2
+ [checkenv] Installed at C:\ANDROID_SDK\sdk
+
+-setup:
+     [echo] Project Name: App1
+  [gettype] Project Type: Application
+
+-set-debug-mode:
+
+-debug-obfuscation-check:
+
+-pre-build:
+
+-build-setup:
+[getbuildtools] Using latest Build Tools: 24.0.3
+     [echo] Resolving Build Target for App1...
+[gettarget] Project Target:   Android 7.0
+[gettarget] API level:        24
+     [echo] ----------
+     [echo] Creating output directories if needed...
+    [mkdir] Created dir: C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\bin
+    [mkdir] Created dir: C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\bin\res
+    [mkdir] Created dir: C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\bin\rsObj
+    [mkdir] Created dir: C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\bin\rsLibs
+    [mkdir] Created dir: C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\gen
+    [mkdir] Created dir: C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\bin\classes
+    [mkdir] Created dir: C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\bin\dexedLibs
+     [echo] ----------
+     [echo] Resolving Dependencies for App1...
+[dependency] Ordered libraries:
+[dependency] 
+[dependency] ------------------
+     [echo] ----------
+     [echo] Building Libraries with 'debug'...
+   [subant] No sub-builds to iterate on
+
+-code-gen:
+[mergemanifest] Merging AndroidManifest files into one.
+[mergemanifest] Manifest merger disabled. Using project manifest only.
+     [echo] Handling aidl files...
+     [aidl] No AIDL files to compile.
+     [echo] ----------
+     [echo] Handling RenderScript files...
+     [echo] ----------
+     [echo] Handling Resources...
+     [aapt] Generating resource IDs...
+     [echo] ----------
+     [echo] Handling BuildConfig class...
+[buildconfig] Generating BuildConfig class.
+
+-pre-compile:
+
+-compile:
+    [javac] Compiling 4 source files to C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\bin\classes
+    [javac] warning: [options] source value 1.5 is obsolete and will be removed in a future release
+    [javac] warning: [options] target value 1.5 is obsolete and will be removed in a future release
+    [javac] warning: [options] To suppress warnings about obsolete options, use -Xlint:-options.
+    [javac] C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\src\com\chaos\example\basic\ChaosActivity.java:16: error: cannot find symbol
+    [javac] 		Log.w("chaos", "wtf gl");
+    [javac] 		^
+    [javac]   symbol:   variable Log
+    [javac]   location: class ChaosActivity
+    [javac] 1 error
+    [javac] 3 warnings

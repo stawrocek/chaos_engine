@@ -1,8 +1,9 @@
 ./obj/local/armeabi-v7a/objs/ChaosWrapper/__/__/__/src/Transform.o: \
   jni/../../../src/Transform.cpp \
   jni/../../../src/../include/Transform.hpp \
-  jni/../../../src/../include/Export.hpp jni\glm/glm.hpp \
-  jni\glm/detail/_fixes.hpp \
+  jni/../../../src/../include/Export.hpp \
+  C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\string \
+  jni\glm/glm.hpp jni\glm/detail/_fixes.hpp \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\cmath \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\climits \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\cfloat \
@@ -10,8 +11,6 @@
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\cassert \
   jni\glm/fwd.hpp jni\glm/detail/type_int.hpp jni\glm/detail/setup.hpp \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\cstddef \
-  C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\type_traits \
-  C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\cstdint \
   jni\glm/detail/type_float.hpp jni\glm/detail/type_vec.hpp \
   jni\glm/detail/precision.hpp jni\glm/detail/type_mat.hpp \
   jni\glm/vec2.hpp jni\glm/detail/type_vec2.hpp \
@@ -56,9 +55,7 @@
   jni\glm/gtc/../gtc/quaternion.hpp jni\glm/gtc/quaternion.inl \
   jni\glm/gtc/../gtc/vec1.hpp jni\glm/gtc/vec1.inl \
   jni\glm/gtc/type_precision.inl jni\glm/gtx/../gtx/dual_quaternion.hpp \
-  jni\glm/gtx/dual_quaternion.inl \
-  C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\string \
-  jni\glm/gtx/string_cast.inl \
+  jni\glm/gtx/dual_quaternion.inl jni\glm/gtx/string_cast.inl \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\cstdarg \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\cstdio \
   jni\glm/gtx/quaternion.hpp jni\glm/gtx/../gtx/norm.hpp \
@@ -69,6 +66,8 @@
 jni/../../../src/../include/Transform.hpp:
 
 jni/../../../src/../include/Export.hpp:
+
+C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\string:
 
 jni\glm/glm.hpp:
 
@@ -91,10 +90,6 @@ jni\glm/detail/type_int.hpp:
 jni\glm/detail/setup.hpp:
 
 C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\cstddef:
-
-C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\type_traits:
-
-C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\cstdint:
 
 jni\glm/detail/type_float.hpp:
 
@@ -267,8 +262,6 @@ jni\glm/gtc/type_precision.inl:
 jni\glm/gtx/../gtx/dual_quaternion.hpp:
 
 jni\glm/gtx/dual_quaternion.inl:
-
-C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\string:
 
 jni\glm/gtx/string_cast.inl:
 

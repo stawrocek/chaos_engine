@@ -7,6 +7,6 @@ uniform mat4 mx;
 
 void main()
 {
-    gl_Position = mx*vec4(position, 1.0);
-    uvCoords = uv;
+	gl_Position = mx*vec4(position, 1.0);
+	uvCoords = uv;
 }

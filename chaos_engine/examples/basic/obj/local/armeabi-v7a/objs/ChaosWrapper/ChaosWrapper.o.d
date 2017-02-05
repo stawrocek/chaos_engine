@@ -67,11 +67,16 @@
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\algorithm \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\map \
   jni\../../../include/Shader.hpp \
+  C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\sstream \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\fstream \
   jni\../../../include/VertexArray.hpp \
   jni\../../../include/Transform.hpp jni\glm/gtx/quaternion.hpp \
   jni\glm/gtx/../gtx/norm.hpp jni\glm/gtx/norm.inl \
-  jni\glm/gtx/quaternion.inl
+  jni\glm/gtx/quaternion.inl jni\../../../include/primitives.hpp \
+  jni\../../../include/GameObject.hpp jni\../../../include/Renderer.hpp \
+  jni\../../../include/MeshPrefab.hpp jni\../../../include/Resource.hpp \
+  jni\../../../include/Utils.hpp \
+  C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\unordered_map
 
 jni/../basic_app.hpp:
 
@@ -303,6 +308,8 @@ C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/includ
 
 jni\../../../include/Shader.hpp:
 
+C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\sstream:
+
 C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\fstream:
 
 jni\../../../include/VertexArray.hpp:
@@ -316,3 +323,17 @@ jni\glm/gtx/../gtx/norm.hpp:
 jni\glm/gtx/norm.inl:
 
 jni\glm/gtx/quaternion.inl:
+
+jni\../../../include/primitives.hpp:
+
+jni\../../../include/GameObject.hpp:
+
+jni\../../../include/Renderer.hpp:
+
+jni\../../../include/MeshPrefab.hpp:
+
+jni\../../../include/Resource.hpp:
+
+jni\../../../include/Utils.hpp:
+
+C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\unordered_map:

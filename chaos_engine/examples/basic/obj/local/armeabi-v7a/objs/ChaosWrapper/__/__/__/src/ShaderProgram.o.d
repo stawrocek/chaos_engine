@@ -2,6 +2,7 @@
   jni/../../../src/ShaderProgram.cpp \
   jni/../../../src/../include/ShaderProgram.hpp \
   jni/../../../src/../include/Export.hpp \
+  C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\string \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\vector \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\algorithm \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\map \
@@ -53,12 +54,16 @@
   jni\glm/gtc/../gtc/quaternion.hpp jni\glm/gtc/quaternion.inl \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\cstring \
   jni\glm/gtc/type_ptr.inl jni/../../../src/../include/Shader.hpp \
+  jni/../../../src/../include/Application.hpp \
+  C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\sstream \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\iostream \
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\fstream
 
 jni/../../../src/../include/ShaderProgram.hpp:
 
 jni/../../../src/../include/Export.hpp:
+
+C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\string:
 
 C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\vector:
 
@@ -243,6 +248,10 @@ C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/includ
 jni\glm/gtc/type_ptr.inl:
 
 jni/../../../src/../include/Shader.hpp:
+
+jni/../../../src/../include/Application.hpp:
+
+C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\sstream:
 
 C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\iostream:
 

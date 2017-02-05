@@ -3,6 +3,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.opengl.GLSurfaceView;
 import android.widget.Toast;
+import android.util.Log;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import android.os.Environment;
+import java.io.File;
 
 public class ChaosActivity extends Activity
 {
@@ -13,11 +21,99 @@ public class ChaosActivity extends Activity
 	}
 	@Override protected void onCreate(Bundle bundle){
 		super.onCreate(bundle);
+		/*String[] f;
+		try {
+			f = getAssets().list("files");
+			for(String f1 : f){
+				Log.w("Chaos",f1);
+			}
+		} catch (IOException e) {
+			Log.w("Chaos", "IOException");
+		}*/
+		listAssetFiles("files");
+		/*Log.w("Chaos", "wtf gl");
+		final InputStream in;
+		try{
+			in = getAssets().open("files/shaders/font0.fs");
+			BufferedReader r = new BufferedReader(new InputStreamReader(in));
+			StringBuilder total = new StringBuilder();
+			String line;
+			while ((line = r.readLine()) != null) {
+				total.append(line).append('\n');
+			}
+			Log.w("Chaos", "allright " + total.toString());
+		}
+		catch (IOException e){
+			Log.w("Chaos", "IOException2");
+		}*/
+		
+		//Log.w("Chaos", "storage: " + getApplicationExternalStoragePrefix());
+		
 		glSurfaceView = new GLSurfaceView(this);
 		glSurfaceView.setEGLContextClientVersion(2);
 		glSurfaceView.setRenderer(new RendererWrapper());
 		rendererSet=true;
 		Toast.makeText(this, "Hello",Toast.LENGTH_LONG).show();
 		setContentView(glSurfaceView);
+	}
+	
+	String getApplicationExternalStoragePrefix()
+	{
+		String Suffix = "/external_sd/Android/data/";
+		return Environment.getExternalStorageDirectory().getPath() +
+			Suffix + getApplication().getPackageName();
+	}
+	
+	private boolean listAssetFiles(String path) {
+		String [] list;
+		try {
+			list = getAssets().list(path);
+			if(list.length == 0){
+				Log.w("Chaos", "Found new file: " + path);
+				writeFile(path);
+			}
+			for(String file: list){
+				if(path!="")
+					listAssetFiles(path + "/" + file);
+				else
+					listAssetFiles(file);
+			}
+		} catch (IOException e) {
+			return false;
+		}
+		return true; 
+	} 
+	private void writeFile(String fpath){
+		final InputStream in;
+		try{
+			in = getAssets().open(fpath);
+			BufferedReader r = new BufferedReader(new InputStreamReader(in));
+			StringBuilder total = new StringBuilder();
+			String line;
+			while ((line = r.readLine()) != null) {
+				total.append(line).append('\n');
+			}
+			String sdpath = getApplicationExternalStoragePrefix()+"/"+fpath;
+			File f = new File(sdpath);
+			if(new File(f.getParent()).isDirectory()) {
+				//Log.w("Chaos", "directory exists");
+			}
+			else{
+				//Log.w("Chaos", "directory doesn't exists");
+				f.getParentFile().mkdirs();
+				//Log.w("Chaos", "created dir: " + f.getParent());
+				f.createNewFile();
+			}
+			FileWriter writer = new FileWriter(sdpath); 
+			writer.write(total.toString()); 
+			writer.flush();
+			writer.close();
+			//Log.w("Chaos", "file " + fpath + " contents:\n" + total.toString());
+		}
+		catch (IOException e){
+			Log.w("Chaos", "IOException2");
+			Log.w("Chaos", e.toString());
+			Log.w("Chaos", e.getMessage());
+		}
 	}
 };
