@@ -33,6 +33,20 @@ public:
         renderer->addMeshVAO(skeletonPrefab);
         renderer->addMeshVAO(demonPrefab);
         renderer->addMeshVAO(mechPrefab);
+
+        #ifdef GEOMETRY_SHADER_ENABLED
+        renderer->addShader({ std::make_pair("examples/shaders/Model3dExplosion.vs", GL_VERTEX_SHADER),
+                    std::make_pair("examples/shaders/Model3dExplosion.gs", GL_GEOMETRY_SHADER),
+                    std::make_pair("examples/shaders/Model3dExplosion.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d#Explosion");
+
+        renderer->addShader({ std::make_pair("examples/shaders/Model3dNormals.vs", GL_VERTEX_SHADER),
+                    std::make_pair("examples/shaders/Model3dNormals.gs", GL_GEOMETRY_SHADER),
+                    std::make_pair("examples/shaders/Model3dNormals.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d#Normals");
+        renderer->addShader({ std::make_pair("examples/shaders/Model3dExplosion.vs", GL_VERTEX_SHADER),
+                    std::make_pair("examples/shaders/Model3dRandom.gs", GL_GEOMETRY_SHADER),
+                    std::make_pair("examples/shaders/Model3dExplosion.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d#Random");
+        #endif
+
         chestTexture = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/chestUV.png", "uvMap:Chest");
         skeletonTexture = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/skeletonUV.png", "uvMap:Skeleton");
         demonTexture = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/demonUV.png", "uvMap:Demon");

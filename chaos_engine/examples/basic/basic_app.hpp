@@ -54,7 +54,6 @@ public:
                     "#version 330 core\n"
                     "layout (location = 0) in vec3 position;\n"
                     "uniform mat4 mx;\n"
-                    //"out int test;\n"
                     "void main()\n"
                     "{\n"
                     "    gl_Position = mx*vec4(position, 1.0);\n"
@@ -65,38 +64,12 @@ public:
                     "uniform vec4 uniColor;\n"
                     "void main(){\n"
                     "    color = uniColor;\n"
-                    //" texture = test;\n"
                     "}\n";
-
-        //std::string vertexSource2 = chaos::Shader::translateGL3ShaderGLES2Shader(vertexSource, GL_VERTEX_SHADER);
-        //std::string fragmentSource2 = chaos::Shader::translateGL3ShaderGLES2Shader(fragmentSource, GL_FRAGMENT_SHADER);
-        //std::cout << vertexSource2 << "\n\n" << fragmentSource2 << "\n";
 
         #ifdef ANDROID
             vertexSource = chaos::Shader::translateGL3ShaderGLES2Shader(vertexSource, GL_VERTEX_SHADER);
             fragmentSource = chaos::Shader::translateGL3ShaderGLES2Shader(fragmentSource, GL_FRAGMENT_SHADER);
         #endif
-
-
-        //gles 2
-        /*#ifdef ANDROID
-        vertexSource=
-                    "#version 100\n"
-                    "precision highp float;\n"
-                    "attribute vec3 position;\n"
-                    "uniform mat4 mx;\n"
-                    "void main()\n"
-                    "{\n"
-                    "    gl_Position = mx*vec4(position, 1.0);\n"
-                    "}\n";
-        fragmentSource=
-                    "#version 100\n"
-                    "precision highp float;\n"
-                    "uniform vec4 uniColor;\n"
-                    "void main(){\n"
-                    "    gl_FragColor = uniColor;\n"
-                    "}\n";
-        #endif // ANDROID*/
 
         txTest = new chaos::Transform();
         txTest->setScale(0.1, 0.1, 0.1);
@@ -115,11 +88,6 @@ public:
     }
 
     void onDraw(){
-        //LOGI("data storage: %s", Application::dataStorageDir.c_str());
-        //Application::dataStorageDir = "cokolwiek";
-        //LOGI("data storage 2: %s", Application::dataStorageDir.c_str());
-        //cube->rotateY(0.01);
-
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(0.0f, 1.0f, 0.2f, 1.0f);
         shr->run();

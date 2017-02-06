@@ -18,12 +18,11 @@ public:
     {
         setMesh(prefab);
         shader = renderer->getShader("Shader_Mesh3d");
-        //vao = renderer->getVAO("Mesh:Vao_Pos.Uv("+toString(prefab->getMeshId())+")");
     }
 
     virtual void draw(){
         shader->run();
-        shader->setUniform("ourColor", color);
+        shader->setUniform("uniColor", color);
         shader->setUniform("mx",renderer->getCamCombined()*getGlobalTransformMatrix());
         vao->bind();
         glDrawArrays(GL_TRIANGLES, 0, vao->countVertices());

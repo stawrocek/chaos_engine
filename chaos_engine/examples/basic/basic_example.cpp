@@ -1,5 +1,4 @@
 #define CHAOS_PLATFORM_PC
-//#define CHAOS_PLATFORM_ANDROID
 
 #include <iostream>
 

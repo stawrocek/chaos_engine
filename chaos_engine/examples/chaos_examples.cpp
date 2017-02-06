@@ -20,15 +20,12 @@ int main(int argc, char* argv[]){
     chaos::SDL2Window window(style, SDL_WINDOW_OPENGL);
     glEnable(GL_MULTISAMPLE);
     chaos::Renderer renderer(&window);
-    renderer.addShader({ std::make_pair("files/shaders/Model3dExplosion.vs", GL_VERTEX_SHADER),
-                    std::make_pair("files/shaders/Model3dRandom.gs", GL_GEOMETRY_SHADER),
-                    std::make_pair("files/shaders/Model3dExplosion.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d#Random");
     chaos::ResourceManager rscManager;
     rscManager.loadResource<chaos::BitmapFont>("files/fonts/CalibriBitmap2.fnt", "Calibri");
     chaos::SceneManager scnMgr(&rscManager, &renderer, &inputHandler);
     scnMgr.registerScene<GizmosTest>("GizmosTest");
     scnMgr.registerScene<ObjViewer>("ObjViewer");
-    scnMgr.setActiveScene("GizmosTest");
+    scnMgr.setActiveScene("ObjViewer");
 
     bool mainLoop = true;
     while (mainLoop){
