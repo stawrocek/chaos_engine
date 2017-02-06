@@ -147,6 +147,36 @@ void VertexArray::bind(){
 #endif // VAO_ENABLED
 }
 
+void VertexArray::draw(ShaderProgram* shr, GLenum type, GLint start, GLsizei end){
+    if(end==-1)
+        end = countVertices();
+    #ifdef VAO_ENABLED
+        glDrawArrays(type, start, end);
+    #else
+        GLuint stride = vertsSize+normalSize+uvSize+dataSize;
+        if(vertsSize != 0){
+            glVertexAttribPointer(0, vertsSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)0);
+            glEnableVertexAttribArray(0);
+        }
+        if(normalSize != 0){
+            glVertexAttribPointer(1, normalSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
+                                  (GLvoid*)(sizeof(GLfloat)*(vertsSize)));
+            glEnableVertexAttribArray(1);
+        }
+        if(uvSize != 0){
+            glVertexAttribPointer(2, uvSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
+                                  (GLvoid*)(sizeof(GLfloat)*(vertsSize+normalSize)));
+            glEnableVertexAttribArray(2);
+        }
+        if(dataSize != 0){
+            glVertexAttribPointer(3, dataSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
+                                  (GLvoid*)(sizeof(GLfloat)*(vertsSize+normalSize+uvSize)));
+            glEnableVertexAttribArray(3);
+        }
+        glDrawArrays(type, start, end);
+    #endif // VAO_ENABLED
+}
+
 void VertexArray::unbind(){
 #ifdef VAO_ENABLED
     glBindVertexArray(0);

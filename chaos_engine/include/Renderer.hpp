@@ -267,7 +267,7 @@ public:
         getShader("Shader_Pos")->setUniform("uniColor", color);
         getShader("Shader_Pos")->setUniform("mx", getCamCombined());
         vaoTmp.bind();
-        glDrawArrays(GL_LINES, 0, vaoTmp.countVertices());
+        vaoTmp.draw(getShader("Shader_Pos"));
         vaoTmp.unbind();
     }
 

@@ -52,7 +52,7 @@ public:
         shader->setUniform("maxy", (bitmapFont->scaleH-data.y)/(float)bitmapFont->scaleH);
         shader->setUniform("uniColor", color);
         vao->bind();
-        glDrawArrays(GL_TRIANGLES, 0, vao->countVertices());
+        vao->draw(shader);
         vao->unbind();
     }
 

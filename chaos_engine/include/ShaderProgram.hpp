@@ -49,6 +49,10 @@ public:
         glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mx));
     }
 
+    GLint getAttribLocation(std::string& attribDescription){
+        return glGetAttribLocation(id, attribDescription.c_str());
+    }
+
 private:
     GLuint id;
     std::map<std::string, GLuint> mUniforms;

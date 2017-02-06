@@ -2,6 +2,7 @@
 #define VERTEXARRAY_HPP
 
 #include "Export.hpp"
+#include "ShaderProgram.hpp"
 
 #include <vector>
 #include <iostream>
@@ -41,7 +42,20 @@ public:
     GLuint countVertices()  {return vVertices.size();}
     void generateVertexArray(GLenum target, GLenum usage);
     void bind();
+    void draw(ShaderProgram* shr, GLenum type=GL_TRIANGLES, GLint start=0, GLsizei end=-1);
     void unbind();
+    GLuint getVerticesSize(){
+        return vertsSize;
+    }
+    GLuint getNormalsSize(){
+        return normalSize;
+    }
+    GLuint getUVSize(){
+        return uvSize;
+    }
+    GLuint getDataSize(){
+        return dataSize;
+    }
 
 private:
     GLuint vertsSize;
@@ -57,8 +71,6 @@ private:
     GLuint VBO;
     GLenum target;
     GLenum usage;
-
-
 };
 
 }

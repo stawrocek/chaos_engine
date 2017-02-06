@@ -18,13 +18,6 @@ C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\a
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\font0.vs \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\Model3d.fs \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\Model3d.vs \
-C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\Model3dExplosion.fs \
-C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\Model3dExplosion.gs \
-C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\Model3dExplosion.vs \
-C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\Model3dNormals.fs \
-C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\Model3dNormals.gs \
-C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\Model3dNormals.vs \
-C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\Model3dRandom.gs \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\shader1.fs \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\shader1.vs \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\shader2.fs \

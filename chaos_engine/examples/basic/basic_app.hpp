@@ -80,24 +80,26 @@ public:
         shr = new chaos::ShaderProgram({shVertex, shFragment});
         vao = new chaos::VertexArray(3, 0, 0, 0, &rect_Pos);
         renderer = new chaos::Renderer(window);
-        /*cube=new chaos::Cube(renderer);
+        cube=new chaos::Cube(renderer);
         cube->setScale(0.1, 0.1, 0.1);
         cube->setColor(0.4f,0.4f,0.0f,1.0f);
         cube->moveX(0.5);
-        cube->rotateZ(M_PI/4.0f);*/
+        cube->rotateZ(M_PI/4.0f);
     }
 
     void onDraw(){
+        cube->rotateY(0.01);
+
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(0.0f, 1.0f, 0.2f, 1.0f);
         shr->run();
         shr->setUniform("uniColor", glm::vec4(1,1,0,1));
         shr->setUniform("mx", txTest->getGlobalTransformMatrix());
         vao->bind();
-        glDrawArrays(GL_TRIANGLES, 0, vao->countVertices());
+        vao->draw(shr);
         vao->bind();
         glUseProgram (0);
-        //cube->draw();
+        cube->draw();
     }
 
     void run(){
@@ -131,5 +133,5 @@ public:
     chaos::Transform* txTest=nullptr;
     chaos::VertexArray* vao=nullptr;
     chaos::Renderer* renderer=nullptr;
-    //chaos::Cube* cube=nullptr;
+    chaos::Cube* cube=nullptr;
 };

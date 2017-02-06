@@ -25,7 +25,7 @@ public:
         shader->setUniform("uniColor", color);
         shader->setUniform("mx",renderer->getCamCombined()*getGlobalTransformMatrix());
         vao->bind();
-        glDrawArrays(GL_TRIANGLES, 0, vao->countVertices());
+        vao->draw(shader);
         vao->unbind();
     }
 
