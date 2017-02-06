@@ -72,11 +72,13 @@
   jni\../../../include/VertexArray.hpp \
   jni\../../../include/Transform.hpp jni\glm/gtx/quaternion.hpp \
   jni\glm/gtx/../gtx/norm.hpp jni\glm/gtx/norm.inl \
-  jni\glm/gtx/quaternion.inl jni\../../../include/primitives.hpp \
-  jni\../../../include/GameObject.hpp jni\../../../include/Renderer.hpp \
+  jni\glm/gtx/quaternion.inl jni\../../../include/Renderer.hpp \
   jni\../../../include/MeshPrefab.hpp jni\../../../include/Resource.hpp \
   jni\../../../include/Utils.hpp \
-  C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\unordered_map
+  C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\unordered_map \
+  jni\../../../include/ResourceManager.hpp \
+  jni\../../../include/Model.hpp jni\../../../include/GameObject.hpp \
+  jni\../../../include/primitives.hpp
 
 jni/../basic_app.hpp:
 
@@ -324,10 +326,6 @@ jni\glm/gtx/norm.inl:
 
 jni\glm/gtx/quaternion.inl:
 
-jni\../../../include/primitives.hpp:
-
-jni\../../../include/GameObject.hpp:
-
 jni\../../../include/Renderer.hpp:
 
 jni\../../../include/MeshPrefab.hpp:
@@ -337,3 +335,11 @@ jni\../../../include/Resource.hpp:
 jni\../../../include/Utils.hpp:
 
 C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\unordered_map:
+
+jni\../../../include/ResourceManager.hpp:
+
+jni\../../../include/Model.hpp:
+
+jni\../../../include/GameObject.hpp:
+
+jni\../../../include/primitives.hpp:

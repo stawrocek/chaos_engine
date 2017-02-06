@@ -28,6 +28,7 @@ public:
     }
     template <typename T>
     T* loadResource(std::string fpath, std::string id){
+        fpath = chaos::Application::getDataStorageDirectory()+fpath;
         if(cache.find(id) != cache.end()){
             return dynamic_cast<T*>(cache[id]);
         }

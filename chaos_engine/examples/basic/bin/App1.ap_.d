@@ -13,7 +13,9 @@ C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\b
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\bin\res\mipmap-xxhdpi\ic_launcher.png \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\bin\res\mipmap-xxxhdpi\ic_launcher.png \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files \
+C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\models3d \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders \
+C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\models3d\skeleton.obj \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\font0.fs \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\font0.vs \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\Model3d.fs \
