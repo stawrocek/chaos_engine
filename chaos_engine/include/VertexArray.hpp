@@ -58,6 +58,7 @@ private:
     GLenum target;
     GLenum usage;
 
+
 };
 
 }

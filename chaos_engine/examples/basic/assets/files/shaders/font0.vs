@@ -1,6 +1,6 @@
 #version 330 core
-layout (location = 0) in vec3 pos;
-layout (location = 3) in float id;
+layout (location = 0) in vec3 position;
+layout (location = 3) in float data;
 
 uniform mat4 mvp;
 uniform float minx;
@@ -11,17 +11,17 @@ uniform float maxy;
 out vec2 uv;
 
 void main() {
-    gl_Position = mvp * vec4(pos.x, pos.y, pos.z, 1.0);
-	if(abs(id-1.0) < 0.01){
+    gl_Position = mvp * vec4(position.x, position.y, position.z, 1.0);
+	if(abs(data-1.0) < 0.01){
         uv = vec2(minx, maxy);
 	}
-    if(abs(id-2.0) < 0.01){
+    if(abs(data-2.0) < 0.01){
         uv = vec2(maxx, maxy);
     }
-	if(abs(id-3.0) < 0.01){
+	if(abs(data-3.0) < 0.01){
         uv = vec2(maxx, miny);
     }
-	if(abs(id-4.0) < 0.01){
+	if(abs(data-4.0) < 0.01){
         uv = vec2(minx, miny);
 	}
 }
