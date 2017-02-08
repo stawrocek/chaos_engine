@@ -29,6 +29,9 @@ public:
     template <typename T>
     T* loadResource(std::string fpath, std::string id){
         fpath = chaos::Application::getDataStorageDirectory()+fpath;
+        #ifdef ANDROID
+        LOGI("loading resource: %s", fpath.c_str());
+        #endif
         if(cache.find(id) != cache.end()){
             return dynamic_cast<T*>(cache[id]);
         }

@@ -21,33 +21,7 @@ public class ChaosActivity extends Activity
 	}
 	@Override protected void onCreate(Bundle bundle){
 		super.onCreate(bundle);
-		/*String[] f;
-		try {
-			f = getAssets().list("files");
-			for(String f1 : f){
-				Log.w("Chaos",f1);
-			}
-		} catch (IOException e) {
-			Log.w("Chaos", "IOException");
-		}*/
 		listAssetFiles("files");
-		/*Log.w("Chaos", "wtf gl");
-		final InputStream in;
-		try{
-			in = getAssets().open("files/shaders/font0.fs");
-			BufferedReader r = new BufferedReader(new InputStreamReader(in));
-			StringBuilder total = new StringBuilder();
-			String line;
-			while ((line = r.readLine()) != null) {
-				total.append(line).append('\n');
-			}
-			Log.w("Chaos", "allright " + total.toString());
-		}
-		catch (IOException e){
-			Log.w("Chaos", "IOException2");
-		}*/
-		
-		//Log.w("Chaos", "storage: " + getApplicationExternalStoragePrefix());
 		
 		glSurfaceView = new GLSurfaceView(this);
 		glSurfaceView.setEGLContextClientVersion(2);

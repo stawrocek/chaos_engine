@@ -15,6 +15,8 @@ C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\b
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\models3d \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders \
+C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\textures \
+C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\models3d\Chest3.obj \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\models3d\skeleton.obj \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\font0.fs \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\font0.vs \
@@ -24,4 +26,7 @@ C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\a
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\shader1.vs \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\shader2.fs \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\shader2.vs \
+C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\textures\uv_maps \
+C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\textures\uv_maps\chestUV.png \
+C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\textures\uv_maps\skeletonUV.png \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\bin\AndroidManifest.xml \

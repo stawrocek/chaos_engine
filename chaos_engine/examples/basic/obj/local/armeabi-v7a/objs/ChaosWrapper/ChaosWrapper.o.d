@@ -78,7 +78,8 @@
   C:/ANDROID_SDK/sdk/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include\unordered_map \
   jni\../../../include/ResourceManager.hpp \
   jni\../../../include/Model.hpp jni\../../../include/GameObject.hpp \
-  jni\../../../include/primitives.hpp
+  jni\../../../include/primitives.hpp jni\../../../include/Texture.hpp \
+  jni\FreeImage.h
 
 jni/../basic_app.hpp:
 
@@ -343,3 +344,7 @@ jni\../../../include/Model.hpp:
 jni\../../../include/GameObject.hpp:
 
 jni\../../../include/primitives.hpp:
+
+jni\../../../include/Texture.hpp:
+
+jni\FreeImage.h:

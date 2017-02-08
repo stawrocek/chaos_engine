@@ -19,6 +19,7 @@
 #include "../../../include/MeshPrefab.hpp"
 #include "../../../include/Model.hpp"
 #include "../../../include/primitives.hpp"
+#include "../../../include/Texture.hpp"
 
 #endif // CHAOS_PLATFORM_PC
 
@@ -29,6 +30,7 @@
 #include "../include/primitives.hpp"
 #include "../include/MeshPrefab.hpp"
 #include "../include/Model.hpp"
+#include "../include/Texture.hpp"
 #endif
 
 class BasicApplication: public chaos::Application{
@@ -94,10 +96,18 @@ public:
         cube->rotateZ(M_PI/4.0f);
         meshSkeleton = resourceManager->loadResource<chaos::MeshPrefab>("files/models3d/skeleton.obj", "skeleton");
         renderer->addMeshVAO(meshSkeleton);
+        meshChest = resourceManager->loadResource<chaos::MeshPrefab>("files/models3d/Chest3.obj", "chest");
+        renderer->addMeshVAO(meshChest);
 
         modelSkeleton = new chaos::Model(renderer, meshSkeleton);
         modelSkeleton->setScale(0.02,0.02,0.02);
         modelSkeleton->setColor(1.0,0.1,0.1,1.0);
+
+        modelChest = new chaos::Model(renderer, meshChest);
+        modelChest->setScale(0.02,0.02,0.02);
+
+        textureSkeleton = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/skeletonUV.png", "uvMap:Skeleton");
+        textureChest = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/chestUV.png", "uvMap:Chest");
     }
 
     void onDraw(){
@@ -114,7 +124,10 @@ public:
         vao->bind();
         glUseProgram (0);
         cube->draw();
+        textureSkeleton->bind();
         modelSkeleton->draw();
+        textureChest->bind();
+        modelChest->draw();
     }
 
     void run(){
@@ -151,5 +164,9 @@ public:
     chaos::Cube* cube=nullptr;
     chaos::ResourceManager* resourceManager=nullptr;
     chaos::Model* modelSkeleton=nullptr;
+    chaos::Model* modelChest=nullptr;
     chaos::MeshPrefab* meshSkeleton=nullptr;
+    chaos::MeshPrefab* meshChest=nullptr;
+    chaos::Texture* textureSkeleton=nullptr;
+    chaos::Texture* textureChest=nullptr;
 };

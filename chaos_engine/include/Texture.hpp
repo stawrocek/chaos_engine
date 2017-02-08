@@ -3,11 +3,11 @@
 
 #include "Export.hpp"
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-
 #include <string>
 #include <iostream>
+#include <iostream>
+#include <streambuf>
+#include <fstream>
 #include <FreeImage.h>
 
 #include "Resource.hpp"
