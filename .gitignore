@@ -5,6 +5,8 @@
 *.obj
 *.ap_
 *.d
+*.dex
+*.class
 
 # Precompiled Headers
 *.gch
