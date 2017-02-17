@@ -41,7 +41,16 @@ public:
     :Application(w)
     {}
 
+    ~BasicApplication(){
+        #ifdef ANDROID
+        FreeImage_DeInitialise();
+        #endif
+    }
+
     void onCreate(){
+        #ifdef ANDROID
+        FreeImage_Initialise(false);
+        #endif
         const GLubyte* glVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
         #ifdef ANDROID
             LOGI("glVersion (onCreate): %s", glVersion);

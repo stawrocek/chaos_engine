@@ -1,3 +1,3 @@
-# view AndroidManifest.xml #generated:22
+# view AndroidManifest.xml #generated:23
 -keep class com.chaos.example.basic.ChaosActivity { <init>(...); }
 

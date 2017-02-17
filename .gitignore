@@ -42,3 +42,9 @@ test/*
 
 #.obj
 !*.obj
+*.ap_
+*.dex
+chaos_engine/examples/basic/bin/App1.ap_
+*.apk
+chaos_engine/examples/basic/bin/proguard.txt
+*.prop

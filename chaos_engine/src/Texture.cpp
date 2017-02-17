@@ -7,21 +7,31 @@ GLuint Texture::textureCounter = 0;
 Texture::Texture(std::string fpath)
 :Resource(fpath)
 {
-    std::ifstream file(fpath);
+    const char* test =  FreeImage_GetVersion();
+    int availableFormats = FreeImage_GetFIFCount();
+    int pngOk =  FreeImage_FIFSupportsReading(FIF_PNG);
+    #ifdef ANDROID
+    LOGI("%s, %d, %d", test, availableFormats, pngOk);
+    #else
+    std::cout << test << ", " << availableFormats << ", " << pngOk << "\n";
+    #endif
+    std::ifstream file(fpath, std::ios::binary | std::ios::ate);
+    int fileSize = file.tellg();
     if(!file){
         std::cout << "[error]: couldn't open " << fpath << "\n";
         #ifdef ANDROID
         LOGI("[error]: couldn't open %s", fpath.c_str());
         #endif // ANDROID
     }
-    file.close();
-    std::string shaderCode = std::string((std::istreambuf_iterator<char>(file)),
+
+    std::string textureStr = std::string((std::istreambuf_iterator<char>(file)),
     std::istreambuf_iterator<char>());
     #ifdef ANDROID
-    LOGI("loading image: %s as %s", fpath.c_str(), shaderCode.c_str());
+    LOGI("loading image: %s as %s, size=%d", fpath.c_str(), textureStr.c_str(), fileSize);
     #else
-    std::cout << "loading image " << fpath << "\n";
+    std::cout << "loading image " << fpath << ", " << textureStr.c_str() << ", size=" << fileSize << "\n";
     #endif // ANDROID
+    file.close();
     batchId = textureCounter;
 
     glGenTextures(1, &id);
@@ -34,8 +44,6 @@ Texture::Texture(std::string fpath)
         #endif // ANDROID
         std::cout << "Failed to read format @ " << fpath.c_str() << "\n";
     }
-    if(format == FIF_UNKNOWN)
-        format = FreeImage_GetFIFFromFilename(fpath.c_str());
     if(format == FIF_UNKNOWN) {
         #ifdef ANDROID
         LOGI("Failed to read format v2 %s", fpath.c_str());
