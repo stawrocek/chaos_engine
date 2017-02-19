@@ -7,33 +7,7 @@ GLuint Texture::textureCounter = 0;
 Texture::Texture(std::string fpath)
 :Resource(fpath)
 {
-    const char* test =  FreeImage_GetVersion();
-    int availableFormats = FreeImage_GetFIFCount();
-    int pngOk =  FreeImage_FIFSupportsReading(FIF_PNG);
-    #ifdef ANDROID
-    LOGI("%s, %d, %d", test, availableFormats, pngOk);
-    #else
-    std::cout << test << ", " << availableFormats << ", " << pngOk << "\n";
-    #endif
-    std::ifstream file(fpath, std::ios::binary | std::ios::ate);
-    int fileSize = file.tellg();
-    if(!file){
-        std::cout << "[error]: couldn't open " << fpath << "\n";
-        #ifdef ANDROID
-        LOGI("[error]: couldn't open %s", fpath.c_str());
-        #endif // ANDROID
-    }
-
-    std::string textureStr = std::string((std::istreambuf_iterator<char>(file)),
-    std::istreambuf_iterator<char>());
-    #ifdef ANDROID
-    LOGI("loading image: %s as %s, size=%d", fpath.c_str(), textureStr.c_str(), fileSize);
-    #else
-    std::cout << "loading image " << fpath << ", " << textureStr.c_str() << ", size=" << fileSize << "\n";
-    #endif // ANDROID
-    file.close();
     batchId = textureCounter;
-
     glGenTextures(1, &id);
     bind(GL_TEXTURE_2D);
 
@@ -43,12 +17,6 @@ Texture::Texture(std::string fpath)
         LOGI("Failed to read format %s", fpath.c_str());
         #endif // ANDROID
         std::cout << "Failed to read format @ " << fpath.c_str() << "\n";
-    }
-    if(format == FIF_UNKNOWN) {
-        #ifdef ANDROID
-        LOGI("Failed to read format v2 %s", fpath.c_str());
-        #endif // ANDROID
-        std::cout << "Failed to read format v2 @ " << fpath.c_str() << "\n";
     }
     FIBITMAP* bitmap = FreeImage_Load(format, fpath.c_str());
     FIBITMAP* bitmap32 = nullptr;
@@ -61,11 +29,23 @@ Texture::Texture(std::string fpath)
 
     width = FreeImage_GetWidth(bitmap32);
     height = FreeImage_GetHeight(bitmap32);
+    //SwapRedBlue32(bitmap32);
+    textureData = NULL;
+    std::cout << width*height*4 << "\n";
+    textureData = FreeImage_GetBits(bitmap32);
+    for(int i = 0; i < width*height; i++){
+        char r = textureData[i*4+2];
+        char g = textureData[i*4+1];
+        char b = textureData[i*4];
+        char a = textureData[i*4+3];
+        textureData[i*4+0] = r;
+		textureData[i*4+1] = g;
+		textureData[i*4+2] = b;
+		textureData[i*4+3] = a;
+    }
     #ifdef ANDROID
     LOGI("width: %d, height:%d", (int)width, (int)height);
     #endif
-    textureData = FreeImage_GetBits(bitmap32);
-
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE,textureData);

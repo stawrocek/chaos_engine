@@ -1,4 +1,3 @@
-
 #ifndef CHAOS_PLATFORM_PC
 #define CHAOS_PLATFORM_ANDROID
 #include <android/log.h>
@@ -109,11 +108,11 @@ public:
         renderer->addMeshVAO(meshChest);
 
         modelSkeleton = new chaos::Model(renderer, meshSkeleton);
-        modelSkeleton->setScale(0.02,0.02,0.02);
+        modelSkeleton->setScale(0.03,0.03,0.03);
         modelSkeleton->setColor(1.0,0.1,0.1,1.0);
 
         modelChest = new chaos::Model(renderer, meshChest);
-        modelChest->setScale(0.02,0.02,0.02);
+        modelChest->setScale(0.03,0.03,0.03);
 
         textureSkeleton = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/skeletonUV.png", "uvMap:Skeleton");
         textureChest = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/chestUV.png", "uvMap:Chest");

@@ -8,9 +8,12 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import android.os.Environment;
 import java.io.File;
+import java.io.IOException;
 
 public class ChaosActivity extends Activity
 {
@@ -44,7 +47,7 @@ public class ChaosActivity extends Activity
 			list = getAssets().list(path);
 			if(list.length == 0){
 				Log.w("Chaos", "Found new file: " + path);
-				writeFile(path);
+				copyFileToSDCard(path);
 			}
 			for(String file: list){
 				if(path!="")
@@ -57,7 +60,52 @@ public class ChaosActivity extends Activity
 		}
 		return true; 
 	} 
-	private void writeFile(String fpath){
+	
+	private void copyFileToSDCard(String fpath){
+		Log.v("Chaos", "copying file!");
+		InputStream in = null;
+		OutputStream out = null;
+		String sdpath = getApplicationExternalStoragePrefix()+"/"+fpath;
+		try{
+			in = getAssets().open(fpath);
+			File outFile = new File(sdpath);
+			out = new FileOutputStream(outFile);
+			copyFiles(in, out);
+		} catch (IOException e){
+			Log.e("Chaos", "Failed to copy asset file: " + fpath, e);
+		}
+		finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    // NOOP
+                }
+            }
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    // NOOP
+                }
+            }
+        } 
+	}
+	
+	private void copyFiles(InputStream in, OutputStream out){
+		try{
+			byte[] buffer = new byte[4096];
+			int len;
+			while ((len = in.read(buffer)) != -1) {
+				out.write(buffer, 0, len);
+			}
+		}
+		catch (Exception e){
+			
+		}
+	}
+	
+	/*private void writeFile(String fpath){
 		final InputStream in;
 		try{
 			in = getAssets().open(fpath);
@@ -89,5 +137,5 @@ public class ChaosActivity extends Activity
 			Log.w("Chaos", e.toString());
 			Log.w("Chaos", e.getMessage());
 		}
-	}
+	}*/
 };
