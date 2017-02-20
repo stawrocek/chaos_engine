@@ -23,11 +23,11 @@ Screenshots of temporary [multiplatform demo (02-2017)](https://github.com/stawr
 
 * PC:
 
-![pc](https://github.com/stawrocek/chaos_engine/README_FILES/sc_21_02_2017_pc.png "PC")
+![pc](https://raw.githubusercontent.com/stawrocek/chaos_engine/master/README_FILES/sc_21_02_2017_pc.png "PC")
 
 * Android:
 
-![android](https://github.com/stawrocek/chaos_engine/README_FILES/sc_21_02_2017_android.png "Android")
+![android](https://raw.githubusercontent.com/stawrocek/chaos_engine/master/README_FILES/sc_21_02_2017_android.png "Android")
 
 
 
