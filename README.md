@@ -19,8 +19,15 @@ Currently contains:
 
 [Demo from 15.10.2016](https://www.youtube.com/watch?v=oC3x1K8IRcs)
 
-Screenshots of temporary demo:
-![android](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+Screenshots of temporary [multiplatform demo (02-2017)](https://github.com/stawrocek/chaos_engine/tree/master/chaos_engine/examples/basic):
+
+* PC:
+
+![pc](https://github.com/stawrocek/chaos_engine/README_FILES/sc_21_02_2017_pc.png "PC")
+
+* Android:
+
+![android](https://github.com/stawrocek/chaos_engine/README_FILES/sc_21_02_2017_android.png "Android")
 
 
 
