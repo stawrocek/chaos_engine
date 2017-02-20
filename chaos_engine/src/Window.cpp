@@ -2,6 +2,8 @@
 
 using namespace chaos;
 
+Window::Window(){}
+
 Window::Window(WindowStyle style){
     winStyle = style;
     deltaTimer.restart();
@@ -11,6 +13,10 @@ Window::Window(WindowStyle style){
 
 Window::~Window(){
 
+}
+
+void Window::setStyle(WindowStyle ws){
+    winStyle=ws;
 }
 
 void Window::runApplication(Application* app){

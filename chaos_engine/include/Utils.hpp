@@ -18,14 +18,14 @@ std::string CHAOS_EXPORT toString ( T Number )
     return ss.str();
 }
 
-long CHAOS_EXPORT getFileSize(FILE* f)
+inline long CHAOS_EXPORT getFileSize(FILE* f)
 {
     long size = 0;
     fseek(f, 0L, SEEK_END), size = ftell(f), fseek(f, 0L, SEEK_SET);
     return size;
 };
 
-std::string CHAOS_EXPORT getFileAsString(const std::string& path)
+inline std::string CHAOS_EXPORT getFileAsString(const std::string& path)
 {
     FILE* f = fopen(path.c_str(), "rb");
     long sizeBytes = 0;

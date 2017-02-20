@@ -4,6 +4,8 @@
 #include "Export.hpp"
 #include "Gameobject.hpp"
 
+#define PI 3.14159265
+
 namespace chaos {
 
 enum CHAOS_EXPORT CameraDirection {
@@ -33,10 +35,10 @@ public:
         rotateY(-xoff);
         rotateX(yoff);
 
-        if(getRotX() > M_PI/2.0-0.01)
-            setRotX(M_PI/2.0-0.01);
-        if(getRotX() < -M_PI/2.0+0.01)
-            setRotX(M_PI/2.0+0.01);
+        if(getRotX() > PI/2.0-0.01)
+            setRotX(PI/2.0-0.01);
+        if(getRotX() < -PI/2.0+0.01)
+            setRotX(PI/2.0+0.01);
 
     }
 

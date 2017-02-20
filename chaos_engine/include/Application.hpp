@@ -19,6 +19,8 @@ public:
     virtual void onResize(int newWidth, int newHeight){};
     virtual void run(){};
 
+    void setWindow(Window* w);
+
     static std::string const& getDataStorageDirectory(){
         return dataStorageDir;
     }

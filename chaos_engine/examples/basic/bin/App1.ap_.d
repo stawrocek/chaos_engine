@@ -26,6 +26,7 @@ C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\a
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\shader1.vs \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\shader2.fs \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\shaders\shader2.vs \
+C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\textures\composition-a-1923-piet-mondrian.jpg \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\textures\uv_maps \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\textures\uv_maps\chestUV.png \
 C:\Users\Stasiu\Desktop\programowanie\chaos_engine\chaos_engine\examples\basic\assets\files\textures\uv_maps\skeletonUV.png \

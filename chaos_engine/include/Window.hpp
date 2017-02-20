@@ -26,6 +26,7 @@ struct CHAOS_EXPORT WindowStyle{
 class CHAOS_EXPORT Window
 {
 public:
+    Window();
     Window(WindowStyle);
     virtual ~Window();
     void runApplication(Application*);
@@ -45,6 +46,7 @@ public:
     GLfloat getRunningTime()            {return totalTimer.getTime();}
     GLfloat getRunningTimeAsSeconds()   {return totalTimer.getTimeAsSeconds();}
     WindowStyle getStyle()              {return winStyle;}
+    void setStyle(WindowStyle ws);
 
 protected:
     GLboolean depthEnabled = true;

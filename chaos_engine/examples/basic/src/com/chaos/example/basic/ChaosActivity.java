@@ -28,6 +28,7 @@ public class ChaosActivity extends Activity
 		
 		glSurfaceView = new GLSurfaceView(this);
 		glSurfaceView.setEGLContextClientVersion(2);
+		//glSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
 		glSurfaceView.setRenderer(new RendererWrapper());
 		rendererSet=true;
 		Toast.makeText(this, "Hello",Toast.LENGTH_LONG).show();
@@ -62,7 +63,6 @@ public class ChaosActivity extends Activity
 	} 
 	
 	private void copyFileToSDCard(String fpath){
-		Log.v("Chaos", "copying file!");
 		InputStream in = null;
 		OutputStream out = null;
 		String sdpath = getApplicationExternalStoragePrefix()+"/"+fpath;

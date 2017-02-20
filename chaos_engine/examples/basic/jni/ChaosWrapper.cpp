@@ -11,6 +11,28 @@
 
 extern "C"
 {
+	class EGLWindow: public chaos::Window{
+		public:
+		EGLWindow(){
+			setDepthEnabled(true);
+			setBlendingEnabled(true);
+		};
+		EGLWindow(chaos::WindowStyle ws)
+		:Window(ws)
+		{
+			setDepthEnabled(true);
+			setBlendingEnabled(true);
+		}
+		
+		void update(){};
+		void swapBuffers(){};
+		int getWidth(){return winStyle.width;}
+		int getHeight(){return winStyle.height;}
+		int getPosX(){return winStyle.posX;}
+		int getPosY(){return winStyle.posY;}
+	};
+	
+	EGLWindow* window=nullptr;
 	BasicApplication app;
 	JNIEXPORT void JNICALL
 	Java_com_chaos_example_basic_RendererWrapper_nativeOnSurfaceCreated(
@@ -31,6 +53,11 @@ extern "C"
 		env->ReleaseStringUTFChars(result, str);
 		LOGI("data_storage (c++): %s", chaos::Application::getDataStorageDirectory().c_str());*/
 		
+		if(window == nullptr){
+			window = new EGLWindow();
+			window->setStyle(chaos::WindowStyle("Chaos - EGL", 0,0,700,700));
+		}
+		app.setWindow(window);
 		std::string tmpPath = env->GetStringUTFChars(dataStoragePath, NULL);
 		if(tmpPath != "")
 			tmpPath+="/";
@@ -44,6 +71,10 @@ extern "C"
 	JNIEnv* env, jclass clazz, int width, int height )
 	{
 		LOGI( "nativeOnSurfaceChanged: %i x %i", width, height );
+		if(window==nullptr)
+			window = new EGLWindow();
+
+		window->setStyle(chaos::WindowStyle("Chaos - EGL", 0,0,width,height));
 		app.onResize(width, height);
 	}
 

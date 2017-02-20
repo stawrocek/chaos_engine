@@ -31,7 +31,6 @@ Texture::Texture(std::string fpath)
     height = FreeImage_GetHeight(bitmap32);
     //SwapRedBlue32(bitmap32);
     textureData = NULL;
-    std::cout << width*height*4 << "\n";
     textureData = FreeImage_GetBits(bitmap32);
     for(int i = 0; i < width*height; i++){
         char r = textureData[i*4+2];
@@ -46,8 +45,11 @@ Texture::Texture(std::string fpath)
     #ifdef ANDROID
     LOGI("width: %d, height:%d", (int)width, (int)height);
     #endif
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE,textureData);
     glGenerateMipmap(GL_TEXTURE_2D);
 

@@ -113,6 +113,7 @@ void VertexArray::generateVertexArray(GLenum _target, GLenum _usage){
 
     GLuint stride = vertsSize+normalSize+uvSize+dataSize;
 
+    #ifdef VAO_ENABLED
     if(vertsSize != 0){
         glVertexAttribPointer(0, vertsSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)0);
         glEnableVertexAttribArray(0);
@@ -132,6 +133,33 @@ void VertexArray::generateVertexArray(GLenum _target, GLenum _usage){
                               (GLvoid*)(sizeof(GLfloat)*(vertsSize+normalSize+uvSize)));
         glEnableVertexAttribArray(3);
     }
+#else
+    GLuint attribCtr=0;
+    if(vertsSize != 0){
+        glVertexAttribPointer(attribCtr, vertsSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)0);
+        glEnableVertexAttribArray(attribCtr);
+        attribCtr++;
+    }
+    if(normalSize != 0){
+        glVertexAttribPointer(attribCtr, normalSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
+                              (GLvoid*)(sizeof(GLfloat)*(vertsSize)));
+        glEnableVertexAttribArray(attribCtr);
+        attribCtr++;
+    }
+    if(uvSize != 0){
+        glVertexAttribPointer(attribCtr, uvSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
+                              (GLvoid*)(sizeof(GLfloat)*(vertsSize+normalSize)));
+        glEnableVertexAttribArray(attribCtr);
+        attribCtr++;
+    }
+    if(dataSize != 0){
+        glVertexAttribPointer(attribCtr, dataSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
+                              (GLvoid*)(sizeof(GLfloat)*(vertsSize+normalSize+uvSize)));
+        glEnableVertexAttribArray(attribCtr);
+        attribCtr++;
+    }
+#endif
+
 #ifdef VAO_ENABLED
     glBindVertexArray(0);
 #else
@@ -154,24 +182,29 @@ void VertexArray::draw(ShaderProgram* shr, GLenum type, GLint start, GLsizei end
         glDrawArrays(type, start, end);
     #else
         GLuint stride = vertsSize+normalSize+uvSize+dataSize;
+        GLuint attribCtr=0;
         if(vertsSize != 0){
-            glVertexAttribPointer(0, vertsSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)0);
-            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(attribCtr, vertsSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)0);
+            glEnableVertexAttribArray(attribCtr);
+            attribCtr++;
         }
         if(normalSize != 0){
-            glVertexAttribPointer(1, normalSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
+            glVertexAttribPointer(attribCtr, normalSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
                                   (GLvoid*)(sizeof(GLfloat)*(vertsSize)));
-            glEnableVertexAttribArray(1);
+            glEnableVertexAttribArray(attribCtr);
+            attribCtr++;
         }
         if(uvSize != 0){
-            glVertexAttribPointer(2, uvSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
+            glVertexAttribPointer(attribCtr, uvSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
                                   (GLvoid*)(sizeof(GLfloat)*(vertsSize+normalSize)));
-            glEnableVertexAttribArray(2);
+            glEnableVertexAttribArray(attribCtr);
+            attribCtr++;
         }
         if(dataSize != 0){
-            glVertexAttribPointer(3, dataSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
+            glVertexAttribPointer(attribCtr, dataSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
                                   (GLvoid*)(sizeof(GLfloat)*(vertsSize+normalSize+uvSize)));
-            glEnableVertexAttribArray(3);
+            glEnableVertexAttribArray(attribCtr);
+            attribCtr++;
         }
         glDrawArrays(type, start, end);
     #endif // VAO_ENABLED
