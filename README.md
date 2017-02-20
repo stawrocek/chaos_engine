@@ -19,4 +19,9 @@ Currently contains:
 
 [Demo from 15.10.2016](https://www.youtube.com/watch?v=oC3x1K8IRcs)
 
+Screenshots of temporary demo:
+![android](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+
+
+
 
