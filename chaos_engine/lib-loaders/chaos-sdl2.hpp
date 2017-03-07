@@ -1,5 +1,5 @@
-#ifndef CHAOS-SDL2_HPP
-#define CHAOS-SDL2_HPP
+#ifndef CHAOS_SDL2_HPP
+#define CHAOS_SDL2_HPP
 
 #include "../include/Window.hpp"
 
@@ -81,5 +81,5 @@ protected:
 
 }
 
-#endif // CHAOS-SDL2_HPP
+#endif // CHAOS_SDL2_HPP
 

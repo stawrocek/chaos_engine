@@ -3,13 +3,13 @@
 
 #include <string>
 
-#include "../include/Scene.hpp"
-#include "../include/Model.hpp"
-#include "../include/MeshPrefab.hpp"
-#include "../include/Camera.hpp"
-#include "../include/BitmapFontSprite.hpp"
-#include "../include/BitmapFontSprite.hpp"
-#include "../include/Sprite.hpp"
+#include "../../include/Scene.hpp"
+#include "../../include/Model.hpp"
+#include "../../include/MeshPrefab.hpp"
+#include "../../include/Camera.hpp"
+#include "../../include/BitmapFontSprite.hpp"
+#include "../../include/BitmapFontSprite.hpp"
+#include "../../include/Sprite.hpp"
 
 class GizmosTest: public chaos::Scene{
 public:

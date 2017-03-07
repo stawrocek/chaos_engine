@@ -38,6 +38,11 @@ bool Shader::compile(GLenum type){
     #ifdef ANDROID
     shaderCode = translateGL3ShaderGLES2Shader(shaderCode, type);
     #endif // ANDROID
+
+    #ifdef __EMSCRIPTEN__
+    shaderCode = translateGL3ShaderGLES2Shader(shaderCode, type);
+    #endif // __EMSCRIPTEN__
+
     shaderType = type;
     id = glCreateShader(type);
     const GLchar* tmpCode = &shaderCode[0];

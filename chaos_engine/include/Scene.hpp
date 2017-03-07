@@ -45,10 +45,6 @@ public:
         resourceManager = mgr;
     }
 
-    void setInputHandler(InputHandler* ipth){
-        inputHandler = ipth;
-    }
-
     void clearWindow(GLfloat r, GLfloat g, GLfloat b, GLfloat a){
         glClearColor(r,g,b,a);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -60,7 +56,6 @@ protected:
     Renderer* renderer;
     ResourceManager* resourceManager;
     Window* window;
-    InputHandler* inputHandler;
 };
 
 }

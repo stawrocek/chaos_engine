@@ -1,57 +1,46 @@
+#define CHAOS_PLATFORM_PC
+
 #include <iostream>
+
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 
 #include "../lib-loaders/chaos-sdl2.hpp"
 #include "../include/Application.hpp"
 #include "../include/InputHandler.hpp"
-#include "../include/Transform.hpp"
 #include "../include/ShaderProgram.hpp"
-#include "../include/Texture.hpp"
+#include "../include/Shader.hpp"
 #include "../include/VertexArray.hpp"
-#include "../include/ResourceManager.hpp"
-#include "../include/SceneManager.hpp"
+#include "../include/ShaderProgram.hpp"
+#include "../include/Transform.hpp"
 
-#include "../examples/scenes/Gizmos.hpp"
-#include "../examples/scenes/ObjViewer.hpp"
+#include "app.hpp"
 
-static chaos::InputHandler& inputHandler = chaos::InputHandler::getInstance();
+ChaosExampleLibraryApp* app;
 
+void emscriptenLoop(void* ){
+    app->onDraw();
+}
+
+#ifndef ANDROID
 int main(int argc, char* argv[]){
     chaos::WindowStyle style("chaos::engine demo", 50, 50, 1024, 600);
     chaos::SDL2Window window(style, SDL_WINDOW_OPENGL);
-    glEnable(GL_MULTISAMPLE);
-    chaos::Renderer renderer(&window);
-    chaos::ResourceManager rscManager;
-    rscManager.loadResource<chaos::BitmapFont>("files/fonts/CalibriBitmap2.fnt", "Calibri");
-    chaos::SceneManager scnMgr(&rscManager, &renderer, &inputHandler);
-    scnMgr.registerScene<GizmosTest>("GizmosTest");
-    scnMgr.registerScene<ObjViewer>("ObjViewer");
-    scnMgr.setActiveScene("ObjViewer");
+    app = new ChaosExampleLibraryApp(&window);
+#ifdef __EMSCRIPTEN__
+    #include <emscripten.h>
+    chaos::Application::setDataStorageDirectory("assets/");
+    app->onCreate();
+    emscripten_set_main_loop_arg(emscriptenLoop, NULL, -1, 1);
+#else
+    window.runApplication(app);
+#endif
 
-    bool mainLoop = true;
-    while (mainLoop){
-	    window.clearColor(0.2, 0.4, 0.6, 1.0);
-		chaos::Event event;
-		while (inputHandler.pollEvent(&event)){
-			if (event.type == SDL_QUIT)
-				mainLoop = false;
 
-			else if (event.type == SDL_KEYDOWN){
-				switch (event.key.keysym.sym){
-				case SDLK_ESCAPE:
-					mainLoop = false;
-					break;
-				}
-			}
-            else
-                scnMgr.deliverEvent((void*)&event);
-
-		}
-
-		GLfloat deltaTime = window.getDeltaTime();
-		scnMgr.runSceneFrame(deltaTime);
-        window.update();
-    }
+    delete app;
     return 0;
 }
+#endif
 
 
