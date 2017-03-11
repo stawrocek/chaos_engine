@@ -30,7 +30,7 @@ public:
         texture = tex;
     }
 
-    const Texture* getTexture(){
+    Texture* getTexture(){
         return texture;
     }
 

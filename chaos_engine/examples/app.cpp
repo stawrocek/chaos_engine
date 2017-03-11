@@ -1,8 +1,6 @@
 #include "app.hpp"
 
 
-
-
 ChaosExampleLibraryApp::ChaosExampleLibraryApp(){}
 
 ChaosExampleLibraryApp::ChaosExampleLibraryApp(chaos::Window* w)
@@ -10,22 +8,39 @@ ChaosExampleLibraryApp::ChaosExampleLibraryApp(chaos::Window* w)
 {}
 
 ChaosExampleLibraryApp::~ChaosExampleLibraryApp(){
-/*#ifdef ANDROID
+#if defined(ANDROID) && defined(TEXTURES_FREEIMAGE)
     FreeImage_DeInitialise();
-#endif*/
+#endif
+#if defined(TEXTURES_SDLIMAGE)
+    IMG_Quit();
+#endif // defined
 }
 
 void ChaosExampleLibraryApp::onCreate(){
     glEnable(GL_DEPTH_TEST);
-/*#ifdef ANDROID
+#if defined(ANDROID) && defined(TEXTURES_FREEIMAGE)
     FreeImage_Initialise(false);
-#endif*/
+#endif
+#if defined(TEXTURES_SDLIMAGE) && !defined (__EMSCRIPTEN__)
+    int flags=IMG_INIT_JPG|IMG_INIT_PNG;
+    int initted=IMG_Init(flags);
+    if((initted&flags) != flags) {
+        printf("IMG_Init: Failed to init required jpg and png support!\n");
+        printf("IMG_Init: %s\n", IMG_GetError());
+        // handle error
+    }
+    else{
+        printf("init ok\n");
+    }
+#endif
     renderer = new chaos::Renderer(window);
     resourceManager = new chaos::ResourceManager();
     sceneManager = new chaos::SceneManager(resourceManager, renderer);
 
     sceneManager->registerScene<ColorfulTriangles>("ColorfulTriangles");
+    sceneManager->registerScene<VAOnShaders>("VAOnShaders");
     sceneManager->setActiveScene("ColorfulTriangles");
+    //sceneManager->setActiveScene("VAOnShaders");
 }
 
 void ChaosExampleLibraryApp::onDraw(){

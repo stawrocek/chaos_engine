@@ -113,7 +113,7 @@ void VertexArray::generateVertexArray(GLenum _target, GLenum _usage){
 
     GLuint stride = vertsSize+normalSize+uvSize+dataSize;
 
-    #ifdef VAO_ENABLED
+    #ifdef LAYOUT_LOCATION
     if(vertsSize != 0){
         glVertexAttribPointer(0, vertsSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)0);
         glEnableVertexAttribArray(0);

@@ -2,6 +2,8 @@
 #define COLORFUL_TRIANGLES_HPP
 
 #include "../../include/Scene.hpp"
+#include "../../include/Texture.hpp"
+#include "../../include/Sprite.hpp"
 
 class ColorfulTriangles: public chaos::Scene{
 public:
@@ -10,10 +12,9 @@ public:
     {}
 
     void onSceneLoadToMemory(){
-        vao = renderer->getVAO("Rectangle:Vao_Pos");
-        shr = renderer->getShader("Shader_Pos");
-        txTriangle = new chaos::Transform();
-        txTriangle->setScale(0.1,0.1,0.1);
+        piet = resourceManager->loadResource<chaos::Texture>("files/textures/composition-a-1923-piet-mondrian.png", "piet");
+        spritePiet = new chaos::Sprite(renderer, piet);
+        spritePiet->setScale(0.33,0.33,0.33);
     }
 
     void onSceneActivate(){
@@ -22,21 +23,14 @@ public:
 
     void draw(GLfloat deltaTime){
         window->clearColor(0.2, 0.7, 0.2, 1.0);
+        renderer->setCamCombined(glm::mat4(1));
 
-        shr->run();
-        shr->setUniform("uniColor", glm::vec4(1,0,0,1));
-        shr->setUniform("mx", txTriangle->getGlobalTransformMatrix());
-        vao->bind();
-        vao->draw(shr);
-        vao->unbind();
-        glUseProgram(0);
+        spritePiet->draw();
     }
 
 private:
-    chaos::VertexArray* vao = nullptr;
-    chaos::ShaderProgram* shr = nullptr;
-    chaos::Transform* txTriangle = nullptr;
-
+    chaos::Texture* piet;
+    chaos::Sprite* spritePiet;
 };
 
 #endif // COLORFUL_TRIANGLES_HPP

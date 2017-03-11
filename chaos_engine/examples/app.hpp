@@ -32,6 +32,7 @@
 #endif
 
 #include "scenes/ColorfulTriangles.hpp"
+#include "scenes/VAOnShaders.hpp"
 
 class ChaosExampleLibraryApp: public chaos::Application{
 public:

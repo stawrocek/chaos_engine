@@ -18,6 +18,7 @@ Shader::~Shader(){
 void Shader::loadFromFile(std::string fpath, GLenum type){
     fpath = chaos::Application::getDataStorageDirectory()+fpath;
     std::ifstream file(fpath);
+
     if(!file){
         std::cout << "[error]: couldn't open " << fpath << "\n";
         #ifdef ANDROID
@@ -35,13 +36,9 @@ void Shader::loadFromString(std::string str, GLenum type){
 }
 
 bool Shader::compile(GLenum type){
-    #ifdef ANDROID
+    #if defined(ANDROID) || defined(__EMSCRIPTEN__)
     shaderCode = translateGL3ShaderGLES2Shader(shaderCode, type);
-    #endif // ANDROID
-
-    #ifdef __EMSCRIPTEN__
-    shaderCode = translateGL3ShaderGLES2Shader(shaderCode, type);
-    #endif // __EMSCRIPTEN__
+    #endif // ANDROID || __EMSCRIPTEN__
 
     shaderType = type;
     id = glCreateShader(type);

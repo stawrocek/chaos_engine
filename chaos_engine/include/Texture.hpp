@@ -8,9 +8,16 @@
 #include <iostream>
 #include <streambuf>
 #include <fstream>
-#include <FreeImage.h>
 
 #include "Resource.hpp"
+
+#ifdef TEXTURES_FREEIMAGE
+#include "../lib-loaders/FreeImageTextureLoader.hpp"
+
+#else
+#include "../lib-loaders/SDL_Texture_Loader.hpp"
+
+#endif
 
 namespace chaos{
 
@@ -20,19 +27,16 @@ public:
     Texture(std::string fpath);
     virtual ~Texture();
 
-    GLubyte* getTextureData();
     GLuint getWidth();
     GLuint getHeight();
     GLuint getId();
     GLuint getBatchId();
     GLenum getTextureType();
-    void loadFromTextureData(Texture* txtData);
     void bind(GLenum type=GL_TEXTURE_2D);
     //void bindOnSlot(GLenum slot);
     void unbind();
 
 private:
-    GLubyte* textureData;
     GLuint width;
     GLuint height;
     GLenum type=GL_TEXTURE_2D;

@@ -17,6 +17,13 @@
     #define GEOMETRY_SHADER_ENABLED
 #endif // ANDROID
 
+#if !defined(ANDROID) && !defined(__EMSCRIPTEN__)
+    #define LAYOUT_LOCATION
+#endif
+
+//#define TEXTURES_FREEIMAGE
+#define TEXTURES_SDLIMAGE
+
 namespace chaos{
 
 //uncomment DEVELOPMENT_MODE if you want to build dll
