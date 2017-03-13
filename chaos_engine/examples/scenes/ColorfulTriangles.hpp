@@ -28,6 +28,16 @@ public:
         spritePiet->draw();
     }
 
+    void deliverEvent(void* event){
+        /*chaos::Event* e = (chaos::Event*)event;
+        if(e->key.keysym.sym == SDLK_n){
+
+        }
+        if(e->type == SDL_MOUSEMOTION){
+
+        }*/
+    }
+
 private:
     chaos::Texture* piet;
     chaos::Sprite* spritePiet;

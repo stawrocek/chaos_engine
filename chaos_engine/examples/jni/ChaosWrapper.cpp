@@ -84,11 +84,7 @@ extern "C"
         //LOGI("nativeOnDrawFrame");
 		app.onDraw();
 	}
-}
 
-/// C-runtime patch
-extern "C"
-{
     // used deep inside FreeImage
     void* lfind( const void * key, const void * base, size_t num, size_t width, int (*fncomparison)(const void *, const void * ) )
     {

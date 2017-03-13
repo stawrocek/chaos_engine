@@ -45,6 +45,7 @@ public:
     void onResize(int newWidth, int newHeight);
 
     void run();
+    void runEvents();
     bool mainLoop = true;
 
     chaos::SceneManager* sceneManager = nullptr;

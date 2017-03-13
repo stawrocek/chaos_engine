@@ -44,36 +44,41 @@ void ChaosExampleLibraryApp::onCreate(){
 }
 
 void ChaosExampleLibraryApp::onDraw(){
+    GLfloat deltaTime = window->getDeltaTime();
+    runEvents();
     sceneManager->runSceneFrame(0.001);
+    window->update();
 }
 
 void ChaosExampleLibraryApp::onResize(int newWidth, int newHeight){
 
 }
 
+void ChaosExampleLibraryApp::runEvents(){
+#ifndef ANDROID
+    SDL_Event event;
+    while (SDL_PollEvent(&event)){
+        if (event.type == SDL_QUIT)
+            mainLoop = false;
+
+        else if (event.type == SDL_KEYDOWN){
+            switch (event.key.keysym.sym){
+                case SDLK_ESCAPE:
+                    mainLoop = false;
+                    break;
+            }
+        }
+        else
+            sceneManager->deliverEvent(&event);
+    }
+#endif
+}
+
 void ChaosExampleLibraryApp::run(){
     #ifndef ANDROID
     onCreate();
     while (mainLoop){
-        //window->clearColor(0.2, 0.4, 0.6, 1.0);
-        SDL_Event event;
-        while (SDL_PollEvent(&event)){
-            if (event.type == SDL_QUIT)
-                mainLoop = false;
-
-            else if (event.type == SDL_KEYDOWN){
-                switch (event.key.keysym.sym){
-                case SDLK_ESCAPE:
-                    mainLoop = false;
-                    break;
-                }
-            }
-        }
-
-        GLfloat deltaTime = window->getDeltaTime();
         onDraw();
-
-        window->update();
     }
     #endif
 }

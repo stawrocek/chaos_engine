@@ -23,7 +23,6 @@ void emscriptenLoop(void* ){
     app->onDraw();
 }
 
-#ifndef ANDROID
 int main(int argc, char* argv[]){
     chaos::WindowStyle style("chaos::engine demo", 50, 50, 1024, 600);
     chaos::SDL2Window window(style, SDL_WINDOW_OPENGL);
@@ -37,10 +36,8 @@ int main(int argc, char* argv[]){
     window.runApplication(app);
 #endif
 
-
     delete app;
     return 0;
 }
-#endif
 
 

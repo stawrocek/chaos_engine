@@ -31,7 +31,7 @@ namespace chaos{
 
 #ifndef DEVELOPMENT_MODE
     #ifdef _WIN32
-        //add -DDLL_EXPORT to g+ +arguments
+        //add -DDLL_EXPORT to g++ arguments
         #ifdef DLL_EXPORT
             #define CHAOS_EXPORT __declspec(dllexport)
         #else
