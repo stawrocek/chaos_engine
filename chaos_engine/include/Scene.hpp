@@ -7,6 +7,7 @@
 
 #include "Renderer.hpp"
 #include "ResourceManager.hpp"
+#include "SceneManager.hpp"
 
 namespace chaos{
 

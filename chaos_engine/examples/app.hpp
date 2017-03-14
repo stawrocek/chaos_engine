@@ -24,14 +24,16 @@
 
 #else
 
-#include "../include/Application.hpp"
 #include "../include/Renderer.hpp"
+#include "../include/Application.hpp"
 #include "../include/ResourceManager.hpp"
 #include "../include/SceneManager.hpp"
 #endif
 
 #include "scenes/ColorfulTriangles.hpp"
 #include "scenes/VAOnShaders.hpp"
+#include "scenes/Gizmos.hpp"
+#include "scenes/ObjViewer.hpp"
 
 class ChaosExampleLibraryApp: public chaos::Application{
 public:

@@ -27,10 +27,12 @@ public:
 
         if(!window->isTouched())
             spritePiet->draw();
-        if(window->isTouched(chaos::MouseButton::MIDDLE)){
-            scnManager->setActiveScene("VAOnShaders");
-        }
         spritePiet->setRotZ(window->inputManager->getMouseX()/100.0);
+
+        if(window->isKeyDown(SDLK_x))
+            spritePiet->setScale(0.1,0.1,0.1);
+        else
+            spritePiet->setScale(0.33,0.33,0.33);
     }
 
     void deliverEvent(void* event){

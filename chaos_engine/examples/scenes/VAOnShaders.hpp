@@ -22,10 +22,6 @@ public:
     void draw(GLfloat deltaTime){
         window->clearColor(0.2, 0.7, 0.2, 1.0);
 
-        if(window->isTouched(chaos::MouseButton::RIGHT)){
-            scnManager->setActiveScene("ColorfulTriangles");
-        }
-
         if(scale>1.1){
             scaleSpeed=-1;
             scale=1.1;

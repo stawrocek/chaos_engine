@@ -83,13 +83,13 @@ public:
 
     virtual void onSceneActivate(){};
     virtual void draw(GLfloat deltaTime){
-        if(inputHandler->isKeyDown('a'))
+        if(window->isKeyDown(SDLK_a))
             cam->processKeyboard(chaos::LEFT, deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('d'))
+        if(window->isKeyDown(SDLK_d))
             cam->processKeyboard(chaos::RIGHT, deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('w'))
+        if(window->isKeyDown(SDLK_w))
             cam->processKeyboard(chaos::FORWARD, deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('s'))
+        if(window->isKeyDown(SDLK_s))
             cam->processKeyboard(chaos::BACKWARD, deltaTime*moveSpeed);
 
         renderer->setCamCombined(cam->getProjectionMatrix()*cam->getViewMatrix());
@@ -136,7 +136,7 @@ public:
         }
     }
     virtual void deliverEvent(void* event){
-        chaos::Event* e = (chaos::Event*)event;
+        SDL_Event* e = (SDL_Event*)event;
         if(e->key.keysym.sym == SDLK_n && (e->key.keysym.mod & KMOD_SHIFT)){
             renderMode=0;
         }

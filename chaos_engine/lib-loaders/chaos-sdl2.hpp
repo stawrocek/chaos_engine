@@ -2,6 +2,7 @@
 #define CHAOS_SDL2_HPP
 
 #include "../include/Window.hpp"
+#include "../include/SceneManager.hpp"
 
 #include <SDL2/SDL.h>
 
@@ -86,20 +87,26 @@ public:
         while (SDL_PollEvent(&event)){
             if (event.type == SDL_MOUSEBUTTONDOWN){
                 if(event.button.button == SDL_BUTTON_LEFT)
-                    mTouchDown[MouseButton::LEFT]=true;
+                    mTouchDown[MouseButton::BTN_LEFT]=true;
                 if(event.button.button == SDL_BUTTON_MIDDLE)
-                    mTouchDown[MouseButton::MIDDLE]=true;
+                    mTouchDown[MouseButton::BTN_MIDDLE]=true;
                 if(event.button.button == SDL_BUTTON_RIGHT)
-                    mTouchDown[MouseButton::RIGHT]=true;
+                    mTouchDown[MouseButton::BTN_RIGHT]=true;
 
             }
             else if(event.type == SDL_MOUSEBUTTONUP){
                 if(event.button.button == SDL_BUTTON_LEFT)
-                    mTouchDown[MouseButton::LEFT]=false;
+                    mTouchDown[MouseButton::BTN_LEFT]=false;
                 if(event.button.button == SDL_BUTTON_MIDDLE)
-                    mTouchDown[MouseButton::MIDDLE]=false;
+                    mTouchDown[MouseButton::BTN_MIDDLE]=false;
                 if(event.button.button == SDL_BUTTON_RIGHT)
-                    mTouchDown[MouseButton::RIGHT]=false;
+                    mTouchDown[MouseButton::BTN_RIGHT]=false;
+            }
+            else if (event.type == SDL_KEYDOWN){
+                mKeyDown[event.key.keysym.sym]=true;
+            }
+            else if (event.type == SDL_KEYUP){
+                mKeyDown[event.key.keysym.sym]=false;
             }
         }
     }

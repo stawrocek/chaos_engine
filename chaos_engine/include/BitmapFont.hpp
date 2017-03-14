@@ -7,7 +7,6 @@
 #include "Resource.hpp"
 #include "Texture.hpp"
 
-#include <glm/gtx/string_cast.hpp>
 #include <vector>
 #include <map>
 #include <sstream>

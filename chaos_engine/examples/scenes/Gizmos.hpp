@@ -18,6 +18,7 @@ public:
     {}
 
     virtual ~GizmosTest(){
+
     }
 
     virtual void onSceneLoadToMemory(){
@@ -43,37 +44,30 @@ public:
     virtual void onSceneActivate(){};
 
     virtual void draw(GLfloat deltaTime){
-        if(inputHandler->isKeyDown('a'))
+        if(window->isKeyDown(SDLK_a))
             cam->processKeyboard(chaos::LEFT, deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('d'))
+        if(window->isKeyDown(SDLK_d))
             cam->processKeyboard(chaos::RIGHT, deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('w'))
+        if(window->isKeyDown(SDLK_w))
             cam->processKeyboard(chaos::FORWARD, deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('s'))
+        if(window->isKeyDown(SDLK_s))
             cam->processKeyboard(chaos::BACKWARD, deltaTime*moveSpeed);
-
-        /*if(inputHandler->isKeyDown('k'))actModel->moveX(deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('h'))actModel->moveX(-deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('u'))actModel->moveY(deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('j'))actModel->moveY(-deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('o'))actModel->moveZ(deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('l'))actModel->moveZ(-deltaTime*moveSpeed);*/
 
         glm::vec3 f = actModel->getFront(), u = actModel->getUp(), r = actModel->getRight();
 
-        if(inputHandler->isKeyDown('k'))actModel->translate(r*deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('h'))actModel->translate(r*-deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('u'))actModel->translate(u*deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('j'))actModel->translate(u*-deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('o'))actModel->translate(f*deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('l'))actModel->translate(f*-deltaTime*moveSpeed);
+        if(window->isKeyDown(SDLK_k))actModel->translate(r*deltaTime*moveSpeed);
+        if(window->isKeyDown(SDLK_h))actModel->translate(r*-deltaTime*moveSpeed);
+        if(window->isKeyDown(SDLK_u))actModel->translate(u*deltaTime*moveSpeed);
+        if(window->isKeyDown(SDLK_j))actModel->translate(u*-deltaTime*moveSpeed);
+        if(window->isKeyDown(SDLK_o))actModel->translate(f*deltaTime*moveSpeed);
+        if(window->isKeyDown(SDLK_l))actModel->translate(f*-deltaTime*moveSpeed);
 
-        if(inputHandler->isKeyDown('b'))actModel->rotateX(-deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('n'))actModel->rotateX(deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('y'))actModel->rotateY(-deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('i'))actModel->rotateY(deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('c'))actModel->rotateZ(-deltaTime*moveSpeed);
-        if(inputHandler->isKeyDown('v'))actModel->rotateZ(deltaTime*moveSpeed);
+        if(window->isKeyDown(SDLK_n))actModel->rotateX(-deltaTime*moveSpeed);
+        if(window->isKeyDown(SDLK_n))actModel->rotateX(deltaTime*moveSpeed);
+        if(window->isKeyDown(SDLK_y))actModel->rotateY(-deltaTime*moveSpeed);
+        if(window->isKeyDown(SDLK_i))actModel->rotateY(deltaTime*moveSpeed);
+        if(window->isKeyDown(SDLK_c))actModel->rotateZ(-deltaTime*moveSpeed);
+        if(window->isKeyDown(SDLK_v))actModel->rotateZ(deltaTime*moveSpeed);
 
         renderer->setCamCombined(cam->getProjectionMatrix()*cam->getViewMatrix());
         //renderer->setCamCombined(glm::mat4());
@@ -89,7 +83,8 @@ public:
         actModel->drawGizmo();
     }
     virtual void deliverEvent(void* event){
-        chaos::Event* e = (chaos::Event*)event;
+        std::cout << "woah\n";
+        SDL_Event* e = (SDL_Event*)event;
         if(e->type == SDL_MOUSEMOTION) {
             cam->processMouse(e->motion.xrel, -e->motion.yrel);
         }

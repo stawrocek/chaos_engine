@@ -50,11 +50,13 @@ public:
     void setStyle(WindowStyle ws);
 
     //input
-    void runEvents()                    {inputManager->runEvents();}
-    bool isTouched(MouseButton btn=MouseButton::LEFT){
+    void runEvents(){inputManager->runEvents();}
+    bool isTouched(MouseButton btn=MouseButton::BTN_LEFT){
         return inputManager->isTouched(btn);
     }
-
+    bool isKeyDown(GLuint k){
+        return inputManager->isKeyDown(k);
+    }
     InputManager* inputManager;
 
 protected:
