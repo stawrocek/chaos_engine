@@ -28,7 +28,6 @@
 #include "../include/Renderer.hpp"
 #include "../include/ResourceManager.hpp"
 #include "../include/SceneManager.hpp"
-#include "../include/Event.hpp"
 #endif
 
 #include "scenes/ColorfulTriangles.hpp"

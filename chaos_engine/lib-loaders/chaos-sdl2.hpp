@@ -79,6 +79,45 @@ protected:
     SDL_WindowFlags flags;
 };
 
+class SDL2InputManager: public InputManager{
+public:
+    void runEvents(){
+        SDL_Event event;
+        while (SDL_PollEvent(&event)){
+            if (event.type == SDL_MOUSEBUTTONDOWN){
+                if(event.button.button == SDL_BUTTON_LEFT)
+                    mTouchDown[MouseButton::LEFT]=true;
+                if(event.button.button == SDL_BUTTON_MIDDLE)
+                    mTouchDown[MouseButton::MIDDLE]=true;
+                if(event.button.button == SDL_BUTTON_RIGHT)
+                    mTouchDown[MouseButton::RIGHT]=true;
+
+            }
+            else if(event.type == SDL_MOUSEBUTTONUP){
+                if(event.button.button == SDL_BUTTON_LEFT)
+                    mTouchDown[MouseButton::LEFT]=false;
+                if(event.button.button == SDL_BUTTON_MIDDLE)
+                    mTouchDown[MouseButton::MIDDLE]=false;
+                if(event.button.button == SDL_BUTTON_RIGHT)
+                    mTouchDown[MouseButton::RIGHT]=false;
+            }
+        }
+    }
+
+    GLuint getMouseX(){
+        GLint tmpX,tmpY;
+        SDL_GetMouseState(&tmpX,&tmpY);
+        return tmpX;
+    }
+
+    GLuint getMouseY(){
+        GLint tmpX,tmpY;
+        SDL_GetMouseState(&tmpX,&tmpY);
+        return tmpY;
+    }
+};
+
+
 }
 
 #endif // CHAOS_SDL2_HPP

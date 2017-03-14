@@ -8,6 +8,7 @@
 
 #include "Timer.hpp"
 #include "Application.hpp"
+#include "InputManager.hpp"
 
 namespace chaos{
 
@@ -47,6 +48,14 @@ public:
     GLfloat getRunningTimeAsSeconds()   {return totalTimer.getTimeAsSeconds();}
     WindowStyle getStyle()              {return winStyle;}
     void setStyle(WindowStyle ws);
+
+    //input
+    void runEvents()                    {inputManager->runEvents();}
+    bool isTouched(MouseButton btn=MouseButton::LEFT){
+        return inputManager->isTouched(btn);
+    }
+
+    InputManager* inputManager;
 
 protected:
     GLboolean depthEnabled = true;

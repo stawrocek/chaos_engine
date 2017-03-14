@@ -25,17 +25,16 @@ public:
         window->clearColor(0.2, 0.7, 0.2, 1.0);
         renderer->setCamCombined(glm::mat4(1));
 
-        spritePiet->draw();
+        if(!window->isTouched())
+            spritePiet->draw();
+        if(window->isTouched(chaos::MouseButton::MIDDLE)){
+            scnManager->setActiveScene("VAOnShaders");
+        }
+        spritePiet->setRotZ(window->inputManager->getMouseX()/100.0);
     }
 
     void deliverEvent(void* event){
-        /*chaos::Event* e = (chaos::Event*)event;
-        if(e->key.keysym.sym == SDLK_n){
 
-        }
-        if(e->type == SDL_MOUSEMOTION){
-
-        }*/
     }
 
 private:
