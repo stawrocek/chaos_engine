@@ -1,0 +1,41 @@
+#include "../include/SceneManager.hpp"
+
+chaos::SceneManager::SceneManager(ResourceManager* rsc, Renderer* ren){
+    resourceManager = rsc;
+    renderer = ren;
+}
+chaos::SceneManager::~SceneManager(){
+    std::cout << "Destructor of SceneManager{\n";
+    std::cout << scenes.size() << "\n";
+    auto itr = scenes.begin();
+    while (itr != scenes.end()) {
+        delete itr->second;
+        itr = scenes.erase(itr);
+    }
+    std::cout << scenes.size() << "\n";
+    std::cout << "}\n";
+}
+
+void chaos::SceneManager::unregisterScene(std::string nameId){
+    if(scenes.find(nameId) != scenes.end()){
+        delete scenes[nameId];
+        scenes.erase(nameId);
+    }
+}
+void chaos::SceneManager::setActiveScene(std::string nameId){
+    if(actScene != nullptr){
+        actScene->onSceneDeactivate();
+    }
+    actScene = scenes[nameId];
+    actScene->onSceneActivate();
+}
+std::string chaos::SceneManager::getActiveSceneName(){
+    return actScene->getName();
+}
+void chaos::SceneManager::deliverEvent(void* e){
+    actScene->deliverEvent(e);
+}
+void chaos::SceneManager::runSceneFrame(GLfloat delta){
+    actScene->update(delta);
+    actScene->draw(delta);
+}

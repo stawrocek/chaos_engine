@@ -7,6 +7,8 @@
 
 namespace chaos{
 
+class SceneManager;
+
 enum MouseButton{
     BTN_LEFT=0,
     BTN_MIDDLE=1,
@@ -15,21 +17,12 @@ enum MouseButton{
 
 class CHAOS_EXPORT InputManager{
 public:
-    virtual void runEvents()=0;
+    virtual void runEvents(SceneManager* sceneManager)=0;
     virtual GLuint getMouseX()=0;
     virtual GLuint getMouseY()=0;
 
-    virtual GLboolean isTouched(MouseButton btn=BTN_LEFT){
-        if(mTouchDown.find(btn) == mTouchDown.end())
-            return false;
-        return mTouchDown[btn];
-    }
-
-    virtual GLboolean isKeyDown(GLuint k){
-        if(mKeyDown.find(k) == mKeyDown.end())
-            return false;
-        return mKeyDown[k];
-    }
+    virtual GLboolean isTouched(MouseButton btn=BTN_LEFT);
+    virtual GLboolean isKeyDown(GLuint k);
 
 protected:
     struct ButtonStateFunctor{

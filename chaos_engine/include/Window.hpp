@@ -12,16 +12,16 @@
 
 namespace chaos{
 
+class SceneManager;
+
 struct CHAOS_EXPORT WindowStyle{
-    WindowStyle(){}
+    WindowStyle();
     std::string name;
     GLuint posX;
     GLuint posY;
     GLuint width;
     GLuint height;
-    WindowStyle(std::string _name, GLuint _posX, GLuint _posY, GLuint _width, GLuint _height)
-    :name(_name), posX(_posX), posY(_posY), width(_width), height(_height)
-    {}
+    WindowStyle(std::string _name, GLuint _posX, GLuint _posY, GLuint _width, GLuint _height);
 };
 
 class CHAOS_EXPORT Window
@@ -39,24 +39,20 @@ public:
     virtual GLint getPosX() = 0;
     virtual GLint getPosY() = 0;
     void setDepthEnabled(GLboolean);
-    GLboolean isDepthEnabled()          {return depthEnabled;}
+    GLboolean isDepthEnabled();
     void setBlendingEnabled(GLboolean);
-    GLboolean isBlendingEnabled()       {return blendingEnabled;}
+    GLboolean isBlendingEnabled();
     GLfloat getDeltaTime();
     GLuint getFPS();
-    GLfloat getRunningTime()            {return totalTimer.getTime();}
-    GLfloat getRunningTimeAsSeconds()   {return totalTimer.getTimeAsSeconds();}
-    WindowStyle getStyle()              {return winStyle;}
+    GLfloat getRunningTime();
+    GLfloat getRunningTimeAsSeconds();
+    WindowStyle getStyle();
     void setStyle(WindowStyle ws);
 
     //input
-    void runEvents(){inputManager->runEvents();}
-    bool isTouched(MouseButton btn=MouseButton::BTN_LEFT){
-        return inputManager->isTouched(btn);
-    }
-    bool isKeyDown(GLuint k){
-        return inputManager->isKeyDown(k);
-    }
+    void runEvents(SceneManager* sceneManager);
+    GLboolean isTouched(MouseButton btn=MouseButton::BTN_LEFT);
+    GLboolean isKeyDown(GLuint k);
     InputManager* inputManager;
 
 protected:

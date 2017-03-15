@@ -159,6 +159,13 @@ public:
             loadModel(+1);
         }
 
+        if (e->type == SDL_KEYDOWN){
+            if(e->key.keysym.sym == SDLK_9)
+                scnManager->setActiveScene("GizmosTest");
+            if(e->key.keysym.sym == SDLK_0)
+                scnManager->setActiveScene("ColorfulTriangles");
+        }
+
         if(e->type == SDL_MOUSEMOTION) {
             cam->processMouse(e->motion.xrel, -e->motion.yrel);
         }

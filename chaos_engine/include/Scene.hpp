@@ -7,7 +7,6 @@
 
 #include "Renderer.hpp"
 #include "ResourceManager.hpp"
-#include "SceneManager.hpp"
 
 namespace chaos{
 
@@ -15,41 +14,21 @@ class SceneManager;
 
 class CHAOS_EXPORT Scene{
 public:
-    Scene(std::string _name)
-    :name(_name)
-    {}
+    Scene(std::string _name);
+    virtual ~Scene();
 
-    virtual ~Scene(){}
+    virtual void onSceneLoadToMemory();
+    virtual void onSceneActivate();
+    virtual void update(GLfloat deltaTime);
+    virtual void draw(GLfloat deltaTime);
+    virtual void deliverEvent(void* e);
+    virtual void onSceneDeactivate();
 
-
-    virtual void onSceneLoadToMemory(){};
-    virtual void onSceneActivate(){};// = 0;
-    virtual void update(GLfloat deltaTime){};// = 0;
-    virtual void draw(GLfloat deltaTime){};// = 0;
-    virtual void deliverEvent(void* e){};// = 0;
-    virtual void onSceneDeactivate(){};// = 0;
-
-    std::string getName(){
-        return name;
-    }
-
-    void setSceneManager(SceneManager* mgr){
-        scnManager = mgr;
-    }
-
-    void setRenderer(Renderer* ren){
-        renderer = ren;
-        window = renderer->getTargetWindow();
-    }
-
-    void setResourceManager(ResourceManager* mgr){
-        resourceManager = mgr;
-    }
-
-    void clearWindow(GLfloat r, GLfloat g, GLfloat b, GLfloat a){
-        glClearColor(r,g,b,a);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    }
+    std::string getName();
+    void setSceneManager(SceneManager* mgr);
+    void setRenderer(Renderer* ren);
+    void setResourceManager(ResourceManager* mgr);
+    void clearWindow(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 
 protected:
     std::string name;

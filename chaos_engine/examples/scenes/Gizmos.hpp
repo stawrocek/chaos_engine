@@ -70,8 +70,6 @@ public:
         if(window->isKeyDown(SDLK_v))actModel->rotateZ(deltaTime*moveSpeed);
 
         renderer->setCamCombined(cam->getProjectionMatrix()*cam->getViewMatrix());
-        //renderer->setCamCombined(glm::mat4());
-        //actModel->setRotY(SDL_GetTicks()/2000.f);
         clearWindow(0.2, 0.2, 0.2, 1.0);
         spriteBackground->draw();
         if(actModel != nullptr){
@@ -80,13 +78,18 @@ public:
                 actModel->draw();
             }
         }
-        actModel->drawGizmo();
+        actModel->drawGizmo(10);
     }
     virtual void deliverEvent(void* event){
-        std::cout << "woah\n";
         SDL_Event* e = (SDL_Event*)event;
         if(e->type == SDL_MOUSEMOTION) {
             cam->processMouse(e->motion.xrel, -e->motion.yrel);
+        }
+        else if (e->type == SDL_KEYDOWN){
+            if(e->key.keysym.sym == SDLK_9)
+                scnManager->setActiveScene("VAOnShaders");
+            if(e->key.keysym.sym == SDLK_0)
+                scnManager->setActiveScene("ObjViewer");
         }
     }
 

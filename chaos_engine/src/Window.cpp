@@ -2,6 +2,12 @@
 
 using namespace chaos;
 
+WindowStyle::WindowStyle(){}
+
+WindowStyle::WindowStyle(std::string _name, GLuint _posX, GLuint _posY, GLuint _width, GLuint _height)
+:name(_name), posX(_posX), posY(_posY), width(_width), height(_height)
+{}
+
 Window::Window(){}
 
 Window::Window(WindowStyle style){
@@ -59,4 +65,30 @@ void Window::setBlendingEnabled(GLboolean b){
         glDisable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
     }
+}
+
+GLboolean Window::isDepthEnabled(){
+    return depthEnabled;
+}
+GLboolean Window::isBlendingEnabled(){
+    return blendingEnabled;
+}
+GLfloat Window::getRunningTime(){
+    return totalTimer.getTime();
+}
+GLfloat Window::getRunningTimeAsSeconds(){
+    return totalTimer.getTimeAsSeconds();
+}
+WindowStyle Window::getStyle(){
+    return winStyle;
+}
+
+void Window::runEvents(SceneManager* sceneManager){
+    inputManager->runEvents(sceneManager);
+}
+GLboolean Window::isTouched(MouseButton btn){
+    return inputManager->isTouched(btn);
+}
+GLboolean Window::isKeyDown(GLuint k){
+    return inputManager->isKeyDown(k);
 }

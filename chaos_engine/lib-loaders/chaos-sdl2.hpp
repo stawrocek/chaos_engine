@@ -82,9 +82,12 @@ protected:
 
 class SDL2InputManager: public InputManager{
 public:
-    void runEvents(){
+    void runEvents(SceneManager* sceneManager){
         SDL_Event event;
         while (SDL_PollEvent(&event)){
+            if(sceneManager != nullptr){
+                sceneManager->deliverEvent(&event);
+            }
             if (event.type == SDL_MOUSEBUTTONDOWN){
                 if(event.button.button == SDL_BUTTON_LEFT)
                     mTouchDown[MouseButton::BTN_LEFT]=true;

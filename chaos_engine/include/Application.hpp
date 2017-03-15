@@ -9,25 +9,18 @@ class Window;
 
 class CHAOS_EXPORT Application{
 public:
-    Application(){}
-    Application(Window* w)
-    :window(w)
-    {};
+    Application();
+    Application(Window* w);
 
-    virtual void onCreate(){};
-    virtual void onDraw(){};
-    virtual void onResize(int newWidth, int newHeight){};
-    virtual void run(){};
+    virtual void onCreate();
+    virtual void onDraw();
+    virtual void onResize(int newWidth, int newHeight);
+    virtual void run();
 
     void setWindow(Window* w);
 
-    static std::string const& getDataStorageDirectory(){
-        return dataStorageDir;
-    }
-
-    static void setDataStorageDirectory(std::string str){
-        dataStorageDir = str;
-    }
+    static std::string const& getDataStorageDirectory();
+    static void setDataStorageDirectory(std::string str);
 
     static std::string dataStorageDir;
     Window* window;

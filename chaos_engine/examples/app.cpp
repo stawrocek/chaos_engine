@@ -58,7 +58,7 @@ void ChaosExampleLibraryApp::onResize(int newWidth, int newHeight){
 
 void ChaosExampleLibraryApp::runEvents(){
 #ifndef ANDROID
-    window->runEvents();
+    window->runEvents(sceneManager);
     SDL_Event event;
     while (SDL_PollEvent(&event)){
         if (event.type == SDL_QUIT)

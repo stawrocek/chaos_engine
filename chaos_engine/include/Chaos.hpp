@@ -6,7 +6,7 @@
 #include <Camera.hpp>
 #include <Event.hpp>
 #include <GameObject.hpp>
-#include <InputHandler.hpp>
+#include <InputManager.hpp>
 #include <MeshPrefab.hpp>
 #include <Model.hpp>
 #include <primitives.hpp>

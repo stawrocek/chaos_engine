@@ -2,6 +2,7 @@
 #define VAONSHADERS_HPP
 
 #include "../../include/Scene.hpp"
+#include "../../include/primitives.hpp"
 
 class VAOnShaders: public chaos::Scene{
 public:
@@ -13,6 +14,8 @@ public:
         vao = renderer->getVAO("Rectangle:Vao_Pos");
         shr = renderer->getShader("Shader_Pos");
         txTriangle = new chaos::Transform();
+
+        cube = new chaos::Cube(renderer);
     }
 
     void onSceneActivate(){
@@ -39,13 +42,27 @@ public:
         vao->bind();
         vao->draw(shr);
         vao->unbind();
+
+        cube->draw();
+
         glUseProgram(0);
+    }
+
+    void deliverEvent(void* event){
+        SDL_Event* e = (SDL_Event*)event;
+        if (e->type == SDL_KEYDOWN){
+            if(e->key.keysym.sym == SDLK_9)
+                scnManager->setActiveScene("ColorfulTriangles");
+            if(e->key.keysym.sym == SDLK_0)
+                scnManager->setActiveScene("GizmosTest");
+        }
     }
 
 private:
     chaos::VertexArray* vao = nullptr;
     chaos::ShaderProgram* shr = nullptr;
     chaos::Transform* txTriangle = nullptr;
+    chaos::Cube* cube = nullptr;
 
     GLfloat scale=1.0;
     GLint scaleSpeed=1;
