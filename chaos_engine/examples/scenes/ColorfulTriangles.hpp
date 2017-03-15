@@ -39,7 +39,7 @@ public:
         SDL_Event* e = (SDL_Event*)event;
         if (e->type == SDL_KEYDOWN){
             if(e->key.keysym.sym == SDLK_9)
-                scnManager->setActiveScene("ObjViewer");
+                scnManager->setActiveScene("GizmosTest");
             if(e->key.keysym.sym == SDLK_0)
                 scnManager->setActiveScene("VAOnShaders");
         }

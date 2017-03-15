@@ -40,7 +40,7 @@ void ChaosExampleLibraryApp::onCreate(){
     sceneManager->registerScene<ColorfulTriangles>("ColorfulTriangles");
     sceneManager->registerScene<VAOnShaders>("VAOnShaders");
     sceneManager->registerScene<GizmosTest>("GizmosTest");
-    sceneManager->registerScene<ObjViewer>("ObjViewer");
+    //sceneManager->registerScene<ObjViewer>("ObjViewer");
     sceneManager->setActiveScene("GizmosTest");
     //sceneManager->setActiveScene("VAOnShaders");
 }

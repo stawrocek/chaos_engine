@@ -25,7 +25,7 @@ public:
         skeletonPrefab = resourceManager->loadResource<chaos::MeshPrefab>("files/models3d/skeleton.obj", "skeleton");
         renderer->addMeshVAO(skeletonPrefab);
         skeletonTexture = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/skeletonUV.png", "uvMap:Skeleton");
-        backgroundTexture = resourceManager->loadResource<chaos::Texture>("files/textures/brick.jpg", "background");
+        backgroundTexture = resourceManager->loadResource<chaos::Texture>("files/textures/brick.png", "background");
         bitmapFont = resourceManager->getResource<chaos::BitmapFont>("Calibri");
 
         actModel = new chaos::Model(renderer, skeletonPrefab);
@@ -78,7 +78,7 @@ public:
                 actModel->draw();
             }
         }
-        actModel->drawGizmo(10);
+        actModel->drawGizmo();
     }
     virtual void deliverEvent(void* event){
         SDL_Event* e = (SDL_Event*)event;
@@ -89,7 +89,7 @@ public:
             if(e->key.keysym.sym == SDLK_9)
                 scnManager->setActiveScene("VAOnShaders");
             if(e->key.keysym.sym == SDLK_0)
-                scnManager->setActiveScene("ObjViewer");
+                scnManager->setActiveScene("ColorfulTriangles");
         }
     }
 
