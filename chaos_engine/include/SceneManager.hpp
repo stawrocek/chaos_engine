@@ -5,6 +5,7 @@
 
 #include <string>
 #include "Scene.hpp"
+#include "Event.hpp"
 #include "InputManager.hpp"
 
 namespace chaos{
@@ -24,7 +25,7 @@ public:
     void unregisterScene(std::string nameId);
     void setActiveScene(std::string nameId);
     std::string getActiveSceneName();
-    void deliverEvent(void* e);
+    void deliverEvent(Event* e);
     void runSceneFrame(GLfloat delta);
 
 private:

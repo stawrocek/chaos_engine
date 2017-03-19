@@ -42,7 +42,6 @@ void ChaosExampleLibraryApp::onCreate(){
     sceneManager->registerScene<GizmosTest>("GizmosTest");
     //sceneManager->registerScene<ObjViewer>("ObjViewer");
     sceneManager->setActiveScene("GizmosTest");
-    //sceneManager->setActiveScene("VAOnShaders");
 }
 
 void ChaosExampleLibraryApp::onDraw(){
@@ -57,25 +56,7 @@ void ChaosExampleLibraryApp::onResize(int newWidth, int newHeight){
 }
 
 void ChaosExampleLibraryApp::runEvents(){
-#ifndef ANDROID
     window->runEvents(sceneManager);
-    SDL_Event event;
-    while (SDL_PollEvent(&event)){
-        if (event.type == SDL_QUIT)
-            mainLoop = false;
-
-        else if (event.type == SDL_KEYDOWN){
-            switch (event.key.keysym.sym){
-                case SDLK_ESCAPE:
-                    mainLoop = false;
-                    break;
-            }
-        }
-        else{
-            sceneManager->deliverEvent(&event);
-        }
-    }
-#endif
 }
 
 void ChaosExampleLibraryApp::run(){

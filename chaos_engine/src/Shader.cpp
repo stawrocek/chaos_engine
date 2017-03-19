@@ -1,4 +1,5 @@
 #include "../include/Shader.hpp"
+#include "../include/Logger.hpp"
 
 using namespace chaos;
 
@@ -12,7 +13,6 @@ Shader::Shader(std::string fpath, GLenum type){
 
 Shader::~Shader(){
     glDeleteShader(id);
-    std::cout << "Destructor of shader " << getShaderName() << "\n";
 }
 
 void Shader::loadFromFile(std::string fpath, GLenum type){
@@ -20,10 +20,7 @@ void Shader::loadFromFile(std::string fpath, GLenum type){
     std::ifstream file(fpath);
 
     if(!file){
-        std::cout << "[error]: couldn't open " << fpath << "\n";
-        #ifdef ANDROID
-        LOGI("[error]: couldn't open %s", fpath.c_str());
-        #endif // ANDROID
+        SHOUT("[error]: couldn't open %s", fpath.c_str());
     }
     shaderCode = std::string((std::istreambuf_iterator<char>(file)),
     std::istreambuf_iterator<char>());
@@ -52,10 +49,7 @@ bool Shader::compile(GLenum type){
     if (!success)
     {
         glGetShaderInfoLog(id, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::"+getShaderName()+"::COMPILATION_FAILED\n" << infoLog << std::endl;
-        #ifdef ANDROID
-        LOGI("ERROR::SHADER::COMPILATION_FAILED: %s, (%s)", infoLog, getShaderName().c_str());
-        #endif // ANDROID
+        SHOUT("ERROR::SHADER::COMPILATION_FAILED: %s, (%s)", infoLog, getShaderName().c_str());
     }
     return success;
 }

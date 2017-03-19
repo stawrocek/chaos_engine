@@ -21,7 +21,7 @@ public:
     virtual void onSceneActivate();
     virtual void update(GLfloat deltaTime);
     virtual void draw(GLfloat deltaTime);
-    virtual void deliverEvent(void* e);
+    virtual void deliverEvent(Event* e);
     virtual void onSceneDeactivate();
 
     std::string getName();

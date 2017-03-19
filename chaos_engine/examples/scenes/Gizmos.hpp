@@ -34,8 +34,7 @@ public:
         cam = new chaos::Camera(renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)window->getStyle().width/window->getStyle().height, 0.1f, 100.0f));
         cam->moveY(3.5f);
         cam->moveZ(21.f);
-        SDL_SetRelativeMouseMode(SDL_TRUE);
-
+        window->setRelativeMode(true);
         spriteBackground = new chaos::Sprite(renderer, backgroundTexture);
         spriteBackground->rotateX(3.1415f/2.f);
         spriteBackground->setScale(20.f, 20.f, 20.f);
@@ -44,30 +43,36 @@ public:
     virtual void onSceneActivate(){};
 
     virtual void draw(GLfloat deltaTime){
-        if(window->isKeyDown(SDLK_a))
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyA))
             cam->processKeyboard(chaos::LEFT, deltaTime*moveSpeed);
-        if(window->isKeyDown(SDLK_d))
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyD))
             cam->processKeyboard(chaos::RIGHT, deltaTime*moveSpeed);
-        if(window->isKeyDown(SDLK_w))
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyW))
             cam->processKeyboard(chaos::FORWARD, deltaTime*moveSpeed);
-        if(window->isKeyDown(SDLK_s))
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyS))
             cam->processKeyboard(chaos::BACKWARD, deltaTime*moveSpeed);
 
         glm::vec3 f = actModel->getFront(), u = actModel->getUp(), r = actModel->getRight();
 
-        if(window->isKeyDown(SDLK_k))actModel->translate(r*deltaTime*moveSpeed);
-        if(window->isKeyDown(SDLK_h))actModel->translate(r*-deltaTime*moveSpeed);
-        if(window->isKeyDown(SDLK_u))actModel->translate(u*deltaTime*moveSpeed);
-        if(window->isKeyDown(SDLK_j))actModel->translate(u*-deltaTime*moveSpeed);
-        if(window->isKeyDown(SDLK_o))actModel->translate(f*deltaTime*moveSpeed);
-        if(window->isKeyDown(SDLK_l))actModel->translate(f*-deltaTime*moveSpeed);
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyK))actModel->translate(r*deltaTime*moveSpeed);
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyH))actModel->translate(r*-deltaTime*moveSpeed);
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyU))actModel->translate(u*deltaTime*moveSpeed);
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyJ))actModel->translate(u*-deltaTime*moveSpeed);
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyO))actModel->translate(f*deltaTime*moveSpeed);
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyL))actModel->translate(f*-deltaTime*moveSpeed);
 
-        if(window->isKeyDown(SDLK_n))actModel->rotateX(-deltaTime*moveSpeed);
-        if(window->isKeyDown(SDLK_n))actModel->rotateX(deltaTime*moveSpeed);
-        if(window->isKeyDown(SDLK_y))actModel->rotateY(-deltaTime*moveSpeed);
-        if(window->isKeyDown(SDLK_i))actModel->rotateY(deltaTime*moveSpeed);
-        if(window->isKeyDown(SDLK_c))actModel->rotateZ(-deltaTime*moveSpeed);
-        if(window->isKeyDown(SDLK_v))actModel->rotateZ(deltaTime*moveSpeed);
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyN))actModel->rotateX(-deltaTime*moveSpeed);
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyM))actModel->rotateX(deltaTime*moveSpeed);
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyY))actModel->rotateY(-deltaTime*moveSpeed);
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyI))actModel->rotateY(deltaTime*moveSpeed);
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyC))actModel->rotateZ(-deltaTime*moveSpeed);
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyV))actModel->rotateZ(deltaTime*moveSpeed);
+
+        if(window->isTouched()){
+            actModel->setColor(((double) rand() / (RAND_MAX)),((double) rand() / (RAND_MAX)),((double) rand() / (RAND_MAX))
+                               ,((double) rand() / (RAND_MAX)));
+        }
+
 
         renderer->setCamCombined(cam->getProjectionMatrix()*cam->getViewMatrix());
         clearWindow(0.2, 0.2, 0.2, 1.0);
@@ -80,15 +85,14 @@ public:
         }
         actModel->drawGizmo();
     }
-    virtual void deliverEvent(void* event){
-        SDL_Event* e = (SDL_Event*)event;
-        if(e->type == SDL_MOUSEMOTION) {
-            cam->processMouse(e->motion.xrel, -e->motion.yrel);
+    virtual void deliverEvent(chaos::Event* event){
+        if(event->type == chaos::Event::MouseMotion){
+            cam->processMouse(event->motionEvent.relX, -event->motionEvent.relY);
         }
-        else if (e->type == SDL_KEYDOWN){
-            if(e->key.keysym.sym == SDLK_9)
+        if (event->type == chaos::Event::KeyDown){
+            if(event->keyEvent.keyCode == chaos::KeyboardEvent::Key9)
                 scnManager->setActiveScene("VAOnShaders");
-            if(e->key.keysym.sym == SDLK_0)
+            if(event->keyEvent.keyCode == chaos::KeyboardEvent::Key0)
                 scnManager->setActiveScene("ColorfulTriangles");
         }
     }

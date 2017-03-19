@@ -60,7 +60,7 @@ public:
         cam = new chaos::Camera(renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)window->getStyle().width/window->getStyle().height, 0.1f, 100.0f));
         cam->moveZ(21.f);
         cam->moveY(3.5f);
-        SDL_SetRelativeMouseMode(SDL_TRUE);
+        //SDL_SetRelativeMouseMode(SDL_TRUE);
         textLeft = new chaos::BitmapFontSprite(renderer, bitmapFont,    "press [key] to change shader\n"
                                                                         "[shift+e] -> \"explosion\"\n"
                                                                         "[shift+v] -> normal vectors visualizer\n"
@@ -135,7 +135,7 @@ public:
             textRight->draw();
         }
     }
-    virtual void deliverEvent(void* event){
+    virtual void deliverEvent(chaos::Event* event){
         SDL_Event* e = (SDL_Event*)event;
         if(e->key.keysym.sym == SDLK_n && (e->key.keysym.mod & KMOD_SHIFT)){
             renderMode=0;
@@ -159,10 +159,10 @@ public:
             loadModel(+1);
         }
 
-        if (e->type == SDL_KEYDOWN){
-            if(e->key.keysym.sym == SDLK_9)
+        else if (event->type == chaos::Event::KeyDown){
+            if(event->keyEvent.keyCode == chaos::KeyboardEvent::Key9)
                 scnManager->setActiveScene("GizmosTest");
-            if(e->key.keysym.sym == SDLK_0)
+            if(event->keyEvent.keyCode == chaos::KeyboardEvent::Key0)
                 scnManager->setActiveScene("ColorfulTriangles");
         }
 

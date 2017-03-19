@@ -1,10 +1,9 @@
 #ifndef CHAOS_SDL2_HPP
 #define CHAOS_SDL2_HPP
 
+#include <SDL2/SDL.h>
 #include "../include/Window.hpp"
 #include "../include/SceneManager.hpp"
-
-#include <SDL2/SDL.h>
 
 namespace chaos{
 
@@ -74,6 +73,14 @@ public:
         return posY;
     }
 
+    void setRelativeMode(GLboolean mode){
+        if(mode == true)
+            SDL_SetRelativeMouseMode(SDL_TRUE);
+        else
+            SDL_SetRelativeMouseMode(SDL_FALSE);
+    }
+
+
 protected:
     SDL_Window* window = nullptr;
     SDL_GLContext context;
@@ -82,36 +89,108 @@ protected:
 
 class SDL2InputManager: public InputManager{
 public:
-    void runEvents(SceneManager* sceneManager){
-        SDL_Event event;
-        while (SDL_PollEvent(&event)){
-            if(sceneManager != nullptr){
-                sceneManager->deliverEvent(&event);
-            }
-            if (event.type == SDL_MOUSEBUTTONDOWN){
-                if(event.button.button == SDL_BUTTON_LEFT)
-                    mTouchDown[MouseButton::BTN_LEFT]=true;
-                if(event.button.button == SDL_BUTTON_MIDDLE)
-                    mTouchDown[MouseButton::BTN_MIDDLE]=true;
-                if(event.button.button == SDL_BUTTON_RIGHT)
-                    mTouchDown[MouseButton::BTN_RIGHT]=true;
+    SDL2InputManager(){
+        for(int i = 0; i <= 9; i++)
+            mKeyCodes[SDL_Keycode(SDLK_0+i)]=KeyboardEvent::KeyCode(KeyboardEvent::Key0+i);
+        for(int i = 0; i <= 'z'-'a'; i++)
+            mKeyCodes[SDL_Keycode(SDLK_a+i)]=KeyboardEvent::KeyCode(KeyboardEvent::KeyA+i);
+        for(int i = 0; i <= 12; i++)
+            mKeyCodes[SDL_Keycode(SDLK_F1+i)]=KeyboardEvent::KeyCode(KeyboardEvent::KeyF1+i);
+        for(int i = 0; i <= 9; i++)
+            mKeyCodes[SDL_Keycode(SDLK_KP_0+i)]=KeyboardEvent::KeyCode(KeyboardEvent::KeyNum0+i);
 
+        mKeyCodes[SDLK_BACKSPACE]=KeyboardEvent::KeyBackspace;
+        mKeyCodes[SDLK_TAB]=KeyboardEvent::KeyTab;
+        mKeyCodes[SDLK_LALT]=KeyboardEvent::KeyLeftAlt;
+        mKeyCodes[SDLK_RALT]=KeyboardEvent::KeyRightAlt;
+        mKeyCodes[SDLK_RETURN]=KeyboardEvent::KeyEnter;
+        mKeyCodes[SDLK_LSHIFT]=KeyboardEvent::KeyLeftShift;
+        mKeyCodes[SDLK_RSHIFT]=KeyboardEvent::KeyRightShift;
+        mKeyCodes[SDLK_LCTRL]=KeyboardEvent::KeyLeftControl;
+        mKeyCodes[SDLK_RCTRL]=KeyboardEvent::KeyRightControl;
+        mKeyCodes[SDLK_PAUSE]=KeyboardEvent::KeyPause;
+        mKeyCodes[SDLK_CAPSLOCK]=KeyboardEvent::KeyCapsLock;
+        mKeyCodes[SDLK_ESCAPE]=KeyboardEvent::KeyEscape;
+        mKeyCodes[SDLK_PAGEUP]=KeyboardEvent::KeyPageUp;
+        mKeyCodes[SDLK_PAGEDOWN]=KeyboardEvent::KeyPageDown;
+        mKeyCodes[SDLK_END]=KeyboardEvent::KeyEnd;
+        mKeyCodes[SDLK_HOME]=KeyboardEvent::KeyHome;
+        mKeyCodes[SDLK_LEFT]=KeyboardEvent::KeyLeftArrow;
+        mKeyCodes[SDLK_UP]=KeyboardEvent::KeyUpArrow;
+        mKeyCodes[SDLK_RIGHT]=KeyboardEvent::KeyRightArrow;
+        mKeyCodes[SDLK_DOWN]=KeyboardEvent::KeyDownArrow;
+        mKeyCodes[SDLK_INSERT]=KeyboardEvent::KeyInsert;
+        mKeyCodes[SDLK_DELETE]=KeyboardEvent::KeyDelete;
+        mKeyCodes[SDLK_SELECT]=KeyboardEvent::KeySelect;
+        mKeyCodes[SDLK_PLUS]=KeyboardEvent::KeyPlus;
+        mKeyCodes[SDLK_MINUS]=KeyboardEvent::KeyMinus;
+        mKeyCodes[SDLK_DECIMALSEPARATOR]=KeyboardEvent::KeyDecimalPoint;
+        mKeyCodes[SDLK_KP_DIVIDE]=KeyboardEvent::KeyNumDivide;
+        mKeyCodes[SDLK_NUMLOCKCLEAR]=KeyboardEvent::KeyNumLock;
+        mKeyCodes[SDLK_SCROLLLOCK]=KeyboardEvent::KeyScrollLock;
+        mKeyCodes[SDLK_SEMICOLON]=KeyboardEvent::KeySemiColon;
+        mKeyCodes[SDLK_EQUALS]=KeyboardEvent::KeyEquals;
+        mKeyCodes[SDLK_COMMA]=KeyboardEvent::KeyComma;
+        //mKeyCodes[SDLK_]=KeyboardEvent::KeyDash;
+        mKeyCodes[SDLK_PERIOD]=KeyboardEvent::KeyPeriod;
+        mKeyCodes[SDLK_BACKQUOTE]=KeyboardEvent::KeyBackQuote;
+        mKeyCodes[SDLK_LEFTBRACKET]=KeyboardEvent::KeyLeftBracket;
+        mKeyCodes[SDLK_BACKSLASH]=KeyboardEvent::KeyBackSlash;
+        mKeyCodes[SDLK_RIGHTBRACKET]=KeyboardEvent::KeyRightBraket;
+        mKeyCodes[SDLK_QUOTE]=KeyboardEvent::KeySingleQuote;
+    }
+
+    void runEvents(SceneManager* sceneManager){
+        SDL_Event sdlEvent;
+        while (SDL_PollEvent(&sdlEvent)){
+            chaos::Event ev = translateEvent(&sdlEvent);
+            if(sceneManager != nullptr){
+                sceneManager->deliverEvent(&ev);
             }
-            else if(event.type == SDL_MOUSEBUTTONUP){
-                if(event.button.button == SDL_BUTTON_LEFT)
-                    mTouchDown[MouseButton::BTN_LEFT]=false;
-                if(event.button.button == SDL_BUTTON_MIDDLE)
-                    mTouchDown[MouseButton::BTN_MIDDLE]=false;
-                if(event.button.button == SDL_BUTTON_RIGHT)
-                    mTouchDown[MouseButton::BTN_RIGHT]=false;
+            if (ev.type == Event::TouchDown){
+                mTouchDown[ev.touchEvent.buttonCode]=true;
             }
-            else if (event.type == SDL_KEYDOWN){
-                mKeyDown[event.key.keysym.sym]=true;
+            else if(ev.type == Event::TouchUp){
+                mTouchDown[ev.touchEvent.buttonCode]=false;
             }
-            else if (event.type == SDL_KEYUP){
-                mKeyDown[event.key.keysym.sym]=false;
+            else if (ev.type == Event::KeyDown){
+                mKeyDown[ev.keyEvent.keyCode]=true;
+            }
+            else if (ev.type == Event::KeyUp){
+                mKeyDown[ev.keyEvent.keyCode]=false;
             }
         }
+    }
+
+    chaos::Event translateEvent(void* e){
+        chaos::Event ev;
+        SDL_Event* sdlEv = (SDL_Event*)e;
+        ev.origEvent = e;
+        if(sdlEv->type == SDL_MOUSEBUTTONDOWN || sdlEv->type == SDL_MOUSEBUTTONUP){
+            ev.type = chaos::Event::TouchDown;
+            if(sdlEv->type == SDL_MOUSEBUTTONUP)
+                ev.type = chaos::Event::TouchUp;
+            ev.touchEvent.posX = sdlEv->button.x;
+            ev.touchEvent.posY = sdlEv->button.y;
+            if(sdlEv->button.button == SDL_BUTTON_LEFT) ev.touchEvent.buttonCode = chaos::TouchEvent::ButtonLeft;
+            if(sdlEv->button.button == SDL_BUTTON_MIDDLE) ev.touchEvent.buttonCode = chaos::TouchEvent::ButtonMiddle;
+            if(sdlEv->button.button == SDL_BUTTON_RIGHT) ev.touchEvent.buttonCode = chaos::TouchEvent::ButtonRight;
+        }
+        else if(sdlEv->type == SDL_KEYDOWN || sdlEv->type == SDL_KEYUP){
+            ev.type = chaos::Event::KeyDown;
+            if(sdlEv->type == SDL_KEYUP)
+                ev.type = chaos::Event::KeyUp;
+            ev.keyEvent.keyCode = mKeyCodes[sdlEv->key.keysym.sym];
+        }
+        else if(sdlEv->type == SDL_MOUSEMOTION){
+            ev.type = chaos::Event::MouseMotion;
+            ev.motionEvent.posX = sdlEv->motion.x;
+            ev.motionEvent.posY = sdlEv->motion.y;
+            ev.motionEvent.relX = sdlEv->motion.xrel;
+            ev.motionEvent.relY = sdlEv->motion.yrel;
+        }
+
+        return ev;
     }
 
     GLuint getMouseX(){
@@ -125,6 +204,8 @@ public:
         SDL_GetMouseState(&tmpX,&tmpY);
         return tmpY;
     }
+protected:
+    std::unordered_map<SDL_Keycode, chaos::KeyboardEvent::KeyCode> mKeyCodes;
 };
 
 

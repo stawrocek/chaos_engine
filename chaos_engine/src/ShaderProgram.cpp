@@ -1,4 +1,5 @@
 #include "../include/ShaderProgram.hpp"
+#include "../include/Logger.hpp"
 
 using namespace chaos;
 
@@ -15,10 +16,7 @@ ShaderProgram::ShaderProgram(const std::initializer_list<std::pair<std::string, 
     glGetProgramiv(id, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(id, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-        #ifdef ANDROID
-        LOGI("ERROR::SHADER::PROGRAM::LINKING_FAILED: %s", infoLog);
-        #endif // ANDROID
+        SHOUT("ERROR::SHADER::PROGRAM::LINKING_FAILED: %s", infoLog);
     }
     //destructor of Shader will call glDeleteShader on every element of vecShader
     for (unsigned int i = 0; i < vecShaders.size(); i++) {
@@ -37,15 +35,11 @@ ShaderProgram::ShaderProgram(const std::initializer_list<Shader> &listShaders){
     glGetProgramiv(id, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(id, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-        #ifdef ANDROID
-        LOGI("ERROR::SHADER::PROGRAM::LINKING_FAILED: %s", infoLog);
-        #endif // ANDROID
+        SHOUT("ERROR::SHADER::PROGRAM::LINKING_FAILED: %s", infoLog);
     }
 }
 
 ShaderProgram::~ShaderProgram(){
-    std::cout << "Destructor of ShaderProgram\n";
     glDeleteProgram(id);
 }
 

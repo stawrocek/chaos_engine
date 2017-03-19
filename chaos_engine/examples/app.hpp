@@ -3,9 +3,7 @@
 
 #ifdef ANDROID
 #define CHAOS_PLATFORM_ANDROID
-#include <android/log.h>
 #include <android/asset_manager.h>
-#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO,"Chaos", __VA_ARGS__))
 #include <vector>
 #include "../../include/glm/glm.hpp"
 #include "../../include/glm/gtc/matrix_transform.hpp"
@@ -21,6 +19,7 @@
 #include "../../include/Renderer.hpp"
 #include "../../include/ResourceManager.hpp"
 #include "../../include/SceneManager.hpp"
+#include "../../include/Logger.hpp"
 
 #else
 
@@ -28,6 +27,7 @@
 #include "../include/Application.hpp"
 #include "../include/ResourceManager.hpp"
 #include "../include/SceneManager.hpp"
+#include "../include/Logger.hpp"
 #endif
 
 #include "scenes/ColorfulTriangles.hpp"

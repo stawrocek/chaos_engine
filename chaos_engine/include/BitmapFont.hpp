@@ -103,7 +103,7 @@ public:
                         continue;
                     }
                     if(!key) {
-                        if((tmpValue.size() >= 0 && tmpValue != " ") || (i>=2 && s[i-1] == '"' && s[i-2] == '"')) {
+                        if((tmpValue.size() > 0 && tmpValue != " ") || (i>=2 && s[i-1] == '"' && s[i-2] == '"')) {
                             data.insert(make_pair(tmpKey, tmpValue));
                             tmpKey="", tmpValue="";
                         }

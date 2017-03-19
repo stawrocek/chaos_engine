@@ -11,7 +11,7 @@ void chaos::Scene::onSceneLoadToMemory(){};
 void chaos::Scene::onSceneActivate(){};
 void chaos::Scene::update(GLfloat deltaTime){};
 void chaos::Scene::draw(GLfloat deltaTime){};
-void chaos::Scene::deliverEvent(void* e){};
+void chaos::Scene::deliverEvent(Event* e){};
 void chaos::Scene::onSceneDeactivate(){};
 
 std::string chaos::Scene::getName(){

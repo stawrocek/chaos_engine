@@ -1,7 +1,8 @@
-#include <FreeImage.h>
-
 #ifndef FREEIMAGE_TEXTURE_LOADER_HPP
 #define FREEIMAGE_TEXTURE_LOADER_HPP
+
+#include <FreeImage.h>
+#include "../include/Logger.hpp"
 
 class CHAOS_EXPORT TextureLoader{
 public:
@@ -15,10 +16,7 @@ public:
     TextureLoader(std::string fpath){
         FREE_IMAGE_FORMAT format = FreeImage_GetFileType(fpath.c_str(), 0);
         if(format == FIF_UNKNOWN) {
-            #ifdef ANDROID
-            LOGI("Failed to read format %s", fpath.c_str());
-            #endif // ANDROID
-            std::cout << "Failed to read format @ " << fpath.c_str() << "\n";
+            SHOUT("Failed to read format %s", fpath.c_str());
         }
         bitmap = FreeImage_Load(format, fpath.c_str());
         bitmap32 = nullptr;

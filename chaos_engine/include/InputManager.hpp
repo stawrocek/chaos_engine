@@ -2,27 +2,24 @@
 #define INPUT_MANAGER_HPP
 
 #include "Export.hpp"
+#include "Event.hpp"
 
 #include <unordered_map>
+#include <queue>
 
 namespace chaos{
 
 class SceneManager;
-
-enum MouseButton{
-    BTN_LEFT=0,
-    BTN_MIDDLE=1,
-    BTN_RIGHT=2
-};
 
 class CHAOS_EXPORT InputManager{
 public:
     virtual void runEvents(SceneManager* sceneManager)=0;
     virtual GLuint getMouseX()=0;
     virtual GLuint getMouseY()=0;
-
-    virtual GLboolean isTouched(MouseButton btn=BTN_LEFT);
+    virtual Event translateEvent(void*)=0;
+    virtual GLboolean isTouched(TouchEvent::ButtonCode btn=chaos::TouchEvent::ButtonLeft);
     virtual GLboolean isKeyDown(GLuint k);
+    void pushEvent(chaos::Event ev);
 
 protected:
     struct ButtonStateFunctor{
@@ -30,8 +27,9 @@ protected:
             return static_cast<std::size_t>(t);
         }
     };
-    std::unordered_map<MouseButton, GLboolean, ButtonStateFunctor> mTouchDown;
+    std::unordered_map<TouchEvent::ButtonCode, GLboolean, ButtonStateFunctor> mTouchDown;
     std::unordered_map<GLuint, GLboolean, ButtonStateFunctor> mKeyDown;
+    std::queue<chaos::Event> qEvents;
 };
 
 }

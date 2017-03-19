@@ -38,6 +38,7 @@ public:
     virtual GLint getHeight() = 0;
     virtual GLint getPosX() = 0;
     virtual GLint getPosY() = 0;
+    virtual void setRelativeMode(GLboolean mode)=0;
     void setDepthEnabled(GLboolean);
     GLboolean isDepthEnabled();
     void setBlendingEnabled(GLboolean);
@@ -51,7 +52,7 @@ public:
 
     //input
     void runEvents(SceneManager* sceneManager);
-    GLboolean isTouched(MouseButton btn=MouseButton::BTN_LEFT);
+    GLboolean isTouched(TouchEvent::ButtonCode btn=TouchEvent::ButtonLeft);
     GLboolean isKeyDown(GLuint k);
     InputManager* inputManager;
 

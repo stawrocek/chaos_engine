@@ -86,7 +86,7 @@ WindowStyle Window::getStyle(){
 void Window::runEvents(SceneManager* sceneManager){
     inputManager->runEvents(sceneManager);
 }
-GLboolean Window::isTouched(MouseButton btn){
+GLboolean Window::isTouched(TouchEvent::ButtonCode btn){
     return inputManager->isTouched(btn);
 }
 GLboolean Window::isKeyDown(GLuint k){

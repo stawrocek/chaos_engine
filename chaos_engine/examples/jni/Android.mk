@@ -14,7 +14,7 @@ include $(CLEAR_VARS)
 TARGET_PLATFORM := android-7
 LOCAL_ARM_MODE := arm
 LOCAL_MODULE := ChaosWrapper
-LOCAL_SRC_FILES += ChaosWrapper.cpp ../app.cpp ../../src/Window.cpp ../../src/Transform.cpp ../../src/Texture.cpp ../../src/Application.cpp ../../src/MeshPrefab.cpp ../../src/ShaderProgram.cpp ../../src/Shader.cpp ../../src/VertexArray.cpp
+LOCAL_SRC_FILES += ChaosWrapper.cpp ../app.cpp ../../src/Window.cpp ../../src/Scene.cpp ../../src/SceneManager.cpp ../../src/Renderer.cpp ../../src/InputManager.cpp ../../src/Transform.cpp ../../src/Texture.cpp ../../src/Application.cpp ../../src/MeshPrefab.cpp ../../src/ShaderProgram.cpp ../../src/Shader.cpp ../../src/VertexArray.cpp
 LOCAL_C_INCLUDES += ../app.hpp 
 LOCAL_ARM_MODE := arm
 COMMON_CFLAGS := -Werror -DANDROID -DDISABLE_IMPORTGL \

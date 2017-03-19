@@ -5,8 +5,6 @@
 
 #ifdef ANDROID
 #include <GLES2/gl2.h>
-#include <android/log.h>
-#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO,"Chaos", __VA_ARGS__))
 #else
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -21,8 +19,11 @@
     #define LAYOUT_LOCATION
 #endif
 
-//#define TEXTURES_FREEIMAGE
+#ifdef __EMSCRIPTEN__
 #define TEXTURES_SDLIMAGE
+#else
+#define TEXTURES_FREEIMAGE
+#endif //texture-loaders
 
 namespace chaos{
 

@@ -29,18 +29,17 @@ public:
             spritePiet->draw();
         spritePiet->setRotZ(window->inputManager->getMouseX()/100.0);
 
-        if(window->isKeyDown(SDLK_x))
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyX))
             spritePiet->setScale(0.1,0.1,0.1);
         else
             spritePiet->setScale(0.33,0.33,0.33);
     }
 
-    void deliverEvent(void* event){
-        SDL_Event* e = (SDL_Event*)event;
-        if (e->type == SDL_KEYDOWN){
-            if(e->key.keysym.sym == SDLK_9)
+    void deliverEvent(chaos::Event* event){
+        if (event->type == chaos::Event::KeyDown){
+            if(event->keyEvent.keyCode == chaos::KeyboardEvent::Key9)
                 scnManager->setActiveScene("GizmosTest");
-            if(e->key.keysym.sym == SDLK_0)
+            if(event->keyEvent.keyCode == chaos::KeyboardEvent::Key0)
                 scnManager->setActiveScene("VAOnShaders");
         }
     }
