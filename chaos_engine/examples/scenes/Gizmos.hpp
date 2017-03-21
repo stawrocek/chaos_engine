@@ -26,7 +26,7 @@ public:
         renderer->addMeshVAO(skeletonPrefab);
         skeletonTexture = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/skeletonUV.png", "uvMap:Skeleton");
         backgroundTexture = resourceManager->loadResource<chaos::Texture>("files/textures/brick.png", "background");
-        bitmapFont = resourceManager->getResource<chaos::BitmapFont>("Calibri");
+        //bitmapFont = resourceManager->getResource<chaos::BitmapFont>("Calibri");
 
         actModel = new chaos::Model(renderer, skeletonPrefab);
         actModel->setScale(0.2,0.2,0.2);
@@ -83,7 +83,7 @@ public:
                 actModel->draw();
             }
         }
-        actModel->drawGizmo();
+        //actModel->drawGizmo();
     }
     virtual void deliverEvent(chaos::Event* event){
         if(event->type == chaos::Event::MouseMotion){
@@ -101,7 +101,7 @@ private:
     chaos::Model* actModel = nullptr;
     chaos::Texture* actTexture = nullptr;
     chaos::Sprite* spriteBackground=nullptr;
-    chaos::BitmapFont* bitmapFont=nullptr;
+    //chaos::BitmapFont* bitmapFont=nullptr;
 
     chaos::Texture* backgroundTexture;
     chaos::Texture* skeletonTexture;

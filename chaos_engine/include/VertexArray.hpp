@@ -3,6 +3,7 @@
 
 #include "Export.hpp"
 #include "ShaderProgram.hpp"
+#include "Logger.hpp"
 
 #include <vector>
 #include <iostream>

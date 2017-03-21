@@ -226,8 +226,8 @@ void chaos::Renderer::initEngineStuff(){
 
 void chaos::Renderer::addMeshVAO(MeshPrefab* mesh){
     //no normal vectors for now
-    //addVAO(3, 3, 2, 0, mesh->getVBOData(), "Mesh:Vao_Pos.Uv("+toString(mesh->getMeshId())+")");
-    addVAO(3, 0, 2, 0, mesh->getVBOData(), "Mesh:Vao_Pos.Uv("+toString(mesh->getMeshId())+")");
+    addVAO(3, 3, 2, 0, mesh->getVBOData(), "Mesh:Vao_Pos.Uv("+toString(mesh->getMeshId())+")");
+    //addVAO(3, 0, 2, 0, mesh->getVBOData(), "Mesh:Vao_Pos.Uv("+toString(mesh->getMeshId())+")");
 }
 
 glm::mat4 chaos::Renderer::getCamCombined(){

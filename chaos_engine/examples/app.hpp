@@ -30,8 +30,8 @@
 #include "../include/Logger.hpp"
 #endif
 
-#include "scenes/ColorfulTriangles.hpp"
-#include "scenes/VAOnShaders.hpp"
+//#include "scenes/ColorfulTriangles.hpp"
+//#include "scenes/VAOnShaders.hpp"
 #include "scenes/Gizmos.hpp"
 
 class ChaosExampleLibraryApp: public chaos::Application{
