@@ -1,18 +1,17 @@
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 
+#include <string>
+
 #include "Export.hpp"
 
-#include <string>
-#include <iostream>
-
 #include "Timer.hpp"
-#include "Application.hpp"
 #include "InputManager.hpp"
 
 namespace chaos{
 
 class SceneManager;
+class Application;
 
 struct CHAOS_EXPORT WindowStyle{
     WindowStyle();

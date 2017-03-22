@@ -1,21 +1,25 @@
 #include "../include/Shader.hpp"
+
+#include <sstream>
+#include <iostream>
+#include <streambuf>
+#include <fstream>
+
 #include "../include/Logger.hpp"
 
-using namespace chaos;
-
-Shader::Shader()
+chaos::Shader::Shader()
 :id(-1)
 {}
 
-Shader::Shader(std::string fpath, GLenum type){
+chaos::Shader::Shader(std::string fpath, GLenum type){
     loadFromFile(fpath, type);
 }
 
-Shader::~Shader(){
+chaos::Shader::~Shader(){
     glDeleteShader(id);
 }
 
-void Shader::loadFromFile(std::string fpath, GLenum type){
+void chaos::Shader::loadFromFile(std::string fpath, GLenum type){
     fpath = chaos::Application::getDataStorageDirectory()+fpath;
     std::ifstream file(fpath);
 
@@ -27,12 +31,12 @@ void Shader::loadFromFile(std::string fpath, GLenum type){
     compile(type);
 }
 
-void Shader::loadFromString(std::string str, GLenum type){
+void chaos::Shader::loadFromString(std::string str, GLenum type){
     shaderCode = str;
     compile(type);
 }
 
-bool Shader::compile(GLenum type){
+bool chaos::Shader::compile(GLenum type){
     #if defined(ANDROID) || defined(__EMSCRIPTEN__)
     shaderCode = translateGL3ShaderGLES2Shader(shaderCode, type);
     #endif // ANDROID || __EMSCRIPTEN__
@@ -54,11 +58,11 @@ bool Shader::compile(GLenum type){
     return success;
 }
 
-GLuint Shader::getId(){
+GLuint chaos::Shader::getId(){
     return id;
 }
 
-std::string Shader::getShaderName(){
+std::string chaos::Shader::getShaderName(){
     if(shaderType == GL_VERTEX_SHADER)return "VERTEX_SHADER";
     if(shaderType == GL_FRAGMENT_SHADER)return "FRAGMENT_SHADER";
     //opengl ES 3.2 and higher
@@ -69,7 +73,7 @@ std::string Shader::getShaderName(){
 }
 
 //temporary solution, need real parser
-std::string Shader::translateGL3ShaderGLES2Shader(std::string shader, GLenum type){
+std::string chaos::Shader::translateGL3ShaderGLES2Shader(std::string shader, GLenum type){
     std::stringstream ss(shader);
     std::string line;
     std::string out;
@@ -152,6 +156,21 @@ std::string Shader::translateGL3ShaderGLES2Shader(std::string shader, GLenum typ
             else
                 out += line+"\n";
         }
+    }
+    return out;
+}
+
+std::string chaos::Shader::getToken(std::string str){
+    std::string out;
+    bool add=false;
+    for(int i = 0; i < str.size(); i++){
+        if(str[i] != ' ' && str[i] != '\n' && str[i] != '\t' && str[i] != '\r'){
+            add=true;
+        }
+        if(str[i] == ' ' && add)
+            return out;
+        if(add)
+            out += str[i];
     }
     return out;
 }

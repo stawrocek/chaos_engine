@@ -8,6 +8,8 @@
 
 namespace chaos {
 
+class Renderer;
+
 enum CHAOS_EXPORT CameraDirection {
     FORWARD, BACKWARD, LEFT, RIGHT
 };

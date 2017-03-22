@@ -3,18 +3,19 @@
 
 #include "Export.hpp"
 
-#include "Transform.hpp"
-#include "ShaderProgram.hpp"
-#include "VertexArray.hpp"
-#include "MeshPrefab.hpp"
-#include "Utils.hpp"
-#include "Window.hpp"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 #include <unordered_map>
+#include <vector>
 
 namespace chaos{
 
 class Camera;
+class ShaderProgram;
+class VertexArray;
+class MeshPrefab;
+class Window;
 
 class CHAOS_EXPORT Renderer{
 public:

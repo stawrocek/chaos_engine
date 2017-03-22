@@ -1,14 +1,16 @@
 #ifndef SCENEMANAGER_HPP
 #define SCENEMANAGER_HPP
 
-#include "Export.hpp"
-
 #include <string>
+#include <unordered_map>
+
+#include "Export.hpp"
 #include "Scene.hpp"
-#include "Event.hpp"
-#include "InputManager.hpp"
 
 namespace chaos{
+
+class ResourceManager;
+class Renderer;
 
 class CHAOS_EXPORT SceneManager{
 public:
@@ -30,9 +32,9 @@ public:
 
 private:
     std::unordered_map<std::string, Scene*> scenes;
-    Scene* actScene= nullptr;
-    Renderer* renderer;
-    ResourceManager* resourceManager;
+    Scene* actScene = nullptr;
+    Renderer* renderer = nullptr;
+    ResourceManager* resourceManager = nullptr;
 };
 
 }

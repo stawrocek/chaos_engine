@@ -4,11 +4,13 @@
 #include "Export.hpp"
 
 #include "Transform.hpp"
-#include "Renderer.hpp"
 
 namespace chaos{
 
 class Camera;
+class Renderer;
+class ShaderProgram;
+class VertexArray;
 
 class CHAOS_EXPORT GameObject: public Transform {
 public:

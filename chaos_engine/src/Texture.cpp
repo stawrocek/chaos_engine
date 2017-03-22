@@ -1,10 +1,8 @@
 #include "../include/Texture.hpp"
 
-using namespace chaos;
+GLuint chaos::Texture::textureCounter = 0;
 
-GLuint Texture::textureCounter = 0;
-
-Texture::Texture(std::string fpath)
+chaos::Texture::Texture(std::string fpath)
 :Resource(fpath)
 {
     batchId = textureCounter;
@@ -26,11 +24,11 @@ Texture::Texture(std::string fpath)
     textureCounter++;
 }
 
-Texture::~Texture(){
+chaos::Texture::~Texture(){
     glDeleteTextures(1, &id);
 }
 
-void Texture::bind(GLenum t) {
+void chaos::Texture::bind(GLenum t) {
     type = t;
     glBindTexture(type, id);
 }
@@ -40,26 +38,26 @@ void Texture::bind(GLenum t) {
     glBindTexture(type, id);
 }*/
 
-void Texture::unbind(){
+void chaos::Texture::unbind(){
     glBindTexture(type, 0);
 }
 
-GLenum Texture::getTextureType(){
+GLenum chaos::Texture::getTextureType(){
     return type;
 }
 
-GLuint Texture::getWidth(){
+GLuint chaos::Texture::getWidth(){
     return width;
 }
 
-GLuint Texture::getHeight(){
+GLuint chaos::Texture::getHeight(){
     return height;
 }
 
-GLuint Texture::getId(){
+GLuint chaos::Texture::getId(){
     return id;
 }
 
-GLuint Texture::getBatchId(){
+GLuint chaos::Texture::getBatchId(){
     return batchId;
 }

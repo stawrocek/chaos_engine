@@ -1,4 +1,7 @@
 #include "../include/GameObject.hpp"
+#include "../include/ShaderProgram.hpp"
+#include "../include/VertexArray.hpp"
+#include "../include/Renderer.hpp"
 
 chaos::GameObject::GameObject(chaos::Renderer* ren)
 :renderer(ren)

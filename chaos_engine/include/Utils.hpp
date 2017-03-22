@@ -1,12 +1,13 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-#include "Export.hpp"
-
 #include <cstdio>
+#include <cstdlib>
 #include <sstream>
 #include <string>
 #include <vector>
+
+#include "Export.hpp"
 
 namespace chaos{
 

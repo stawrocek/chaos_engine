@@ -1,11 +1,11 @@
 #ifndef INPUT_MANAGER_HPP
 #define INPUT_MANAGER_HPP
 
-#include "Export.hpp"
-#include "Event.hpp"
-
 #include <unordered_map>
 #include <queue>
+
+#include "Export.hpp"
+#include "Event.hpp"
 
 namespace chaos{
 

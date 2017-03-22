@@ -1,12 +1,17 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
-#include "Export.hpp"
-
 #include <string>
 
-#include "Renderer.hpp"
+#include "Export.hpp"
+
+//could be predefined, but
+#include "Window.hpp"
 #include "ResourceManager.hpp"
+#include "Renderer.hpp"
+#include "Event.hpp"
+#include "ShaderProgram.hpp"
+#include "VertexArray.hpp"
 
 namespace chaos{
 

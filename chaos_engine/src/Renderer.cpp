@@ -1,5 +1,14 @@
 #include "../include/Renderer.hpp"
 
+#include <iostream>
+
+#include "../include/ShaderProgram.hpp"
+#include "../include/VertexArray.hpp"
+#include "../include/MeshPrefab.hpp"
+#include "../include/Utils.hpp"
+#include "../include/Window.hpp"
+
+
 chaos::Renderer::Renderer(Window* w){
     setTargetWindow(w);
     initEngineStuff();

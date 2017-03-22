@@ -1,15 +1,16 @@
 #ifndef VERTEXARRAY_HPP
 #define VERTEXARRAY_HPP
 
-#include "Export.hpp"
-#include "ShaderProgram.hpp"
-#include "Logger.hpp"
-
 #include <vector>
-#include <iostream>
 #include <initializer_list>
 
+#include "Export.hpp"
+
+#include "Logger.hpp"
+
 namespace chaos{
+
+class ShaderProgram;
 
 struct CHAOS_EXPORT VertexData{
     VertexData();

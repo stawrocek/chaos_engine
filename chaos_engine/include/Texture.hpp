@@ -1,13 +1,13 @@
 #ifndef TEXTURE_HPP
 #define TEXTURE_HPP
 
-#include "Export.hpp"
-
 #include <string>
 #include <iostream>
 #include <iostream>
 #include <streambuf>
 #include <fstream>
+
+#include "Export.hpp"
 
 #include "Resource.hpp"
 

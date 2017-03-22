@@ -1,5 +1,9 @@
 #include "../include/SceneManager.hpp"
 
+#include "../include/ResourceManager.hpp"
+#include "../include/Scene.hpp"
+#include "../include/Renderer.hpp"
+
 chaos::SceneManager::SceneManager(ResourceManager* rsc, Renderer* ren){
     resourceManager = rsc;
     renderer = ren;

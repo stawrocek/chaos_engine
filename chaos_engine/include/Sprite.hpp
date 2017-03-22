@@ -7,32 +7,16 @@
 
 namespace chaos{
 
+class Texture;
+
+class Renderer;
+
 class CHAOS_EXPORT Sprite: public GameObject{
 public:
-    Sprite(Renderer* ren, Texture* tex)
-    :GameObject(ren,"Rectangle:Vao_Pos.Uv", "Shader_Pos.Uv")
-    {
-        setTexture(tex);
-    }
-
-    virtual void draw(){
-        shader->run();
-        texture->bind();
-        shader->setUniform("uniColor", color);
-        shader->setUniform("mx",renderer->getCamCombined()*getGlobalTransformMatrix());
-
-        vao->bind();
-        vao->draw(shader);
-        vao->unbind();
-    }
-
-    void setTexture(Texture* tex){
-        texture = tex;
-    }
-
-    Texture* getTexture(){
-        return texture;
-    }
+    Sprite(Renderer* ren, Texture* tex);
+    virtual void draw();
+    void setTexture(Texture* tex);
+    Texture* getTexture();
 
 protected:
     Texture* texture = nullptr;

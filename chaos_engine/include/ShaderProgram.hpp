@@ -1,17 +1,15 @@
 #ifndef SHADERPROGRAM_HPP
 #define SHADERPROGRAM_HPP
 
-#include "Export.hpp"
-
 #include <vector>
 #include <initializer_list>
-#include <algorithm>
 #include <map>
+
+#include "Export.hpp"
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
-
 #include "Shader.hpp"
 
 namespace chaos{
@@ -33,29 +31,12 @@ public:
         setUniform(mUniforms[uniId], std::forward<T>(uniVal));
     }
 
-    void setUniform(GLuint loc, const GLfloat &v){
-        glUniform1f(loc, v);
-    }
-
-    void setUniform(GLuint loc, const GLuint &v){
-        glUniform1i(loc, v);
-    }
-
-    void setUniform(GLuint loc, const glm::vec3 &v){
-        glUniform3f(loc, v.x, v.y, v.z);
-    }
-
-    void setUniform(GLuint loc, const glm::vec4 &v){
-        glUniform4f(loc, v.x, v.y, v.z, v.w);
-    }
-
-    void setUniform(GLint loc, const glm::mat4 &mx) {
-        glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mx));
-    }
-
-    GLint getAttribLocation(std::string& attribDescription){
-        return glGetAttribLocation(id, attribDescription.c_str());
-    }
+    void setUniform(GLuint loc, const GLfloat &v);
+    void setUniform(GLuint loc, const GLuint &v);
+    void setUniform(GLuint loc, const glm::vec3 &v);
+    void setUniform(GLuint loc, const glm::vec4 &v);
+    void setUniform(GLint loc, const glm::mat4 &mx);
+    GLint getAttribLocation(std::string& attribDescription);
 
 private:
     GLuint id;

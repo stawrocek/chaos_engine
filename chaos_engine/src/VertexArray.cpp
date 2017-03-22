@@ -1,10 +1,11 @@
+#include <iostream>
+
 #include "../include/VertexArray.hpp"
+#include "../include/ShaderProgram.hpp"
 
-using namespace chaos;
+chaos::VertexData::VertexData(){}
 
-VertexData::VertexData(){}
-
-VertexData::VertexData(const std::initializer_list<GLfloat>& vV, const std::initializer_list<GLfloat>& vN,
+chaos::VertexData::VertexData(const std::initializer_list<GLfloat>& vV, const std::initializer_list<GLfloat>& vN,
              const std::initializer_list<GLfloat>& vU, const std::initializer_list<GLfloat>& vD)
 {
     for(GLfloat x: vV)vVerts.push_back(x);
@@ -13,7 +14,7 @@ VertexData::VertexData(const std::initializer_list<GLfloat>& vV, const std::init
     for(GLfloat x: vD)vData.push_back(x);
 }
 
-VertexArray::VertexArray(GLuint _vertsSize, GLuint _normalSize, GLuint _uvSize, GLuint _dataSize, std::vector<GLfloat>* vec)
+chaos::VertexArray::VertexArray(GLuint _vertsSize, GLuint _normalSize, GLuint _uvSize, GLuint _dataSize, std::vector<GLfloat>* vec)
 :vertsSize(_vertsSize), normalSize(_normalSize), uvSize(_uvSize), dataSize(_dataSize)
 {
     GLuint totalSize = vertsSize + normalSize + uvSize + dataSize;
@@ -40,47 +41,47 @@ VertexArray::VertexArray(GLuint _vertsSize, GLuint _normalSize, GLuint _uvSize, 
     unbind();
 }
 
-VertexArray::VertexArray(GLuint _vertsSize, GLuint _normalSize, GLuint _uvSize, GLuint _dataSize)
+chaos::VertexArray::VertexArray(GLuint _vertsSize, GLuint _normalSize, GLuint _uvSize, GLuint _dataSize)
 :vertsSize(_vertsSize), normalSize(_normalSize), uvSize(_uvSize), dataSize(_dataSize)
 {
 
 }
 
-VertexArray::~VertexArray(){
+chaos::VertexArray::~VertexArray(){
     glDeleteBuffers(1, &VBO);
 #ifdef VAO_ENABLED
     glDeleteVertexArrays(1, &VAO);
 #endif
 }
 
-void VertexArray::addVertex(VertexData vd){
+void chaos::VertexArray::addVertex(VertexData vd){
     vVertices.push_back(vd);
 }
-void VertexArray::setVertices(GLuint id, const std::initializer_list<GLfloat>& v){
+void chaos::VertexArray::setVertices(GLuint id, const std::initializer_list<GLfloat>& v){
     vVertices[id].vVerts.clear();
     for(GLfloat x: v){
         vVertices[id].vVerts.push_back(x);
     }
 }
-void VertexArray::setNormal(GLuint id, const std::initializer_list<GLfloat>& v){
+void chaos::VertexArray::setNormal(GLuint id, const std::initializer_list<GLfloat>& v){
     vVertices[id].vNormal.clear();
     for(GLfloat x: v){
         vVertices[id].vNormal.push_back(x);
     }
 }
-void VertexArray::setUV(GLuint id, const std::initializer_list<GLfloat>& v){
+void chaos::VertexArray::setUV(GLuint id, const std::initializer_list<GLfloat>& v){
     vVertices[id].vUV.clear();
     for(GLfloat x: v){
         vVertices[id].vUV.push_back(x);
     }
 }
-void VertexArray::setData(GLuint id, const std::initializer_list<GLfloat>& v){
+void chaos::VertexArray::setData(GLuint id, const std::initializer_list<GLfloat>& v){
     vVertices[id].vData.clear();
     for(GLfloat x: v){
         vVertices[id].vData.push_back(x);
     }
 }
-void VertexArray::buildArrayOfPlainData(std::vector<GLfloat>* v){
+void chaos::VertexArray::buildArrayOfPlainData(std::vector<GLfloat>* v){
     v->clear();
     for(GLuint i = 0; i < vVertices.size(); i++){
         for(GLuint j = 0; j < vertsSize; j++)
@@ -94,7 +95,7 @@ void VertexArray::buildArrayOfPlainData(std::vector<GLfloat>* v){
     }
 }
 
-void VertexArray::generateVertexArray(GLenum _target, GLenum _usage){
+void chaos::VertexArray::generateVertexArray(GLenum _target, GLenum _usage){
     std::vector<GLfloat> vxData;
     buildArrayOfPlainData(&vxData);
     target = _target;
@@ -167,7 +168,7 @@ void VertexArray::generateVertexArray(GLenum _target, GLenum _usage){
 #endif // VAO_ENABLED
 }
 
-void VertexArray::bind(){
+void chaos::VertexArray::bind(){
 #ifdef VAO_ENABLED
     glBindVertexArray(VAO);
 #else
@@ -175,7 +176,7 @@ void VertexArray::bind(){
 #endif // VAO_ENABLED
 }
 
-void VertexArray::draw(ShaderProgram* shr, GLenum type, GLint start, GLsizei end){
+void chaos::VertexArray::draw(chaos::ShaderProgram* shr, GLenum type, GLint start, GLsizei end){
     if(end==-1)
         end = countVertices();
     #ifdef VAO_ENABLED
@@ -210,7 +211,7 @@ void VertexArray::draw(ShaderProgram* shr, GLenum type, GLint start, GLsizei end
     #endif // VAO_ENABLED
 }
 
-void VertexArray::unbind(){
+void chaos::VertexArray::unbind(){
 #ifdef VAO_ENABLED
     glBindVertexArray(0);
 #else

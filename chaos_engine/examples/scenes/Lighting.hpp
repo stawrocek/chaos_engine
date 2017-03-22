@@ -4,6 +4,7 @@
 #include "../../include/Scene.hpp"
 #include "../../include/Camera.hpp"
 #include "../../include/primitives.hpp"
+#include "../../include/Window.hpp"
 
 class Lighting: public chaos::Scene{
 public:
