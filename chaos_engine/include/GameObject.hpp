@@ -5,89 +5,36 @@
 
 #include "Transform.hpp"
 #include "Renderer.hpp"
-#include "ShaderProgram.hpp"
 
 namespace chaos{
 
-class CHAOS_EXPORT GameObject: public Transform{
+class Camera;
+
+class CHAOS_EXPORT GameObject: public Transform {
 public:
-    GameObject(Renderer* ren)
-    :renderer(ren)
-    {}
-
-    virtual ~GameObject(){}
-
-    virtual void draw(){
-
-    }
-
-    virtual void drawGizmo(GLfloat scale=3.0f){
-        renderer->drawDebugLine(getPosition(), getPosition()-scale*getFront(), glm::vec4(0,1,0,1));
-        renderer->drawDebugLine(getPosition(), getPosition()+scale*getRight(), glm::vec4(1,0,0,1));
-        renderer->drawDebugLine(getPosition(), getPosition()+scale*getUp(), glm::vec4(0,0,1,1));
-    }
-
-    Renderer* getRenderer(){
-        return renderer;
-    }
-
-    void setRenderer(Renderer* ren){
-        renderer = ren;
-    }
-
-protected:
-    Renderer* renderer;
-};
-
-class CHAOS_EXPORT DrawableGameObject: public GameObject{
-public:
-    DrawableGameObject(Renderer* ren)
-    :GameObject(ren)
-    {}
-    DrawableGameObject(Renderer* ren, std::string vaoId, std::string shaderId)
-    :GameObject(ren)
-    {
-        setVertexArray(vaoId);
-        setShader(shaderId);
-    }
-    virtual ~DrawableGameObject(){}
-    virtual void draw(){
-        shader->run();
-        shader->setUniform("uniColor", color);
-        shader->setUniform("mx",renderer->getCamCombined()*getGlobalTransformMatrix());
-
-        vao->bind();
-        vao->draw(shader);
-        vao->unbind();
-    }
-    void setVertexArray(std::string id){
-        vao = renderer->getVAO(id);
-    }
-    VertexArray* getVertexArray(){
-        return vao;
-    }
-    void setShader(std::string id){
-        shader = renderer->getShader(id);
-    }
-    ShaderProgram* getShader(){
-        return shader;
-    }
-
-    glm::vec4 getColor(){
-        return color;
-    }
-    void setColor(glm::vec4 c){
-        color = c;
-    }
-
-    void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a){
-        color = glm::vec4(r, g, b, a);
-    }
+    GameObject(Renderer* ren);
+    GameObject(Renderer* ren, std::string vaoId, std::string shaderId);
+    virtual ~GameObject();
+    virtual void draw();
+    void setVertexArray(std::string id);
+    VertexArray* getVertexArray();
+    void setShader(std::string id);
+    ShaderProgram* getShader();
+    glm::vec4 getColor();
+    void setColor(glm::vec4 c);
+    void setColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+    Renderer* getRenderer();
+    void setRenderer(Renderer* ren);
+    virtual void drawGizmo(GLfloat scale=3.0f);
+    virtual void setLightingEnabled(GLboolean enable);
+    GLboolean isLightingEnabled();
 
 protected:
     glm::vec4 color = glm::vec4(1.f, 1.f, 1.f, 1.f);
     ShaderProgram* shader = nullptr;
     VertexArray* vao = nullptr;
+    Renderer* renderer = nullptr;
+    GLboolean isLighting=false;
 };
 
 }

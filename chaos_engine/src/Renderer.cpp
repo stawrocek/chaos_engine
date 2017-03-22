@@ -81,6 +81,8 @@ void chaos::Renderer::initEngineStuff(){
     // hehe, final release, good one
     addShader({ std::make_pair("files/shaders/shader2.vs", GL_VERTEX_SHADER),
                 std::make_pair("files/shaders/shader2.fs", GL_FRAGMENT_SHADER)}, "Shader_Pos");
+    addShader({ std::make_pair("files/shaders/shader_pos_norm.vs", GL_VERTEX_SHADER),
+                std::make_pair("files/shaders/shader_pos_norm.fs", GL_FRAGMENT_SHADER)}, "Shader_Pos.Norm");
     addShader({ std::make_pair("files/shaders/shader1.vs", GL_VERTEX_SHADER),
                 std::make_pair("files/shaders/shader1.fs", GL_FRAGMENT_SHADER)}, "Shader_Pos.Uv");
     addShader({ std::make_pair("files/shaders/font0.vs", GL_VERTEX_SHADER),
@@ -203,6 +205,50 @@ void chaos::Renderer::initEngineStuff(){
         -1.f,  1.f, -1.f,  0.0f, 1.0f
     };
 
+    std::vector<GLfloat> cube_Pos_Normal = {
+        -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f,
+         1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f,
+         1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f,
+        -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f,
+
+        -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+         1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+        -1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+        -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+
+        -1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f,
+        -1.0f,  1.0f, -1.0f, -1.0f,  0.0f,  0.0f,
+        -1.0f, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f,
+        -1.0f, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f,
+        -1.0f, -1.0f,  1.0f, -1.0f,  0.0f,  0.0f,
+        -1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f,
+
+         1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f,
+         1.0f,  1.0f, -1.0f,  1.0f,  0.0f,  0.0f,
+         1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,
+         1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,
+         1.0f, -1.0f,  1.0f,  1.0f,  0.0f,  0.0f,
+         1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f,
+
+        -1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f,
+         1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f,
+         1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f,
+         1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f,
+        -1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f,
+        -1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f,
+
+        -1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+         1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+         1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+         1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+        -1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+        -1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f
+    };
+
     GLuint circleCount = 32;
     GLfloat lastX = 1.f;
     GLfloat lastY = 0.f;
@@ -220,14 +266,13 @@ void chaos::Renderer::initEngineStuff(){
     addVAO(3, 0, 2, 0, &rect_Pos_Uv, "Rectangle:Vao_Pos.Uv");
     addVAO(3, 0, 0, 1, &rect_Pos_Id,"Rectangle:Pos_Id");
     addVAO(3, 0, 0, 0, &cube_Pos, "Cube:Vao_Pos");
+    addVAO(3, 3, 0, 0, &cube_Pos_Normal, "Cube:Vao_Pos.Norm");
     addVAO(3, 0, 2, 0, &cube_Pos_Uv, "Cube:Vao_Pos.Uv");
     addVAO(3, 0, 0, 0, &circle_Pos, "Circle:Vao_Pos");
 }
 
 void chaos::Renderer::addMeshVAO(MeshPrefab* mesh){
-    //no normal vectors for now
     addVAO(3, 3, 2, 0, mesh->getVBOData(), "Mesh:Vao_Pos.Uv("+toString(mesh->getMeshId())+")");
-    //addVAO(3, 0, 2, 0, mesh->getVBOData(), "Mesh:Vao_Pos.Uv("+toString(mesh->getMeshId())+")");
 }
 
 glm::mat4 chaos::Renderer::getCamCombined(){
@@ -256,4 +301,12 @@ void chaos::Renderer::drawDebugLine(glm::vec3 start, glm::vec3 end, glm::vec4 co
     vaoTmp.bind();
     vaoTmp.draw(getShader("Shader_Pos"),GL_LINES);
     vaoTmp.unbind();
+}
+
+chaos::Camera* chaos::Renderer::getActiveCamera(){
+    return activeCamera;
+}
+
+void chaos::Renderer::setActiveCamera(chaos::Camera* cam){
+    activeCamera = cam;
 }

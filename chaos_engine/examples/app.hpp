@@ -32,7 +32,8 @@
 
 //#include "scenes/ColorfulTriangles.hpp"
 //#include "scenes/VAOnShaders.hpp"
-#include "scenes/Gizmos.hpp"
+//#include "scenes/Gizmos.hpp"
+#include "scenes/Lighting.hpp"
 
 class ChaosExampleLibraryApp: public chaos::Application{
 public:

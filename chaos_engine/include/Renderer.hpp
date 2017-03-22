@@ -14,6 +14,8 @@
 
 namespace chaos{
 
+class Camera;
+
 class CHAOS_EXPORT Renderer{
 public:
     Renderer(Window* w);
@@ -38,12 +40,15 @@ public:
     Window* getTargetWindow();
     //slow af
     void drawDebugLine(glm::vec3 start, glm::vec3 end, glm::vec4 color);
+    Camera* getActiveCamera();
+    void setActiveCamera(Camera* cam);
 
 private:
     std::unordered_map<std::string , ShaderProgram*> cacheShaders;
     std::unordered_map<std::string , VertexArray*> cacheVAO;
     glm::mat4 camCombined = glm::mat4();
     Window* win = nullptr;
+    Camera* activeCamera = nullptr;
 };
 
 }

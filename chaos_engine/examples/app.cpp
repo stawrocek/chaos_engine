@@ -39,9 +39,13 @@ void ChaosExampleLibraryApp::onCreate(){
 
     //sceneManager->registerScene<ColorfulTriangles>("ColorfulTriangles");
     //sceneManager->registerScene<VAOnShaders>("VAOnShaders");
-    sceneManager->registerScene<GizmosTest>("GizmosTest");
-    //sceneManager->registerScene<ObjViewer>("ObjViewer");
-    sceneManager->setActiveScene("GizmosTest");
+    //sceneManager->registerScene<GizmosTest>("GizmosTest");
+    //sceneManager->setActiveScene("GizmosTest");
+
+
+    sceneManager->registerScene<Lighting>("Lighting");
+    sceneManager->setActiveScene("Lighting");
+
 }
 
 void ChaosExampleLibraryApp::onDraw(){

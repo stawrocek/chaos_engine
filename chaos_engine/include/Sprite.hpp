@@ -7,10 +7,10 @@
 
 namespace chaos{
 
-class CHAOS_EXPORT Sprite: public DrawableGameObject{
+class CHAOS_EXPORT Sprite: public GameObject{
 public:
     Sprite(Renderer* ren, Texture* tex)
-    :DrawableGameObject(ren,"Rectangle:Vao_Pos.Uv", "Shader_Pos.Uv")
+    :GameObject(ren,"Rectangle:Vao_Pos.Uv", "Shader_Pos.Uv")
     {
         setTexture(tex);
     }

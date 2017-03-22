@@ -9,10 +9,10 @@
 
 namespace chaos{
 
-class CHAOS_EXPORT BitmapFontSprite: public DrawableGameObject{
+class CHAOS_EXPORT BitmapFontSprite: public GameObject{
 public:
     BitmapFontSprite(Renderer* ren, BitmapFont* b, std::string str="")
-    :DrawableGameObject(ren,"Rectangle:Pos_Id", "Shader_Font2d")
+    :GameObject(ren,"Rectangle:Pos_Id", "Shader_Font2d")
     {
         setBitmapFont(b);
         setText(str);

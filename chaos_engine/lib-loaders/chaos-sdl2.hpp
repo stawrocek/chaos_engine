@@ -145,7 +145,13 @@ public:
         while (SDL_PollEvent(&sdlEvent)){
             chaos::Event ev = translateEvent(&sdlEvent);
             if(sceneManager != nullptr){
-                sceneManager->deliverEvent(&ev);
+                if(ev.type != Event::KeyDown)
+                    sceneManager->deliverEvent(&ev);
+                else{
+                    if(!isKeyDown(ev.keyEvent.keyCode)){
+                        sceneManager->deliverEvent(&ev);
+                    }
+                }
             }
             if (ev.type == Event::TouchDown){
                 mTouchDown[ev.touchEvent.buttonCode]=true;
@@ -162,10 +168,10 @@ public:
         }
     }
 
-    chaos::Event translateEvent(void* e){
+    chaos::Event translateEvent(void* nativeEvent){
         chaos::Event ev;
-        SDL_Event* sdlEv = (SDL_Event*)e;
-        ev.origEvent = e;
+        SDL_Event* sdlEv = (SDL_Event*)nativeEvent;
+        ev.origEvent = nativeEvent;
         if(sdlEv->type == SDL_MOUSEBUTTONDOWN || sdlEv->type == SDL_MOUSEBUTTONUP){
             ev.type = chaos::Event::TouchDown;
             if(sdlEv->type == SDL_MOUSEBUTTONUP)
@@ -180,6 +186,7 @@ public:
             ev.type = chaos::Event::KeyDown;
             if(sdlEv->type == SDL_KEYUP)
                 ev.type = chaos::Event::KeyUp;
+
             ev.keyEvent.keyCode = mKeyCodes[sdlEv->key.keysym.sym];
         }
         else if(sdlEv->type == SDL_MOUSEMOTION){

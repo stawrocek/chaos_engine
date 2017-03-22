@@ -8,25 +8,37 @@
 
 namespace chaos{
 
-class CHAOS_EXPORT Rectangle: public DrawableGameObject
+class CHAOS_EXPORT Rectangle: public GameObject
 {
 public:
-    Rectangle(Renderer* ren):DrawableGameObject(ren, "Rectangle:Vao_Pos", "Shader_Pos"){
+    Rectangle(Renderer* ren):GameObject(ren, "Rectangle:Vao_Pos", "Shader_Pos"){
     }
 };
 
-class CHAOS_EXPORT Cube: public DrawableGameObject
+class CHAOS_EXPORT Cube: public GameObject
 {
 public:
-    Cube(Renderer* ren):DrawableGameObject(ren,"Cube:Vao_Pos","Shader_Pos"){
+    Cube(Renderer* ren):GameObject(ren,"Cube:Vao_Pos","Shader_Pos"){
 
+    }
+
+    virtual void setLightingEnabled(GLboolean enable){
+        isLighting = enable;
+        if(isLighting){
+            vao = renderer->getVAO("Cube:Vao_Pos.Norm");
+            shader = renderer->getShader("Shader_Pos.Norm");
+        }
+        else{
+            vao = renderer->getVAO("Cube:Vao_Pos");
+            shader = renderer->getShader("Shader_Pos");
+        }
     }
 };
 
-class CHAOS_EXPORT Circle: public DrawableGameObject
+class CHAOS_EXPORT Circle: public GameObject
 {
 public:
-    Circle(Renderer* ren):DrawableGameObject(ren,"Circle:Vao_Pos","Shader_Pos"){
+    Circle(Renderer* ren):GameObject(ren,"Circle:Vao_Pos","Shader_Pos"){
     }
 };
 

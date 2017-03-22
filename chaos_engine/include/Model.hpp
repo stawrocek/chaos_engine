@@ -11,10 +11,10 @@
 
 namespace chaos
 {
-class CHAOS_EXPORT Model: public DrawableGameObject{
+class CHAOS_EXPORT Model: public GameObject{
 public:
     Model(Renderer*r, MeshPrefab* prefab)
-    :DrawableGameObject(r)
+    :GameObject(r)
     {
         setMesh(prefab);
         shader = renderer->getShader("Shader_Mesh3d");
