@@ -2,6 +2,7 @@
 #include "../include/ShaderProgram.hpp"
 #include "../include/VertexArray.hpp"
 #include "../include/Renderer.hpp"
+#include "../include/Camera.hpp"
 
 chaos::GameObject::GameObject(chaos::Renderer* ren)
 :renderer(ren)
@@ -26,8 +27,8 @@ void chaos::GameObject::draw(){
         shader->setUniform("model", getGlobalTransformMatrix());
         shader->setUniform("camCombined",renderer->getCamCombined());
         shader->setUniform("lightPos", glm::vec3(2.0, 0.0, 0.0));
-        shader->setUniform("viewPos", glm::vec3(0.0, 0.0, 0.0));
-        //shader->setUniform("viewPos", renderer->getActiveCamera()->getPosition());
+        //shader->setUniform("viewPos", glm::vec3(0.0, 0.0, 0.0));
+        shader->setUniform("viewPos", renderer->getActiveCamera()->getPosition());
         shader->setUniform("lightColor", glm::vec4(0.0, 1.0, 0.0, 1.0));
         shader->setUniform("objectColor", glm::vec4(0.2, 0.2, 0.7, 1.0));
     }
