@@ -4,6 +4,7 @@
 #include "Export.hpp"
 
 #include "Transform.hpp"
+#include "Material.hpp"
 
 namespace chaos{
 
@@ -30,6 +31,8 @@ public:
     virtual void drawGizmo(GLfloat scale=3.0f);
     virtual void setLightingEnabled(GLboolean enable);
     GLboolean isLightingEnabled();
+
+    Material material;
 
 protected:
     glm::vec4 color = glm::vec4(1.f, 1.f, 1.f, 1.f);

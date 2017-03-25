@@ -27,6 +27,7 @@ void chaos::SceneManager::setActiveScene(std::string nameId){
         actScene->onSceneDeactivate();
     }
     actScene = scenes[nameId];
+    renderer->setLightCastersVector(actScene->getLightCastersVector());
     actScene->onSceneActivate();
 }
 std::string chaos::SceneManager::getActiveSceneName(){

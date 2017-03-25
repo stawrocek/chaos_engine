@@ -5,6 +5,7 @@
 #include "../../include/Camera.hpp"
 #include "../../include/primitives.hpp"
 #include "../../include/Window.hpp"
+#include "../../include/LightCaster.hpp"
 
 class Lighting: public chaos::Scene{
 public:
@@ -19,9 +20,17 @@ public:
         cube->setScale(0.3, 0.3, 0.3);
         //cube->rotateX(0.3);
 
-        cubeLight = new chaos::Cube(renderer);
-        cubeLight->setScale(0.1, 0.1, 0.1);
-        cubeLight->setPosition(2.0, 0.0, 0.0);
+        light = new chaos::PointLight(renderer, this);
+        light->setPosition(2.0, 0.0, 0.0);
+        light->setScale(0.05, 0.05, 0.05);
+        light->setColor(1, 1, 1, 1);
+        light->setAttenuationCoefficients(1.0, 0.09, 0.032);
+
+        light2 = new chaos::PointLight(renderer, this);
+        light2->setPosition(-2.0, 0.0, 0.0);
+        light2->setScale(0.05, 0.05, 0.05);
+        light2->setColor(1, 0, 0, 1);
+        light2->setAttenuationCoefficients(1.0, 0.09, 0.032);
 
         camera = new chaos::Camera(renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)window->getStyle().width/window->getStyle().height, 0.1f, 100.0f));
         camera->moveZ(5);
@@ -51,7 +60,8 @@ public:
         cube->rotateY(0.001);
 
         cube->draw();
-        cubeLight->draw();
+        light->draw();
+        light2->draw();
     }
 
     void deliverEvent(chaos::Event* event){
@@ -71,8 +81,9 @@ public:
 
 private:
     chaos::Cube* cube;
-    chaos::Cube* cubeLight;
     chaos::Camera* camera;
+    chaos::PointLight* light;
+    chaos::PointLight* light2;
 };
 
 #endif // LIGHTING_TEST_HPP

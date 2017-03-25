@@ -16,6 +16,7 @@
 namespace chaos{
 
 class SceneManager;
+class LightCaster;
 
 class CHAOS_EXPORT Scene{
 public:
@@ -34,13 +35,16 @@ public:
     void setRenderer(Renderer* ren);
     void setResourceManager(ResourceManager* mgr);
     void clearWindow(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+    void addLightCaster(LightCaster* light);
+    std::vector<LightCaster*>* getLightCastersVector();
 
 protected:
     std::string name;
     SceneManager* scnManager=nullptr;
-    Renderer* renderer;
-    ResourceManager* resourceManager;
-    Window* window;
+    Renderer* renderer=nullptr;
+    ResourceManager* resourceManager=nullptr;
+    Window* window=nullptr;
+    std::vector<LightCaster*> vecLightCasters;
 };
 
 }

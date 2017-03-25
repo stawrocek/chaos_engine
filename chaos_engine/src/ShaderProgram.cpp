@@ -62,6 +62,10 @@ void chaos::ShaderProgram::setUniform(GLuint loc, const GLuint &v){
     glUniform1i(loc, v);
 }
 
+void chaos::ShaderProgram::setUniform(GLuint loc, const GLint &v){
+    glUniform1i(loc, v);
+}
+
 void chaos::ShaderProgram::setUniform(GLuint loc, const glm::vec3 &v){
     glUniform3f(loc, v.x, v.y, v.z);
 }

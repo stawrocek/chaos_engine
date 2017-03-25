@@ -42,7 +42,6 @@ void ChaosExampleLibraryApp::onCreate(){
     //sceneManager->registerScene<GizmosTest>("GizmosTest");
     //sceneManager->setActiveScene("GizmosTest");
 
-
     sceneManager->registerScene<Lighting>("Lighting");
     sceneManager->setActiveScene("Lighting");
 }

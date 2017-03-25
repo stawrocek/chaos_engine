@@ -319,3 +319,11 @@ chaos::Camera* chaos::Renderer::getActiveCamera(){
 void chaos::Renderer::setActiveCamera(chaos::Camera* cam){
     activeCamera = cam;
 }
+
+void chaos::Renderer::setLightCastersVector(std::vector<LightCaster*>* vec){
+    vecLightCasters=vec;
+}
+
+std::vector<chaos::LightCaster*>* chaos::Renderer::getLightCastersVector(){
+    return vecLightCasters;
+}

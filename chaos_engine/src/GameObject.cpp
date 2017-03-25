@@ -1,15 +1,20 @@
 #include "../include/GameObject.hpp"
+
 #include "../include/ShaderProgram.hpp"
 #include "../include/VertexArray.hpp"
 #include "../include/Renderer.hpp"
 #include "../include/Camera.hpp"
+#include "../include/LightCaster.hpp"
+#include "../include/Utils.hpp"
+
+#include <iostream>
 
 chaos::GameObject::GameObject(chaos::Renderer* ren)
-:renderer(ren)
+:renderer(ren), material(glm::vec4(1, 0.1, 0.4, 1.0), glm::vec4(0,1,0,1), 32)
 {}
 
 chaos::GameObject::GameObject(chaos::Renderer* ren, std::string vaoId, std::string shaderId)
-:renderer(ren)
+:renderer(ren), material(glm::vec4(1, 0.1, 0.4, 1.0), glm::vec4(0,1,0,1), 32)
 {
     setVertexArray(vaoId);
     setShader(shaderId);
@@ -26,11 +31,21 @@ void chaos::GameObject::draw(){
     else{
         shader->setUniform("model", getGlobalTransformMatrix());
         shader->setUniform("camCombined",renderer->getCamCombined());
-        shader->setUniform("lightPos", glm::vec3(2.0, 0.0, 0.0));
-        //shader->setUniform("viewPos", glm::vec3(0.0, 0.0, 0.0));
-        shader->setUniform("viewPos", renderer->getActiveCamera()->getPosition());
-        shader->setUniform("lightColor", glm::vec4(0.0, 1.0, 0.0, 1.0));
-        shader->setUniform("objectColor", glm::vec4(0.2, 0.2, 0.7, 1.0));
+        shader->setUniform("uniViewPos", renderer->getActiveCamera()->getPosition());
+
+        shader->setUniform("ambientStrength", 0.5f);
+        shader->setUniform("ambientColor", glm::vec4(0, 1, 0, 1));
+
+        shader->setUniform("uniMaterial.diffuseColor", material.getDiffuseColor());
+        shader->setUniform("uniMaterial.specularColor", material.getSpecularColor());
+        shader->setUniform("uniMaterial.shininess", material.getShininess());
+
+        for(GLuint i = 0; i < renderer->getLightCastersVector()->size(); i++){
+            renderer->getLightCastersVector()->at(i)->setupUniforms(shader, this, i);
+        }
+
+        shader->setUniform("uniObjectColor", glm::vec4(0.2, 0.2, 0.7, 1.0));
+        shader->setUniform("uniLightsCount", renderer->getLightCastersVector()->size());
     }
 
     vao->bind();
@@ -87,6 +102,3 @@ void chaos::GameObject::setLightingEnabled(GLboolean enable){
 GLboolean chaos::GameObject::isLightingEnabled(){
     return isLighting;
 }
-
-
-

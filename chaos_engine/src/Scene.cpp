@@ -35,3 +35,11 @@ void chaos::Scene::clearWindow(GLfloat r, GLfloat g, GLfloat b, GLfloat a){
     glClearColor(r,g,b,a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
+
+void chaos::Scene::addLightCaster(chaos::LightCaster* light){
+    vecLightCasters.push_back(light);
+}
+
+std::vector<chaos::LightCaster*>* chaos::Scene::getLightCastersVector(){
+    return &vecLightCasters;
+}
