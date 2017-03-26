@@ -96,3 +96,56 @@ glm::vec3 chaos::DirectionalLight::getDirection(){
     return direction;
 }
 
+/*****
+    Spotlight
+*/
+
+chaos::Spotlight::Spotlight(chaos::Renderer* ren, chaos::Scene* scn)
+:LightCaster(ren, scn, chaos::LightCaster::Spotlight)
+{}
+
+void chaos::Spotlight::setupUniforms(chaos::ShaderProgram* shr, chaos::GameObject* obj, GLuint index){
+    shr->setUniform("uniSpotlight[" + chaos::toString<GLuint>(index)+ "].position", getPosition());
+    shr->setUniform("uniSpotlight[" + chaos::toString<GLuint>(index)+ "].color", getColor());
+    shr->setUniform("uniSpotlight[" + chaos::toString<GLuint>(index)+ "].direction", getDirection());
+    shr->setUniform("uniSpotlight[" + chaos::toString<GLuint>(index)+ "].cutoffCosine", getCutOffCosine());
+    shr->setUniform("uniSpotlight[" + chaos::toString<GLuint>(index)+ "].constant", getConstantAttenuationCoefficient());
+    shr->setUniform("uniSpotlight[" + chaos::toString<GLuint>(index)+ "].linear", getLinearAttenuationCoefficient());
+    shr->setUniform("uniSpotlight[" + chaos::toString<GLuint>(index)+ "].quadratic", getQuadraticAttenuationCoefficient());
+    shr->setUniform("uniSpotlight[" + chaos::toString<GLuint>(index)+ "].diffuseStrength", getDiffuseStrength());
+    shr->setUniform("uniSpotlight[" + chaos::toString<GLuint>(index)+ "].specularStrength", getSpecularStrength());
+}
+
+void chaos::Spotlight::setDirection(glm::vec3 dir){
+    direction = dir;
+}
+
+glm::vec3 chaos::Spotlight::getDirection(){
+    return direction;
+}
+
+void chaos::Spotlight::setCutOffCosine(GLfloat newCosine){
+    cutOffCosine = newCosine;
+}
+
+GLfloat chaos::Spotlight::getCutOffCosine(){
+    return cutOffCosine;
+}
+
+void chaos::Spotlight::setAttenuationCoefficients(GLfloat _constant, GLfloat _linear, GLfloat _quadratic){
+    constant = _constant;
+    linear = _linear;
+    quadratic = _quadratic;
+}
+
+GLfloat chaos::Spotlight::getConstantAttenuationCoefficient(){
+    return constant;
+}
+
+GLfloat chaos::Spotlight::getLinearAttenuationCoefficient(){
+    return linear;
+}
+
+GLfloat chaos::Spotlight::getQuadraticAttenuationCoefficient(){
+    return quadratic;
+}

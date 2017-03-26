@@ -39,28 +39,28 @@ void chaos::GameObject::draw(){
         shader->setUniform("uniMaterial.diffuseColor", material.getDiffuseColor());
         shader->setUniform("uniMaterial.specularColor", material.getSpecularColor());
         shader->setUniform("uniMaterial.shininess", material.getShininess());
-
-        for(GLuint i = 0; i < renderer->getLightCastersVector()->size(); i++){
-            renderer->getLightCastersVector()->at(i)->setupUniforms(shader, this, i);
-        }
-
         shader->setUniform("uniObjectColor", getColor());
 
 
-        GLuint pointLightCtr=0, dirLightCtr=0, spotLightCtr=0;
+        GLuint pointLightCtr=0, dirLightCtr=0, spotlightCtr=0;
         for(GLuint i = 0; i < renderer->getLightCastersVector()->size(); i++){
             if(renderer->getLightCastersVector()->at(i)->getLightType() == LightCaster::PointLight){
+                renderer->getLightCastersVector()->at(i)->setupUniforms(shader, this, pointLightCtr);
                 pointLightCtr++;
             }
             if(renderer->getLightCastersVector()->at(i)->getLightType() == LightCaster::DirectionalLight){
+                renderer->getLightCastersVector()->at(i)->setupUniforms(shader, this, dirLightCtr);
                 dirLightCtr++;
             }
-            if(renderer->getLightCastersVector()->at(i)->getLightType() == LightCaster::SpotLight){
-                spotLightCtr++;
+            if(renderer->getLightCastersVector()->at(i)->getLightType() == LightCaster::Spotlight){
+                renderer->getLightCastersVector()->at(i)->setupUniforms(shader, this, spotlightCtr);
+                spotlightCtr++;
             }
         }
+
         shader->setUniform("uniPointLightsCount", pointLightCtr);
         shader->setUniform("uniDirLightsCount", dirLightCtr);
+        shader->setUniform("uniSpotlightsCount", spotlightCtr);
     }
 
     vao->bind();

@@ -12,7 +12,7 @@ public:
     enum LightType{
         PointLight = 0,
         DirectionalLight = 1,
-        SpotLight = 2
+        Spotlight = 2
     };
 
     LightCaster(Renderer*) = delete;
@@ -54,6 +54,25 @@ public:
 
 protected:
     glm::vec3 direction;
+};
+
+class CHAOS_EXPORT Spotlight: public LightCaster{
+public:
+    Spotlight(Renderer* ren, Scene* scn);
+    void setupUniforms(ShaderProgram* shr, GameObject* obj, GLuint index);
+    void setDirection(glm::vec3 dir);
+    glm::vec3 getDirection();
+    void setCutOffCosine(GLfloat newCosine);
+    GLfloat getCutOffCosine();
+    void setAttenuationCoefficients(GLfloat constant, GLfloat linear, GLfloat quadratic);
+    GLfloat getConstantAttenuationCoefficient();
+    GLfloat getLinearAttenuationCoefficient();
+    GLfloat getQuadraticAttenuationCoefficient();
+
+protected:
+    GLfloat constant=1.0, linear=0.09, quadratic=0.032;
+    glm::vec3 direction;
+    GLfloat cutOffCosine=0.5;
 };
 
 }

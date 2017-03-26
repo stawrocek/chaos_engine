@@ -17,26 +17,30 @@ public:
         cube = new chaos::Cube(renderer);
         cube->setColor(0.2, 0.2, 0.7, 1.0);
 
-        cube->setScale(0.3, 0.3, 0.3);
+        cube->setScale(2, 2, 2);
         cube->material.setShininess(1024);
         //cube->rotateX(0.3);
 
         /*light = new chaos::PointLight(renderer, this);
         light->setPosition(2.0, 0.0, 0.0);
         light->setScale(0.05, 0.05, 0.05);
-        light->setColor(1, 1, 1, 1);
+        light->setColor(0.4, 0.1, 0.1, 1);
         light->setAttenuationCoefficients(1.0, 0.09, 0.032);
 
         light2 = new chaos::PointLight(renderer, this);
         light2->setPosition(-2.0, 0.0, 0.0);
         light2->setScale(0.05, 0.05, 0.05);
         light2->setColor(1, 0, 0, 1);
-        light2->setAttenuationCoefficients(1.0, 0.09, 0.032);*/
+        light2->setAttenuationCoefficients(1.0, 0.09, 0.032);
 
         dirLight = new chaos::DirectionalLight(renderer, this);
         dirLight->setColor(1, 1, 0, 1);
         dirLight->setDirection(glm::vec3(-1, -1, 0));
-        dirLight->setDiffuseStrength(0.5);
+        //dirLight->setDiffuseStrength(5.0);*/
+
+        spotlight = new chaos::Spotlight(renderer, this);
+        spotlight->setCutOffCosine(0.9);
+        spotlight->setColor(0.0,1.0,0.0,1.0);
 
         camera = new chaos::Camera(renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)window->getStyle().width/window->getStyle().height, 0.1f, 100.0f));
         camera->moveZ(5);
@@ -63,11 +67,18 @@ public:
         window->clearColor(0.7, 0.2, 0.2, 1.0);
         renderer->setCamCombined(camera->getProjectionMatrix()*camera->getViewMatrix());
 
-        cube->rotateY(0.001);
+        //cube->rotateY(0.001);
 
         cube->draw();
+
+        //renderer->drawDebugLine(camera->getPosition(), camera->getPosition()+camera->getUp(), glm::vec4(0,1,0,1));
+        //cube->drawGizmo(10.0);
+        //camera->translate(camera->getFront()*0.01f);
+
         //light->draw();
         //light2->draw();
+        spotlight->setPosition(camera->getPosition());
+        spotlight->setDirection(camera->getFront());
         //dirLight->draw();
     }
 
@@ -89,9 +100,10 @@ public:
 private:
     chaos::Cube* cube;
     chaos::Camera* camera;
-    //chaos::PointLight* light;
-    //chaos::PointLight* light2;
-    chaos::DirectionalLight* dirLight;
+    /*chaos::PointLight* light;
+    chaos::PointLight* light2;
+    chaos::DirectionalLight* dirLight;*/
+    chaos::Spotlight* spotlight;
 };
 
 #endif // LIGHTING_TEST_HPP
