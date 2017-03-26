@@ -22,7 +22,7 @@ public:
 protected:
     glm::vec4 diffuseColor;
     glm::vec4 specularColor;
-    GLfloat shininess;
+    GLfloat shininess=32;
 };
 
 }

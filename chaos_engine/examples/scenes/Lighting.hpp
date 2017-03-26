@@ -18,9 +18,10 @@ public:
         cube->setColor(0.2, 0.2, 0.7, 1.0);
 
         cube->setScale(0.3, 0.3, 0.3);
+        cube->material.setShininess(1024);
         //cube->rotateX(0.3);
 
-        light = new chaos::PointLight(renderer, this);
+        /*light = new chaos::PointLight(renderer, this);
         light->setPosition(2.0, 0.0, 0.0);
         light->setScale(0.05, 0.05, 0.05);
         light->setColor(1, 1, 1, 1);
@@ -30,7 +31,12 @@ public:
         light2->setPosition(-2.0, 0.0, 0.0);
         light2->setScale(0.05, 0.05, 0.05);
         light2->setColor(1, 0, 0, 1);
-        light2->setAttenuationCoefficients(1.0, 0.09, 0.032);
+        light2->setAttenuationCoefficients(1.0, 0.09, 0.032);*/
+
+        dirLight = new chaos::DirectionalLight(renderer, this);
+        dirLight->setColor(1, 1, 0, 1);
+        dirLight->setDirection(glm::vec3(-1, -1, 0));
+        dirLight->setDiffuseStrength(0.5);
 
         camera = new chaos::Camera(renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)window->getStyle().width/window->getStyle().height, 0.1f, 100.0f));
         camera->moveZ(5);
@@ -60,8 +66,9 @@ public:
         cube->rotateY(0.001);
 
         cube->draw();
-        light->draw();
-        light2->draw();
+        //light->draw();
+        //light2->draw();
+        //dirLight->draw();
     }
 
     void deliverEvent(chaos::Event* event){
@@ -82,8 +89,9 @@ public:
 private:
     chaos::Cube* cube;
     chaos::Camera* camera;
-    chaos::PointLight* light;
-    chaos::PointLight* light2;
+    //chaos::PointLight* light;
+    //chaos::PointLight* light2;
+    chaos::DirectionalLight* dirLight;
 };
 
 #endif // LIGHTING_TEST_HPP

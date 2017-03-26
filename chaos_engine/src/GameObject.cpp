@@ -33,7 +33,7 @@ void chaos::GameObject::draw(){
         shader->setUniform("camCombined",renderer->getCamCombined());
         shader->setUniform("uniViewPos", renderer->getActiveCamera()->getPosition());
 
-        shader->setUniform("ambientStrength", 0.5f);
+        shader->setUniform("ambientStrength", 0.0f);
         shader->setUniform("ambientColor", glm::vec4(0, 1, 0, 1));
 
         shader->setUniform("uniMaterial.diffuseColor", material.getDiffuseColor());
@@ -44,8 +44,23 @@ void chaos::GameObject::draw(){
             renderer->getLightCastersVector()->at(i)->setupUniforms(shader, this, i);
         }
 
-        shader->setUniform("uniObjectColor", glm::vec4(0.2, 0.2, 0.7, 1.0));
-        shader->setUniform("uniLightsCount", renderer->getLightCastersVector()->size());
+        shader->setUniform("uniObjectColor", getColor());
+
+
+        GLuint pointLightCtr=0, dirLightCtr=0, spotLightCtr=0;
+        for(GLuint i = 0; i < renderer->getLightCastersVector()->size(); i++){
+            if(renderer->getLightCastersVector()->at(i)->getLightType() == LightCaster::PointLight){
+                pointLightCtr++;
+            }
+            if(renderer->getLightCastersVector()->at(i)->getLightType() == LightCaster::DirectionalLight){
+                dirLightCtr++;
+            }
+            if(renderer->getLightCastersVector()->at(i)->getLightType() == LightCaster::SpotLight){
+                spotLightCtr++;
+            }
+        }
+        shader->setUniform("uniPointLightsCount", pointLightCtr);
+        shader->setUniform("uniDirLightsCount", dirLightCtr);
     }
 
     vao->bind();

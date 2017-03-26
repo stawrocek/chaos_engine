@@ -5,6 +5,7 @@ in vec3 fragmentPosition;
 in vec3 normalVector;  
 
 #define MAXIMUM_POINT_LIGHTS 8
+#define MAXIMUM_DIRECTIONAL_LIGHTS 4
 
 struct Material {
     vec4 diffuseColor;
@@ -18,6 +19,15 @@ struct PointLight {
     float constant;
     float linear;
     float quadratic;
+	float diffuseStrength;
+	float specularStrength;
+};
+
+struct DirectionalLight{
+	vec3 direction;
+	vec4 color;
+	float diffuseStrength;
+	float specularStrength;
 };
 
 uniform vec4 ambientColor;
@@ -27,46 +37,56 @@ uniform Material uniMaterial;
 
 
 uniform PointLight uniPointLight[MAXIMUM_POINT_LIGHTS];
+uniform DirectionalLight uniDirLight[MAXIMUM_DIRECTIONAL_LIGHTS];
+
 uniform vec3 uniViewPos;
 uniform vec4 uniObjectColor;
 
-uniform int uniLightsCount;
+uniform int uniPointLightsCount;
+uniform int uniDirLightsCount;
 
-vec3 calcPointLight(PointLight pointLight){
-	vec4 lightColor = pointLight.color;
-	vec3 lightPos = pointLight.position;
-	
-	// Ambient
-    vec4 ambient = ambientStrength * ambientColor;
-  	
+vec3 calcPointLight(PointLight pointLight, vec3 norm, vec3 viewDir){	
     // Diffuse 
-    vec3 norm = normalize(normalVector);
-    vec3 lightDir = normalize(lightPos - fragmentPosition);
+    vec3 lightDir = normalize(pointLight.position - fragmentPosition);
     float diff = max(dot(norm, lightDir), 0.0);
-    vec4 diffuse = diff * lightColor;
+    vec4 diffuse = pointLight.diffuseStrength * diff * pointLight.color;
     
     // Specular
-    float specularStrength = 0.5;
-    vec3 viewDir = normalize(uniViewPos - fragmentPosition);
     vec3 reflectDir = reflect(-lightDir, norm);  
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), uniMaterial.shininess);
-    vec4 specular = specularStrength * spec * lightColor;  
+    vec4 specular = pointLight.specularStrength * spec * pointLight.color;  
     
 	float distance = length(pointLight.position - fragmentPosition);
 	float attenuation = 1.0 / (pointLight.constant + pointLight.linear * distance + pointLight.quadratic * (distance * distance));  
-	ambient *= attenuation;
 	diffuse *= attenuation;
 	specular *= attenuation;
 	
-    vec4 result = (ambient + diffuse + specular) * uniObjectColor;
+    vec4 result = (diffuse + specular) * uniObjectColor;
     return result.xyz;
 } 
 
+vec3 calcDirLight(DirectionalLight dirLight, vec3 norm, vec3 viewDir){
+	vec3 lightDir = normalize(-dirLight.direction);
+	float diff = max(dot(norm, lightDir), 0.0);
+	vec4 diffuse = dirLight.diffuseStrength * diff * dirLight.color;
+	
+    vec3 reflectDir = reflect(-lightDir, norm);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), uniMaterial.shininess);
+	vec4 specular = dirLight.specularStrength * spec * dirLight.color;  
+	vec4 result = (diffuse + specular) * uniObjectColor;
+    return result.xyz;
+}
+
 void main()
 {
-    vec3 result = vec3(0,0,0);
-	for(int i = 0; i < uniLightsCount; i++){
-		result += calcPointLight(uniPointLight[i]);
+	vec3 norm = normalize(normalVector);
+    vec3 viewDir = normalize(uniViewPos - fragmentPosition);
+    vec3 result = vec4(ambientStrength * ambientColor).xyz;
+	for(int i = 0; i < uniDirLightsCount; i++){
+		result += calcDirLight(uniDirLight[i], norm, viewDir);
+	}
+	for(int i = 0; i < uniPointLightsCount; i++){
+		result += calcPointLight(uniPointLight[i], norm, viewDir);
 	}
 	color = vec4(result.xyz, 1);
 }
