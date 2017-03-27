@@ -15,24 +15,17 @@ chaos::Renderer::Renderer(Window* w){
 }
 
 chaos::Renderer::~Renderer(){
-    std::cout << "Destructor of Renderer{\n";
-    std::cout << "cacheShaders.size() = " << cacheShaders.size() << "\n";
     auto itr = cacheShaders.begin();
     while (itr != cacheShaders.end()) {
         delete itr->second;
         itr = cacheShaders.erase(itr);
     }
-    std::cout << "cacheShaders.size() = " << cacheShaders.size() << "\n";
 
-    std::cout << "cacheVAO.size() = " << cacheVAO.size() << "\n";
     auto itr2 = cacheVAO.begin();
     while (itr2 != cacheVAO.end()) {
         delete itr2->second;
         itr2 = cacheVAO.erase(itr2);
     }
-    std::cout << "cacheVAO.size() = " << cacheVAO.size() << "\n";
-
-    std::cout << "}\n";
 }
 
 //Shaders
@@ -98,6 +91,8 @@ void chaos::Renderer::initEngineStuff(){
                 std::make_pair("files/shaders/font0.fs", GL_FRAGMENT_SHADER)}, "Shader_Font2d");
     addShader({ std::make_pair("files/shaders/Model3d.vs", GL_VERTEX_SHADER),
                 std::make_pair("files/shaders/Model3d.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d");
+    addShader({ std::make_pair("files/shaders/Model3dLightsOn.vs", GL_VERTEX_SHADER),
+                std::make_pair("files/shaders/Model3dLightsOn.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3dLightsOn");
 
     std::vector<GLfloat> rect_Pos = {
         -1.f, -1.f, 0.f,

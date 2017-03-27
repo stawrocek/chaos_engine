@@ -20,6 +20,7 @@ public:
     Model(Renderer*r, MeshPrefab* prefab);
     virtual void draw();
     void setMesh(MeshPrefab* prefab);
+    virtual void setLightingEnabled(GLboolean enable);
 
 protected:
     MeshPrefab* meshPrefab = nullptr;
