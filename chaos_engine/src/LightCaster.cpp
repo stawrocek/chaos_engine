@@ -35,6 +35,14 @@ GLfloat chaos::LightCaster::getSpecularStrength(){
     return specularStrength;
 }
 
+void chaos::LightCaster::setEnabled(GLboolean newValue){
+    isLightEnabled=newValue;
+}
+
+GLboolean chaos::LightCaster::isEnabled(){
+    return isLightEnabled;
+}
+
 /******
     PointLight
 */

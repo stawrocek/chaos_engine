@@ -24,12 +24,15 @@ public:
     GLfloat getDiffuseStrength();
     void setSpecularStrength(GLfloat specStr);
     GLfloat getSpecularStrength();
+    void setEnabled(GLboolean newValue);
+    GLboolean isEnabled();
 
 protected:
     Scene* scene;
     LightType lightType;
     GLfloat diffuseStrength=1.0;
     GLfloat specularStrength=1.0;
+    GLboolean isLightEnabled=true;
 };
 
 class CHAOS_EXPORT PointLight: public LightCaster{

@@ -44,15 +44,15 @@ void chaos::GameObject::draw(){
 
         GLuint pointLightCtr=0, dirLightCtr=0, spotlightCtr=0;
         for(GLuint i = 0; i < renderer->getLightCastersVector()->size(); i++){
-            if(renderer->getLightCastersVector()->at(i)->getLightType() == LightCaster::PointLight){
+            if(renderer->getLightCastersVector()->at(i)->isEnabled() && renderer->getLightCastersVector()->at(i)->getLightType() == LightCaster::PointLight){
                 renderer->getLightCastersVector()->at(i)->setupUniforms(shader, this, pointLightCtr);
                 pointLightCtr++;
             }
-            if(renderer->getLightCastersVector()->at(i)->getLightType() == LightCaster::DirectionalLight){
+            if(renderer->getLightCastersVector()->at(i)->isEnabled() && renderer->getLightCastersVector()->at(i)->getLightType() == LightCaster::DirectionalLight){
                 renderer->getLightCastersVector()->at(i)->setupUniforms(shader, this, dirLightCtr);
                 dirLightCtr++;
             }
-            if(renderer->getLightCastersVector()->at(i)->getLightType() == LightCaster::Spotlight){
+            if(renderer->getLightCastersVector()->at(i)->isEnabled() && renderer->getLightCastersVector()->at(i)->getLightType() == LightCaster::Spotlight){
                 renderer->getLightCastersVector()->at(i)->setupUniforms(shader, this, spotlightCtr);
                 spotlightCtr++;
             }

@@ -101,8 +101,7 @@ vec3 calcSpotlight(Spotlight spotlight, vec3 norm, vec3 viewDir){
 		return vec3(0,0,0);
 	}
 	
-    vec3 reflectDir = reflect(-lightDir, norm);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), uniMaterial.shininess);
+    float spec = pow(max(dot(viewDir, -spotlight.direction), 0.0), uniMaterial.shininess);
     vec4 specular = spotlight.specularStrength * spec * spotlight.color;  
 	float distance = length(spotlight.position - fragmentPosition);
 	float attenuation = 1.0 / (spotlight.constant + spotlight.linear * distance + spotlight.quadratic * (distance * distance));  
