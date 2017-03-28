@@ -1,6 +1,6 @@
 #include "../include/Primitives.hpp"
 
-#include "Renderer.hpp"
+#include "../include/Renderer.hpp"
 
 
 chaos::Rectangle::Rectangle(Renderer* ren):GameObject(ren, "Rectangle:Vao_Pos", "Shader_Pos"){

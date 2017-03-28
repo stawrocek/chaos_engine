@@ -1,5 +1,5 @@
 #ifndef LIGHTCASTER_HPP
-#define LIGHTCASTER
+#define LIGHTCASTER_HPP
 
 #include "GameObject.hpp"
 

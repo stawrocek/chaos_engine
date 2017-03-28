@@ -17,6 +17,7 @@ public:
     virtual void draw();
     void setTexture(Texture* tex);
     Texture* getTexture();
+    virtual void setLightingEnabled(GLboolean enable);
 
 protected:
     Texture* texture = nullptr;

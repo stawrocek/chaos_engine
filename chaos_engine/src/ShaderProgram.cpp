@@ -74,6 +74,14 @@ void chaos::ShaderProgram::setUniform(GLuint loc, const glm::vec4 &v){
     glUniform4f(loc, v.x, v.y, v.z, v.w);
 }
 
+void chaos::ShaderProgram::setUniform(GLint loc, const glm::mat2 &mx) {
+    glUniformMatrix2fv(loc, 1, GL_FALSE, glm::value_ptr(mx));
+}
+
+void chaos::ShaderProgram::setUniform(GLint loc, const glm::mat3 &mx) {
+    glUniformMatrix3fv(loc, 1, GL_FALSE, glm::value_ptr(mx));
+}
+
 void chaos::ShaderProgram::setUniform(GLint loc, const glm::mat4 &mx) {
     glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mx));
 }

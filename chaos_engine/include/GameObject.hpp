@@ -5,6 +5,7 @@
 
 #include "Transform.hpp"
 #include "Material.hpp"
+#include "glm/gtc/matrix_inverse.hpp"
 
 namespace chaos{
 

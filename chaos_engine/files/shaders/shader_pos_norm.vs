@@ -6,12 +6,13 @@ layout (location = 1) in vec3 normals;
 out vec3 normalVector;
 out vec3 fragmentPosition;
 
+uniform mat3 normalMatrix;
 uniform mat4 model;
-uniform mat4 camCombined;
+uniform mat4 mx;
 
 void main()
 {
-	gl_Position = camCombined *  model * vec4(position, 1.0);
+	gl_Position = mx * vec4(position, 1.0);
 	fragmentPosition = vec3(model * vec4(position, 1.0));
-    normalVector = mat3(transpose(inverse(model))) * normals;  
+    normalVector = normalMatrix * normals;  
 }

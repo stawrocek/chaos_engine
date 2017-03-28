@@ -104,12 +104,21 @@ void chaos::Renderer::initEngineStuff(){
     };
 
     std::vector<GLfloat> rect_Pos_Uv = {
-        -1.f, -1.f, 0.f,    0.f, 0.f,
-         1.f, -1.f, 0.f,    1.f, 0.f,
-        -1.f,  1.f, 0.f,    0.f, 1.f,
-         1.f,  1.f, 0.f,    1.f, 1.f,
-         1.f, -1.f, 0.f,    1.f, 0.f,
-        -1.f,  1.f, 0.f,    0.f, 1.f
+        -1.f, -1.f, -1.f,  0.0f, 0.0f,
+         1.f, -1.f, -1.f,  1.0f, 0.0f,
+         1.f,  1.f, -1.f,  1.0f, 1.0f,
+         1.f,  1.f, -1.f,  1.0f, 1.0f,
+        -1.f,  1.f, -1.f,  0.0f, 1.0f,
+        -1.f, -1.f, -1.f,  0.0f, 0.0f
+    };
+
+    std::vector<GLfloat> rect_Pos_Normal_Uv = {
+        -1.f, -1.f, -1.f,  0.0f,  0.0f, -1.0f,   0.0f, 0.0f,
+         1.f, -1.f, -1.f,  0.0f,  0.0f, -1.0f,   1.0f, 0.0f,
+         1.f,  1.f, -1.f,  0.0f,  0.0f, -1.0f,   1.0f, 1.0f,
+         1.f,  1.f, -1.f,  0.0f,  0.0f, -1.0f,   1.0f, 1.0f,
+        -1.f,  1.f, -1.f,  0.0f,  0.0f, -1.0f,   0.0f, 1.0f,
+        -1.f, -1.f, -1.f,  0.0f,  0.0f, -1.0f,   0.0f, 0.0f
     };
 
     std::vector<GLfloat> rect_Pos_Id {
@@ -269,6 +278,7 @@ void chaos::Renderer::initEngineStuff(){
     addVAO(3, 0, 0, 0, &rect_Pos, "Rectangle:Vao_Pos");
     addVAO(3, 0, 2, 0, &rect_Pos_Uv, "Rectangle:Vao_Pos.Uv");
     addVAO(3, 0, 0, 1, &rect_Pos_Id,"Rectangle:Pos_Id");
+    addVAO(3, 3, 2, 0, &rect_Pos_Normal_Uv, "Rectangle:Vao_Pos.Normal.Uv");
     addVAO(3, 0, 0, 0, &cube_Pos, "Cube:Vao_Pos");
     addVAO(3, 3, 0, 0, &cube_Pos_Normal, "Cube:Vao_Pos.Norm");
     addVAO(3, 0, 2, 0, &cube_Pos_Uv, "Cube:Vao_Pos.Uv");

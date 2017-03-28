@@ -3,12 +3,13 @@
 
 #include "../../include/Scene.hpp"
 #include "../../include/Camera.hpp"
-#include "../../include/primitives.hpp"
+#include "../../include/Primitives.hpp"
 #include "../../include/Window.hpp"
 #include "../../include/LightCaster.hpp"
 #include "../../include/MeshPrefab.hpp"
 #include "../../include/Model.hpp"
 #include "../../include/Texture.hpp"
+#include "../../include/Sprite.hpp"
 
 class Lighting: public chaos::Scene{
 public:
@@ -22,12 +23,19 @@ public:
 
         cube->setScale(2, 2, 2);
         cube->material.setShininess(1024);
-        cube->setPosition(0,-4,0);
+        cube->setPosition(-3,-1,-3);
         //cube->rotateX(0.3);
 
         prefabSkeleton = resourceManager->loadResource<chaos::MeshPrefab>("files/models3d/skeleton.obj", "skeleton");
         renderer->addMeshVAO(prefabSkeleton);
         textureSkeleton = resourceManager->loadResource<chaos::Texture>("files/textures/uv_maps/skeletonUV.png", "uvMap:Skeleton");
+        textureBrick = resourceManager->loadResource<chaos::Texture>("files/textures/brick.png", "Brick");
+
+        spriteBrick = new chaos::Sprite(renderer, textureBrick);
+        spriteBrick->rotateX(3.1415/2.0);
+        spriteBrick->setPosition(0, -1, 0);
+        spriteBrick->setScale(10, 0, 10);
+
 
         modelSkeleton = new chaos::Model(renderer, prefabSkeleton);
         modelSkeleton->setScale(0.1, 0.1, 0.1);
@@ -35,30 +43,34 @@ public:
         //modelSkeleton->setPosition(0,2,0);
 
         light = new chaos::PointLight(renderer, this);
-        light->setPosition(2.0, 0.0, 0.0);
+        light->setPosition(2.0, -0.7, 0.0);
         light->setScale(0.1, 0.1, 0.1);
         light->setColor(0.4, 0.1, 0.1, 1);
         light->setAttenuationCoefficients(1.0, 0.09, 0.032);
 
         light2 = new chaos::PointLight(renderer, this);
-        light2->setPosition(-2.0, 0.0, 0.0);
+        light2->setPosition(-2.0, -0.7, 0.0);
         light2->setScale(0.1, 0.1, 0.1);
         light2->setColor(0.1, 0.1, 0.4, 1);
         light2->setAttenuationCoefficients(1.0, 0.09, 0.032);
 
         dirLight = new chaos::DirectionalLight(renderer, this);
-        dirLight->setColor(0.1, 0.1, 0.1, 1);
+        dirLight->setColor(0.2, 0.2, 0.2, 1);
         dirLight->setDirection(glm::vec3(-1, -1, 0));
         //dirLight->setDiffuseStrength(5.0);*/
 
         spotlight = new chaos::Spotlight(renderer, this);
-        spotlight->setCutOffCosine(0.9);
-        spotlight->setColor(0.0,0.3,0.9,1.0);
+        spotlight->setCutOffCosine(0.92);
+        spotlight->setColor(0.5,0.5,0.5,1.0);
         camera = new chaos::Camera(renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)window->getStyle().width/window->getStyle().height, 0.1f, 100.0f));
         camera->moveZ(5);
         renderer->setActiveCamera(camera);
 
         window->setRelativeMode(true);
+
+        cube->setLightingEnabled(true);
+        modelSkeleton->setLightingEnabled(true);
+        spriteBrick->setLightingEnabled(true);
     }
 
     void onSceneActivate(){
@@ -66,7 +78,16 @@ public:
     }
 
     void draw(GLfloat deltaTime){
-        GLfloat moveSpeed = 0.3;
+        if(window->isTouched(chaos::TouchEvent::ButtonRight)){
+            spotlight->setEnabled(true);
+        }
+    #ifndef ANDROID
+        else{
+            spotlight->setEnabled(false);
+        }
+    #endif
+
+        GLfloat moveSpeed = 1.0;
         if(window->isKeyDown(chaos::KeyboardEvent::KeyH)) cube->moveX(-0.01);
         if(window->isKeyDown(chaos::KeyboardEvent::KeyU)) cube->moveZ(-0.01);
         if(window->isKeyDown(chaos::KeyboardEvent::KeyK)) cube->moveX(0.01);
@@ -80,6 +101,8 @@ public:
         renderer->setCamCombined(camera->getProjectionMatrix()*camera->getViewMatrix());
 
         //cube->rotateY(0.001);
+
+        spriteBrick->draw();
 
         cube->draw();
         textureSkeleton->bind();
@@ -108,6 +131,16 @@ public:
             if(event->keyEvent.keyCode == chaos::KeyboardEvent::KeyL){
                 cube->setLightingEnabled(!cube->isLightingEnabled());
                 modelSkeleton->setLightingEnabled(!modelSkeleton->isLightingEnabled());
+                spriteBrick->setLightingEnabled(!spriteBrick->isLightingEnabled());
+            }
+            if(event->keyEvent.keyCode == chaos::KeyboardEvent::Key1){
+                light->setEnabled(!light->isEnabled());
+            }
+            if(event->keyEvent.keyCode == chaos::KeyboardEvent::Key2){
+                light2->setEnabled(!light2->isEnabled());
+            }
+            if(event->keyEvent.keyCode == chaos::KeyboardEvent::Key3){
+                dirLight->setEnabled(!dirLight->isEnabled());
             }
         }
     }
@@ -122,6 +155,8 @@ private:
     chaos::MeshPrefab* prefabSkeleton;
     chaos::Model* modelSkeleton;
     chaos::Texture* textureSkeleton;
+    chaos::Texture* textureBrick;
+    chaos::Sprite* spriteBrick;
 };
 
 #endif // LIGHTING_TEST_HPP

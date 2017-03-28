@@ -67,7 +67,7 @@ vec3 calcPointLight(PointLight pointLight, vec3 norm, vec3 viewDir){
     // Diffuse 
     vec3 lightDir = normalize(pointLight.position - fragmentPosition);
     float diff = max(dot(norm, lightDir), 0.0);
-    vec4 diffuse = pointLight.diffuseStrength * diff * pointLight.color * texture(tex0, uvCoords);
+    vec4 diffuse = pointLight.diffuseStrength * diff * pointLight.color;
     
     // Specular
     vec3 reflectDir = reflect(-lightDir, norm);  
@@ -79,26 +79,26 @@ vec3 calcPointLight(PointLight pointLight, vec3 norm, vec3 viewDir){
 	diffuse *= attenuation;
 	specular *= attenuation;
 	
-    vec4 result = (diffuse + specular) * uniObjectColor;
+    vec4 result = (diffuse + specular) * texture(tex0, uvCoords);
     return result.xyz;
 } 
 
 vec3 calcDirLight(DirectionalLight dirLight, vec3 norm, vec3 viewDir){
 	vec3 lightDir = normalize(-dirLight.direction);
 	float diff = max(dot(norm, lightDir), 0.0);
-	vec4 diffuse = dirLight.diffuseStrength * diff * dirLight.color * texture(tex0, uvCoords);
+	vec4 diffuse = dirLight.diffuseStrength * diff * dirLight.color;
 	
     vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), uniMaterial.shininess);
 	vec4 specular = dirLight.specularStrength * spec * dirLight.color;  
-	vec4 result = (diffuse + specular) * uniObjectColor;
+	vec4 result = (diffuse + specular) * texture(tex0, uvCoords);
     return result.xyz;
 }
 
 vec3 calcSpotlight(Spotlight spotlight, vec3 norm, vec3 viewDir){
     vec3 lightDir = normalize(-spotlight.direction);
     float diff = max(dot(norm, lightDir), 0.0);
-    vec4 diffuse = spotlight.diffuseStrength * diff * spotlight.color * texture(tex0, uvCoords);
+    vec4 diffuse = spotlight.diffuseStrength * diff * spotlight.color;
     
 	float thetaCosine = dot(lightDir, normalize(-spotlight.direction));
 	if(thetaCosine < spotlight.cutoffCosine){
@@ -112,25 +112,29 @@ vec3 calcSpotlight(Spotlight spotlight, vec3 norm, vec3 viewDir){
 	diffuse *= attenuation;
 	specular *= attenuation;
 	
-    vec4 result = (diffuse + specular) * uniObjectColor;
+    vec4 result = (diffuse + specular) * texture(tex0, uvCoords);
     return result.xyz;
 } 
 
 void main()
 {
-	//color=vec4(0,1,0,1);
 	vec3 norm = normalize(normalVector);
     vec3 viewDir = normalize(uniViewPos - fragmentPosition);
     vec3 result = vec4(ambientStrength * ambientColor).xyz;
-	for(int i = 0; i < uniPointLightsCount; i++){
+	for(int i = 0; i < MAXIMUM_POINT_LIGHTS; i++){
+		if(i >= uniPointLightsCount)
+			break;
 		result += calcPointLight(uniPointLight[i], norm, viewDir);
 	}
-	for(int i = 0; i < uniDirLightsCount; i++){
+	for(int i = 0; i < MAXIMUM_DIRECTIONAL_LIGHTS; i++){
+		if(i >= uniDirLightsCount)
+			break;
 		result += calcDirLight(uniDirLight[i], norm, viewDir);
 	}
-	for(int i = 0; i < uniSpotlightsCount; i++){
+	for(int i = 0; i < MAXIMUM_SPOTLIGHT_LIGHTS; i++){
+		if(i >= uniSpotlightsCount)
+			break;
 		result += calcSpotlight(uniSpotlight[i], norm, viewDir);
 	}
 	color = vec4(result.xyz, 1);
-	
 }

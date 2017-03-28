@@ -117,13 +117,19 @@ void main()
 	vec3 norm = normalize(normalVector);
     vec3 viewDir = normalize(uniViewPos - fragmentPosition);
     vec3 result = vec4(ambientStrength * ambientColor).xyz;
-	for(int i = 0; i < uniPointLightsCount; i++){
+	for(int i = 0; i < MAXIMUM_POINT_LIGHTS; i++){
+		if(i >= uniPointLightsCount)
+			break;
 		result += calcPointLight(uniPointLight[i], norm, viewDir);
 	}
-	for(int i = 0; i < uniDirLightsCount; i++){
+	for(int i = 0; i < MAXIMUM_DIRECTIONAL_LIGHTS; i++){
+		if(i >= uniDirLightsCount)
+			break;
 		result += calcDirLight(uniDirLight[i], norm, viewDir);
 	}
-	for(int i = 0; i < uniSpotlightsCount; i++){
+	for(int i = 0; i < MAXIMUM_SPOTLIGHT_LIGHTS; i++){
+		if(i >= uniSpotlightsCount)
+			break;
 		result += calcSpotlight(uniSpotlight[i], norm, viewDir);
 	}
 	color = vec4(result.xyz, 1);
