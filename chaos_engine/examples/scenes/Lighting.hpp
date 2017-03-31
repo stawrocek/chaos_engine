@@ -92,6 +92,8 @@ public:
         if(window->isKeyDown(chaos::KeyboardEvent::KeyU)) cube->moveZ(-0.01);
         if(window->isKeyDown(chaos::KeyboardEvent::KeyK)) cube->moveX(0.01);
         if(window->isKeyDown(chaos::KeyboardEvent::KeyJ)) cube->moveZ(0.01);
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyQ)) spriteBrick->moveY(0.01);
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyE)) spriteBrick->moveY(-0.01);
         if(window->isKeyDown(chaos::KeyboardEvent::KeyA)) camera->processKeyboard(chaos::LEFT, deltaTime*moveSpeed);
         if(window->isKeyDown(chaos::KeyboardEvent::KeyD)) camera->processKeyboard(chaos::RIGHT, deltaTime*moveSpeed);
         if(window->isKeyDown(chaos::KeyboardEvent::KeyW)) camera->processKeyboard(chaos::FORWARD, deltaTime*moveSpeed);
@@ -100,23 +102,16 @@ public:
         window->clearColor(0.7, 0.2, 0.2, 1.0);
         renderer->setCamCombined(camera->getProjectionMatrix()*camera->getViewMatrix());
 
-        //cube->rotateY(0.001);
-
         spriteBrick->draw();
 
         cube->draw();
         textureSkeleton->bind();
         modelSkeleton->draw();
 
-        //renderer->drawDebugLine(camera->getPosition(), camera->getPosition()+camera->getUp(), glm::vec4(0,1,0,1));
-        //cube->drawGizmo(10.0);
-        //camera->translate(camera->getFront()*0.01f);
-
         light->draw();
         light2->draw();
         spotlight->setPosition(camera->getPosition());
         spotlight->setDirection(camera->getFront());
-        //dirLight->draw();
     }
 
     void deliverEvent(chaos::Event* event){

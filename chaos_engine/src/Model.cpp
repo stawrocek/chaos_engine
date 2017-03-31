@@ -20,9 +20,6 @@ void chaos::Model::draw(){
         shader->setUniform("mx",renderer->getCamCombined()*getGlobalTransformMatrix());
     }
     else{
-        glm::mat3x3 modelMatrix3(getGlobalTransformMatrix());
-        glm::mat3x3 normalMatrix = glm::inverseTranspose(modelMatrix3);
-        shader->setUniform("normalMatrix", normalMatrix);
         shader->setUniform("model", getGlobalTransformMatrix());
         shader->setUniform("mx",renderer->getCamCombined()*getGlobalTransformMatrix());
         shader->setUniform("uniViewPos", renderer->getActiveCamera()->getPosition());
