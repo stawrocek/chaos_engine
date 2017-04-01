@@ -9,12 +9,11 @@ out vec3 fragmentPosition;
 
 uniform mat4 model;
 uniform mat4 mx;
-uniform mat3 normalMatrix;
 
 void main()
 {
     gl_Position = mx * vec4(position, 1.0);
 	fragmentPosition = vec3(model * vec4(position, 1.0));
-    normalVector = normalMatrix * normals;
+    normalVector = normals;
     uvCoords = uv;
 }

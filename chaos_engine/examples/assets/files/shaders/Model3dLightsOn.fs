@@ -98,7 +98,7 @@ vec3 calcDirLight(DirectionalLight dirLight, vec3 norm, vec3 viewDir){
 vec3 calcSpotlight(Spotlight spotlight, vec3 norm, vec3 viewDir){
     vec3 lightDir = normalize(-spotlight.direction);
     float diff = max(dot(norm, lightDir), 0.0);
-    vec4 diffuse = spotlight.diffuseStrength * diff * spotlight.color * texture(tex0, uvCoords);
+    vec4 diffuse = spotlight.diffuseStrength * diff * spotlight.color;
     
 	float thetaCosine = dot(lightDir, normalize(-spotlight.direction));
 	if(thetaCosine < spotlight.cutoffCosine){

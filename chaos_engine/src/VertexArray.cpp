@@ -2,6 +2,7 @@
 
 #include "../include/VertexArray.hpp"
 #include "../include/ShaderProgram.hpp"
+#include "../include/Logger.hpp"
 
 chaos::VertexData::VertexData(){}
 
@@ -114,7 +115,7 @@ void chaos::VertexArray::generateVertexArray(GLenum _target, GLenum _usage){
 
     GLuint stride = vertsSize+normalSize+uvSize+dataSize;
 
-    #ifdef LAYOUT_LOCATION
+#ifdef LAYOUT_LOCATION
     if(vertsSize != 0){
         glVertexAttribPointer(0, vertsSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)0);
         glEnableVertexAttribArray(0);
@@ -159,6 +160,7 @@ void chaos::VertexArray::generateVertexArray(GLenum _target, GLenum _usage){
         glEnableVertexAttribArray(attribCtr);
         attribCtr++;
     }
+
 #endif
 
 #ifdef VAO_ENABLED
@@ -183,29 +185,28 @@ void chaos::VertexArray::draw(chaos::ShaderProgram* shr, GLenum type, GLint star
         glDrawArrays(type, start, end);
     #else
         GLuint stride = vertsSize+normalSize+uvSize+dataSize;
-        GLuint attribCtr=0;
         if(vertsSize != 0){
-            glVertexAttribPointer(attribCtr, vertsSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)0);
-            glEnableVertexAttribArray(attribCtr);
-            attribCtr++;
+            GLint vertsLoc = glGetAttribLocation(shr->getId(), "position");
+            glVertexAttribPointer(vertsLoc, vertsSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)0);
+            glEnableVertexAttribArray(vertsLoc);
         }
         if(normalSize != 0){
-            glVertexAttribPointer(attribCtr, normalSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
+            GLint normalsLoc = glGetAttribLocation(shr->getId(), "normals");
+            glVertexAttribPointer(normalsLoc, normalSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
                                   (GLvoid*)(sizeof(GLfloat)*(vertsSize)));
-            glEnableVertexAttribArray(attribCtr);
-            attribCtr++;
+            glEnableVertexAttribArray(normalsLoc);
         }
         if(uvSize != 0){
-            glVertexAttribPointer(attribCtr, uvSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
+            GLint uvLoc = glGetAttribLocation(shr->getId(), "uv");
+            glVertexAttribPointer(uvLoc, uvSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
                                   (GLvoid*)(sizeof(GLfloat)*(vertsSize+normalSize)));
-            glEnableVertexAttribArray(attribCtr);
-            attribCtr++;
+            glEnableVertexAttribArray(uvLoc);
         }
         if(dataSize != 0){
-            glVertexAttribPointer(attribCtr, dataSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
+            GLint dataLoc = glGetAttribLocation(shr->getId(), "data");
+            glVertexAttribPointer(dataLoc, dataSize, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat),
                                   (GLvoid*)(sizeof(GLfloat)*(vertsSize+normalSize+uvSize)));
-            glEnableVertexAttribArray(attribCtr);
-            attribCtr++;
+            glEnableVertexAttribArray(dataLoc);
         }
         glDrawArrays(type, start, end);
     #endif // VAO_ENABLED
