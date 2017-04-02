@@ -13,6 +13,7 @@
 #include "../../include/Model.hpp"
 #include "../../include/Texture.hpp"
 #include "../../include/Sprite.hpp"
+#include "../../include/Shader.hpp"
 
 class Cube: public chaos::Transform {
 public:
@@ -223,18 +224,18 @@ public:
 
 
             //region vShaderStr
-        vShaderStr = "#version 330 core\n"
-                     "layout (location = 0) in vec3 vPosition;"
+        vShaderStr =    "#version 330 core\n"
+                        "layout (location = 0) in vec3 position;\n"
                         "uniform mat4 mx;\n"
                         "void main()\n"
                         "{\n"
-                        "   gl_Position = mx*vec4(vPosition, 1.0);\n"
+                        "   gl_Position = mx*vec4(position, 1.0);\n"
                         "}\n";
         //endregion
         //region fShaderStr
-        fShaderStr = "#version 330 core\n"
+        fShaderStr =    "#version 330 core\n"
                         "uniform vec4 uniColor;\n"
-                        "out vec4 color;"
+                        "out vec4 color;\n"
                         "void main()\n"
                         "{\n"
                         "   color = uniColor;\n"
@@ -286,9 +287,15 @@ public:
         };
         //endregion
         //tworzenie shaderów
-        vertexShader = loadShader ( GL_VERTEX_SHADER, vShaderStr.c_str() );
-        fragmentShader = loadShader ( GL_FRAGMENT_SHADER, fShaderStr.c_str() );
-        g_ProgramObject = glCreateProgram ( );
+        //vertexShader = loadShader ( GL_VERTEX_SHADER, vShaderStr.c_str() );
+        //fragmentShader = loadShader ( GL_FRAGMENT_SHADER, fShaderStr.c_str() );
+
+        chaos::Shader shrVertex;
+        shrVertex.loadFromString(vShaderStr, GL_VERTEX_SHADER);
+        chaos::Shader shrFragment;
+        shrFragment.loadFromString(fShaderStr, GL_FRAGMENT_SHADER);
+        shr = new chaos::ShaderProgram({shrVertex, shrFragment});
+        /*g_ProgramObject = glCreateProgram ( );
         glAttachShader ( g_ProgramObject, vertexShader );
         glAttachShader ( g_ProgramObject, fragmentShader );
         glLinkProgram ( g_ProgramObject );
@@ -299,7 +306,7 @@ public:
         glGetProgramiv( g_ProgramObject, GL_INFO_LOG_LENGTH, &MaxLength );
         char* InfoLog = new char[MaxLength];
         glGetProgramInfoLog( g_ProgramObject, MaxLength, &Length, InfoLog );
-        SHOUT( "InfoLog: %s", InfoLog );
+        SHOUT( "InfoLog: %s", InfoLog );*/
 
         //potrzebne w color-pickingu
         glDisable(GL_DITHER);
@@ -341,7 +348,7 @@ public:
         actRotation = vecRotations[0];
 
         //tworzenie vbo
-        pos1 = glGetAttribLocation( g_ProgramObject, "vPosition" );
+        pos1 = glGetAttribLocation( shr->getId(), "position" );
         glGenBuffers(1, &vbo1);
         glBindBuffer(GL_ARRAY_BUFFER, vbo1);
         glBufferData(GL_ARRAY_BUFFER, vecCube.size()*sizeof(GLfloat), vecCube.data(), GL_STATIC_DRAW);
@@ -404,11 +411,12 @@ public:
             actRotation.progress++;
         }
         //renderowanie kostki
-        glUseProgram ( g_ProgramObject );
+        //glUseProgram ( g_ProgramObject );
+        shr->run();
         for(int i = 0; i < cubeSize; i++){
             for(int j = 0; j < cubeSize; j++){
                 for(int k = 0; k < cubeSize; k++) {
-                    vecCubes[i][j][k].draw(g_ProgramObject, vbo1);
+                    vecCubes[i][j][k].draw(shr->getId(), vbo1);
                 }
             }
         }
@@ -704,9 +712,10 @@ private:
     chaos::Camera* camera;
 
     GLfloat r=0.0;
-    GLuint vertexShader;
-    GLuint fragmentShader;
-    GLuint g_ProgramObject = 0;
+    //GLuint vertexShader;
+    //GLuint fragmentShader;
+    chaos::ShaderProgram* shr=nullptr;
+    //GLuint g_ProgramObject = 0;
 
     GLuint vbo1;
     GLuint pos1;
