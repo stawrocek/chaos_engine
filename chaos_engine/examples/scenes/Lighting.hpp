@@ -18,14 +18,6 @@ public:
     {}
 
     void onSceneLoadToMemory(){
-        SHOUT("config:!\n");
-        #ifdef LAYOUT_LOCATION
-        SHOUT("config: layout_location");
-        #endif
-        #ifdef VAO_ENABLED
-        SHOUT("config: vao_enabled");
-        #endif
-
         cube = new chaos::Cube(renderer);
         cube->setColor(0.2, 0.2, 0.7, 1.0);
 

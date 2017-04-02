@@ -276,3 +276,7 @@ glm::vec3 chaos::Transform::getScale()   {
 void chaos::Transform::print(){
     std::cout << glm::to_string(mxTransform) << "\n";
 }
+
+chaos::Transform* chaos::Transform::getParent(){
+    return parent;
+}

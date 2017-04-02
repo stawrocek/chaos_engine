@@ -93,6 +93,8 @@ public:
     glm::vec3 getRight();   //x
     glm::vec3 getUp();      //y
 
+    Transform* getParent();
+
     void print();
 
 protected:
