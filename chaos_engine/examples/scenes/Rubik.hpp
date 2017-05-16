@@ -14,6 +14,7 @@
 #include "../../include/Texture.hpp"
 #include "../../include/Sprite.hpp"
 #include "../../include/Shader.hpp"
+#include "../../include/VertexArray.hpp"
 
 class Cube: public chaos::Transform {
 public:
@@ -24,24 +25,18 @@ public:
     :color1(c1), color2(c2), color3(c3), color4(c4), color5(c5), color6(c6), idx(a)
     { }
 
-
-    //compare float
     GLubyte cf(GLfloat x, GLfloat y, GLfloat epsilon=0.01){
         return fabs(x-y) <= epsilon;
     }
 
-    //zwraca odleg³oœæ w rgba
     GLfloat sameColors(GLfloat r, GLfloat g, GLfloat b, GLfloat a, glm::vec4 v){
-        //std::cout << r<<" "<<g<<" "<<b<<" "<<a<<" <----> "<<v.r<<" "<<v.g<<" "<<v.b<<" "<<v.a<<"\n";
         if((cf(r,v.r) && cf(g,v.g) && cf(b,v.b) && cf(a,v.a))){
             return sqrt((r-v.r)*(r-v.r)+(g-v.g)*(g-v.g)+(b-v.b)*(b-v.b)+(a-v.a)*(a-v.a));
         }
         return 1000.0;
     }
 
-    //zwraca informacjê o tym czy klocek zosta³ klikniety, je¿eli tak to zwraca odleg³oœæ w przestrzeni kolorów
     GLfloat cubeClicked(GLfloat r, GLfloat g, GLfloat b, GLfloat a, int& face){
-        //std::cout << "cc: " << r << " " << g << " " << b << " " << a << "\n";
         glm::vec4 idv=idxVector()/100.0f;
         if(sameColors(r,g,b,a,color1-idv) < 500.0){
             face=1;
@@ -70,7 +65,6 @@ public:
         return 1000.0;
     }
 
-    //zwraca unikatowy wektor dla ka¿dego klocka (dzieki temu ka¿dy ma inny kolor) -> color-picking
     glm::vec4 idxVector(){
         if(idx==0)return glm::vec4(0,0,0,0);
         if(idx==1)return glm::vec4(0,0,1,0);
@@ -103,11 +97,9 @@ public:
         return glm::vec4(-1,-1,-1,0);
     }
 
-    //rysuje, œciana po œcianie kostkê
-    void draw(GLuint shaderProgram, GLuint vbo){
+    void draw(GLuint shaderProgram){
         glm::vec4 idv=idxVector()/100.0f;
         glUseProgram (shaderProgram);
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
         GLint mxLocation = glGetUniformLocation(shaderProgram, "mx");
         GLint colorLocation = glGetUniformLocation(shaderProgram, "uniColor");
         glm::mat4 mx = getGlobalTransformMatrix();
@@ -219,11 +211,8 @@ public:
         camera = new chaos::Camera(renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)window->getStyle().width/window->getStyle().height, 0.1f, 100.0f));
         camera->moveZ(5);
         renderer->setActiveCamera(camera);
-        window->setRelativeMode(true);
+        //window->setRelativeMode(true);
 
-
-
-            //region vShaderStr
         vShaderStr =    "#version 330 core\n"
                         "layout (location = 0) in vec3 position;\n"
                         "uniform mat4 mx;\n"
@@ -231,8 +220,6 @@ public:
                         "{\n"
                         "   gl_Position = mx*vec4(position, 1.0);\n"
                         "}\n";
-        //endregion
-        //region fShaderStr
         fShaderStr =    "#version 330 core\n"
                         "uniform vec4 uniColor;\n"
                         "out vec4 color;\n"
@@ -240,8 +227,6 @@ public:
                         "{\n"
                         "   color = uniColor;\n"
                         "}\n";
-        //endregion
-        //region vx
         vecCube = {
                 -1.f, -1.f, -1.f,
                 1.f, -1.f, -1.f,
@@ -285,33 +270,12 @@ public:
                 -1.f,  1.f,  1.f,
                 -1.f,  1.f, -1.f
         };
-        //endregion
-        //tworzenie shaderów
-        //vertexShader = loadShader ( GL_VERTEX_SHADER, vShaderStr.c_str() );
-        //fragmentShader = loadShader ( GL_FRAGMENT_SHADER, fShaderStr.c_str() );
-
         chaos::Shader shrVertex;
         shrVertex.loadFromString(vShaderStr, GL_VERTEX_SHADER);
         chaos::Shader shrFragment;
         shrFragment.loadFromString(fShaderStr, GL_FRAGMENT_SHADER);
         shr = new chaos::ShaderProgram({shrVertex, shrFragment});
-        /*g_ProgramObject = glCreateProgram ( );
-        glAttachShader ( g_ProgramObject, vertexShader );
-        glAttachShader ( g_ProgramObject, fragmentShader );
-        glLinkProgram ( g_ProgramObject );
-        GLint linked;
-        glGetProgramiv ( g_ProgramObject, GL_LINK_STATUS, &linked );
-        GLsizei Length    = 0;
-        GLsizei MaxLength = 0;
-        glGetProgramiv( g_ProgramObject, GL_INFO_LOG_LENGTH, &MaxLength );
-        char* InfoLog = new char[MaxLength];
-        glGetProgramInfoLog( g_ProgramObject, MaxLength, &Length, InfoLog );
-        SHOUT( "InfoLog: %s", InfoLog );*/
-
-        //potrzebne w color-pickingu
         glDisable(GL_DITHER);
-
-        //tworzenie vecCubes i rootTransform
         vecCubes.resize(cubeSize);
         rootTransforms.resize(cubeSize);
         GLint a=0;
@@ -331,13 +295,9 @@ public:
                 }
             }
         }
-
-        //poczatkowy obrót kostki
         cubeTransform.setRotZ(3.1415/4.0f);
         cubeTransform.setRotY(3.1415/4.0f);
         cubeTransform.setRotX(3.1415/4.0f);
-
-        //uzupe³nianie vecRotations wszyskimi mo¿liwymi rotacjami
         for(int axis = 0; axis < 3; axis++){
             for(int sign = -1; sign < 2; sign+=2){
                 for(int i = 0; i < cubeSize; i++){
@@ -346,17 +306,8 @@ public:
             }
         }
         actRotation = vecRotations[0];
-
-        //tworzenie vbo
-        pos1 = glGetAttribLocation( shr->getId(), "position" );
-        glGenBuffers(1, &vbo1);
-        glBindBuffer(GL_ARRAY_BUFFER, vbo1);
-        glBufferData(GL_ARRAY_BUFFER, vecCube.size()*sizeof(GLfloat), vecCube.data(), GL_STATIC_DRAW);
-        glVertexAttribPointer(pos1, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-        glEnableVertexAttribArray(pos1);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        vao = new chaos::VertexArray(3, 0, 0, 0, &vecCube);
         glEnable(GL_DEPTH_TEST);
-
         srand(time(NULL));
         restartGame();
     }
@@ -366,6 +317,7 @@ public:
     }
 
     void draw(GLfloat deltaTime){
+        screenHeight = window->getHeight();
         GLfloat moveSpeed = 1.0;
         if(window->isKeyDown(chaos::KeyboardEvent::KeyA)) camera->processKeyboard(chaos::LEFT, deltaTime*moveSpeed);
         if(window->isKeyDown(chaos::KeyboardEvent::KeyD)) camera->processKeyboard(chaos::RIGHT, deltaTime*moveSpeed);
@@ -377,7 +329,6 @@ public:
         window->clearColor(0.7, 0.2, 0.2, 1.0);
         r += 0.01;
 
-        //fizyczne obracanie kostekw obrêbie aktualnej rotacji
         if(isRotating) {
             if (actRotation.axis == 'x') {
                 for (int i = 0; i < cubeSize; i++)
@@ -397,7 +348,6 @@ public:
                         vecCubes[i][j][actRotation.height].getParent()->rotateZ(
                                 rotSpeed * actRotation.rotSign);
             }
-            //resetowanie fizycznej rotacji i obroty kolorów
             if (actRotation.progress >= ((3.1415 / 2.0) / rotSpeed)) {//52.35
                 actRotation.progress = 0;
                 for (int i = 0; i < cubeSize; i++)
@@ -405,22 +355,20 @@ public:
                         for (int k = 0; k < cubeSize; k++)
                             rootTransforms[i][j][k].setRotation(0.0f, 0.0f, 0.0f);
                 rotateColors();
-                //actRotation = vecRotations[0 + rand() % 18];
                 isRotating=false;
             }
             actRotation.progress++;
         }
-        //renderowanie kostki
-        //glUseProgram ( g_ProgramObject );
-        shr->run();
         for(int i = 0; i < cubeSize; i++){
             for(int j = 0; j < cubeSize; j++){
                 for(int k = 0; k < cubeSize; k++) {
-                    vecCubes[i][j][k].draw(shr->getId(), vbo1);
+                    vao->bind();
+                    shr->run();
+                    vecCubes[i][j][k].draw(shr->getId());
+                    vao->unbind();
                 }
             }
         }
-        //wywo³ywanie color-pickingu je¿eli gracz wykona³ odpowiedni¹ akcjê
         if(isTouchDown){
             completeGestureTouchDown();
             isTouchDown=false;
@@ -434,6 +382,14 @@ public:
     void deliverEvent(chaos::Event* event){
         if(event->type == chaos::Event::MouseMotion){
             camera->processMouse(event->motionEvent.relX, -event->motionEvent.relY);
+            if(window->inputManager->isTouched(chaos::TouchEvent::ButtonLeft)){
+                actScroll = ScrollAction(event->motionEvent.posX,event->motionEvent.posY,event->motionEvent.posX,event->motionEvent.posY,event->motionEvent.relX,-event->motionEvent.relY);
+                isScroll=true;
+            }
+        }
+        else if(event->type == chaos::Event::TouchDown){
+            isTouchDown=true;
+            actTouchDown=TouchDownAction(event->touchEvent.posX,event->touchEvent.posY);
         }
     }
 
@@ -454,7 +410,9 @@ public:
 
     void completeGestureTouchDown(){
         GLint minX=-1, minY=-1, minZ=-1;
+        SHOUT("TouchDown: %f, %f\n", actTouchDown.x, screenHeight-actTouchDown.y);
         int face=findClickedCube(minX, minY, minZ, actTouchDown.x, screenHeight-actTouchDown.y);
+        SHOUT("face: %d, (%d, %d, %d), (%f, %f)\n", face, minX, minY, minZ, actTouchDown.x, screenHeight-actTouchDown.y);
         if(minX!=-1){
             if(!isRotating && actInputState.cube1X==-1){
                 actInputState.cube1X = minX;
@@ -690,16 +648,12 @@ public:
     //odpowiada za obroty wzglêdem (0,0,0)
     std::vector<std::vector<std::vector<chaos::Transform> > > rootTransforms;
 
-    //odpowiada za obracanie ca³ej kostki
     chaos::Transform cubeTransform;
-    //zawiera wszyskie mozliwe rotacje
     std::vector<RotationAction> vecRotations;
 
-    //obecna rotacja
     RotationAction actRotation;
     bool isRotating=false;
 
-    //szerokoœæ i wysokoœc ekranu, uaktualniane w onSurfaceChanged
     GLuint screenWidth, screenHeight;
     bool isTouchDown=false;
     TouchDownAction actTouchDown;
@@ -712,13 +666,8 @@ private:
     chaos::Camera* camera;
 
     GLfloat r=0.0;
-    //GLuint vertexShader;
-    //GLuint fragmentShader;
     chaos::ShaderProgram* shr=nullptr;
-    //GLuint g_ProgramObject = 0;
-
-    GLuint vbo1;
-    GLuint pos1;
+    chaos::VertexArray* vao = nullptr;
     double rotSpeed=0.03;
 
     static GLuint loadShader(GLenum type, const char* shaderSrc){

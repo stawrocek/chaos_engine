@@ -14,7 +14,9 @@ Currently contains:
 * Parentable Transforms (based on Unity3d Transform class)
 * Graphical primitives
 * Camera
-* Nearly finished android port
+* Phong lighting model
+* Android port (via NDK)
+* Web port (via emscripten)
 * To be continued...   
 
 [Demo from 15.10.2016](https://www.youtube.com/watch?v=oC3x1K8IRcs)
