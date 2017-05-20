@@ -99,7 +99,7 @@ public:
         if(window->isKeyDown(chaos::KeyboardEvent::KeyW)) camera->processKeyboard(chaos::FORWARD, deltaTime*moveSpeed);
         if(window->isKeyDown(chaos::KeyboardEvent::KeyS)) camera->processKeyboard(chaos::BACKWARD, deltaTime*moveSpeed);
 
-        window->clearColor(0.7, 0.2, 0.2, 1.0);
+        window->clearColor(0.1, 0.1, 0.1, 1.0);
         renderer->setCamCombined(camera->getProjectionMatrix()*camera->getViewMatrix());
 
         spriteBrick->draw();
