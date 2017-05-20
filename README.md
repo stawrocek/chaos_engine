@@ -21,6 +21,9 @@ Currently contains:
 
 [Demo from 15.10.2016](https://www.youtube.com/watch?v=oC3x1K8IRcs)
 
+Temporary screenshot of phong lighting demo
+![phong](https://raw.githubusercontent.com/stawrocek/chaos_engine/master/README_FILES/phong.png "phong")
+
 Screenshots of temporary [multiplatform demo (02-2017)](https://github.com/stawrocek/chaos_engine/tree/master/chaos_engine/examples/basic):
 
 * PC:
