@@ -2,6 +2,8 @@
 #define CHAOS_SDL2_HPP
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_syswm.h>
+
 #include "../include/Window.hpp"
 #include "../include/SceneManager.hpp"
 
@@ -55,9 +57,21 @@ public:
         return winWidth;
     }
 
+    GLint getGLDrawableWidth(){
+        GLint winWidth, winHeight;
+        SDL_GL_GetDrawableSize(window, &winWidth, &winHeight);
+        return winWidth;
+    }
+
     GLint getHeight(){
         GLint winWidth, winHeight;
         SDL_GetWindowSize(window, &winWidth, &winHeight);
+        return winHeight;
+    }
+
+    GLint getGLDrawableHeight(){
+        GLint winWidth, winHeight;
+        SDL_GL_GetDrawableSize(window, &winWidth, &winHeight);
         return winHeight;
     }
 
@@ -80,6 +94,23 @@ public:
             SDL_SetRelativeMouseMode(SDL_FALSE);
     }
 
+    GLvoid* getWindowW32Handle(){
+        #ifdef WINDOWS
+        SDL_SysWMinfo wmInfo;
+        SDL_VERSION(&wmInfo.version);
+        SDL_GetWindowWMInfo(window, &wmInfo);
+        return wmInfo.info.win.window;
+        #endif // WINDOWS
+        return nullptr;
+    }
+
+    GLboolean isFocused(){
+        return SDL_GetWindowFlags(window) & SDL_WINDOW_MOUSE_FOCUS;
+    }
+
+    GLvoid showCursor(GLboolean flag){
+        SDL_ShowCursor(flag);
+    }
 
 protected:
     SDL_Window* window = nullptr;
@@ -211,6 +242,7 @@ public:
         SDL_GetMouseState(&tmpX,&tmpY);
         return tmpY;
     }
+
 protected:
     std::unordered_map<SDL_Keycode, chaos::KeyboardEvent::KeyCode> mKeyCodes;
 };

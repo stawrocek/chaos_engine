@@ -2,6 +2,7 @@
 #define GIZMOS_HPP
 
 #include <string>
+#include <cstdlib>
 
 #include "../../include/Scene.hpp"
 #include "../../include/Model.hpp"

@@ -7,6 +7,10 @@
 #include <streambuf>
 #include <fstream>
 
+#ifdef _WIN32
+    #include "windows.h"
+#endif
+
 #include "Export.hpp"
 
 #include "Resource.hpp"

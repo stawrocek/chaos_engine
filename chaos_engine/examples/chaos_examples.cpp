@@ -10,6 +10,7 @@
 #include "../include/Application.hpp"
 #include "../include/ShaderProgram.hpp"
 #include "../include/Shader.hpp"
+
 #include "../include/VertexArray.hpp"
 #include "../include/ShaderProgram.hpp"
 #include "../include/Transform.hpp"

@@ -28,10 +28,15 @@ extern "C"
 		void update(){};
 		void swapBuffers(){};
 		int getWidth(){return winStyle.width;}
+		int getGLDrawableWidth(){return winStyle.width;}
 		int getHeight(){return winStyle.height;}
+		int getGLDrawableHeight(){return winStyle.height;}
 		int getPosX(){return winStyle.posX;}
 		int getPosY(){return winStyle.posY;}
 		void setRelativeMode(GLboolean mode){}
+		void* getWindowW32Handle(){return nullptr;}
+		GLboolean isFocused(){return true;}		//To be implemented
+		GLvoid showCursor(GLboolean flag){}		//hmm...
 	};
 
 class AndroidInputManager: public chaos::InputManager{

@@ -34,7 +34,9 @@ public:
     virtual void update() = 0;
     virtual void swapBuffers() = 0;
     virtual GLint getWidth() = 0;
+    virtual GLint getGLDrawableWidth() = 0;
     virtual GLint getHeight() = 0;
+    virtual GLint getGLDrawableHeight() = 0;
     virtual GLint getPosX() = 0;
     virtual GLint getPosY() = 0;
     virtual void setRelativeMode(GLboolean mode)=0;
@@ -49,10 +51,14 @@ public:
     WindowStyle getStyle();
     void setStyle(WindowStyle ws);
 
+    virtual GLvoid* getWindowW32Handle() = 0;
+
     //input
     void runEvents(SceneManager* sceneManager);
     GLboolean isTouched(TouchEvent::ButtonCode btn=TouchEvent::ButtonLeft);
     GLboolean isKeyDown(GLuint k);
+    virtual GLboolean isFocused()=0;
+    virtual GLvoid showCursor(GLboolean flag)=0;
     InputManager* inputManager;
 
 protected:

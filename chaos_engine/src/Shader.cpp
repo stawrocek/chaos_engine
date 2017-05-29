@@ -39,6 +39,8 @@ void chaos::Shader::loadFromString(std::string str, GLenum type){
 bool chaos::Shader::compile(GLenum type){
     #if defined(ANDROID) || defined(__EMSCRIPTEN__)
     shaderCode = translateGL3ShaderGLES2Shader(shaderCode, type);
+    SHOUT("%s", "ANDROID SHADER:\n");
+    SHOUT("%s\n", shaderCode.c_str());
     #endif // ANDROID || __EMSCRIPTEN__
 
     shaderType = type;

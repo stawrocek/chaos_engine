@@ -23,11 +23,11 @@
 #include <Shader.hpp>
 #include <ShaderProgram.hpp>
 #include <Sprite.hpp>
-#include <Texture.hpp>
 #include <Timer.hpp>
 #include <Transform.hpp>
 #include <Utils.hpp>
 #include <VertexArray.hpp>
 #include <Window.hpp>
+#include <Texture.hpp>
 
 #endif //CHAOS_HPP
