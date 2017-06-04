@@ -26,7 +26,6 @@ struct CHAOS_EXPORT WindowStyle{
 class CHAOS_EXPORT Window
 {
 public:
-    Window();
     Window(WindowStyle);
     virtual ~Window();
     void runApplication(Application*);
@@ -54,7 +53,8 @@ public:
     virtual GLvoid* getWindowW32Handle() = 0;
 
     //input
-    void runEvents(SceneManager* sceneManager);
+    virtual void runEvents(SceneManager* sceneManager);
+    //virtual void runImmediateGUI();
     GLboolean isTouched(TouchEvent::ButtonCode btn=TouchEvent::ButtonLeft);
     GLboolean isKeyDown(GLuint k);
     virtual GLboolean isFocused()=0;

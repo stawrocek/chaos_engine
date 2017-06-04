@@ -35,7 +35,7 @@ public:
         cam = new chaos::Camera(renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)window->getStyle().width/window->getStyle().height, 0.1f, 100.0f));
         cam->moveY(3.5f);
         cam->moveZ(21.f);
-        window->setRelativeMode(true);
+        //window->setRelativeMode(true);
         spriteBackground = new chaos::Sprite(renderer, backgroundTexture);
         spriteBackground->rotateX(3.1415f/2.f);
         spriteBackground->setScale(20.f, 20.f, 20.f);

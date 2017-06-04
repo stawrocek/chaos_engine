@@ -66,7 +66,7 @@ public:
         camera->moveZ(5);
         renderer->setActiveCamera(camera);
 
-        window->setRelativeMode(true);
+        //window->setRelativeMode(true);
 
         cube->setLightingEnabled(true);
         modelSkeleton->setLightingEnabled(true);

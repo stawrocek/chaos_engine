@@ -6,6 +6,7 @@
 
 #include "../include/Window.hpp"
 #include "../include/SceneManager.hpp"
+#include "../include/ImGUI_Impl_Chaos.hpp"
 
 namespace chaos{
 
@@ -26,12 +27,15 @@ public:
 
         glewExperimental = GL_TRUE;
         glewInit();
+
+        ImGui_ImplChaos_Init(window);
     }
 
     virtual ~SDL2Window(){
         SDL_GL_DeleteContext(context);
         SDL_DestroyWindow(window);
         SDL_Quit();
+        ImGui_ImplChaos_Shutdown();
     }
 
     SDL_Window* getWindowHandle()       {return window;}
@@ -48,6 +52,19 @@ public:
             fpsTimer.restart();
         }
         fpsCtr++;
+        {
+            bool show_another_window=false;
+            bool show_test_window=true;
+            ImVec4 clear_color = ImColor(114, 144, 154);
+            static float f = 0.0f;
+            ImGui::Text("Hello, world!");
+            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+            ImGui::ColorEdit3("clear color", (float*)&clear_color);
+            if (ImGui::Button("Test Window")) show_test_window ^= 1;
+            if (ImGui::Button("Another Window")) show_another_window ^= 1;
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        }
+        ImGui::Render();
         swapBuffers();
     }
 
@@ -112,6 +129,11 @@ public:
         SDL_ShowCursor(flag);
     }
 
+    void runEvents(SceneManager* sceneManager) override {
+        inputManager->runEvents(sceneManager);
+        ImGui_ImplChaos_NewFrame(window);
+    }
+
 protected:
     SDL_Window* window = nullptr;
     SDL_GLContext context;
@@ -174,6 +196,7 @@ public:
     void runEvents(SceneManager* sceneManager){
         SDL_Event sdlEvent;
         while (SDL_PollEvent(&sdlEvent)){
+            ImGui_ImplChaos_ProcessEvent(&sdlEvent);
             chaos::Event ev = translateEvent(&sdlEvent);
             if(sceneManager != nullptr){
                 if(ev.type != Event::KeyDown)

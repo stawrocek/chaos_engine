@@ -105,7 +105,9 @@ struct CHAOS_EXPORT KeyboardEvent{
         KeyLeftBracket=219,
         KeyBackSlash=220,
         KeyRightBraket=221,
-        KeySingleQuote=222
+        KeySingleQuote=222,
+        KeyLeftSuper=223,
+        KeyRightSuper=224
     };
 
     KeyCode keyCode;
@@ -126,6 +128,15 @@ struct CHAOS_EXPORT MouseMoveEvent{
     GLint posX, posY, relX, relY;
 };
 
+struct CHAOS_EXPORT MouseWheelEvent{
+    GLint x, y;
+    GLuint direction;
+};
+
+struct CHAOS_EXPORT TextInputEvent{
+    char text[32];
+};
+
 struct CHAOS_EXPORT Event{
     enum EventType{
         None=0,
@@ -133,13 +144,17 @@ struct CHAOS_EXPORT Event{
         KeyUp,
         TouchDown,
         TouchUp,
-        MouseMotion
+        MouseMotion,
+        MouseWheel,
+        TextInput
     };
 
     union{
         KeyboardEvent keyEvent;
         TouchEvent touchEvent;
         MouseMoveEvent motionEvent;
+        MouseWheelEvent wheelEvent;
+        TextInputEvent textInputEvent;
     };
 
     EventType type;

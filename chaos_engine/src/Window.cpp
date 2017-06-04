@@ -9,8 +9,6 @@ chaos::WindowStyle::WindowStyle(std::string _name, GLuint _posX, GLuint _posY, G
 :name(_name), posX(_posX), posY(_posY), width(_width), height(_height)
 {}
 
-chaos::Window::Window(){}
-
 chaos::Window::Window(WindowStyle style){
     winStyle = style;
     deltaTimer.restart();
