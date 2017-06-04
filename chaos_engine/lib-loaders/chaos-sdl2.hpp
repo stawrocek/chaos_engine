@@ -55,7 +55,7 @@ public:
         {
             bool show_another_window=false;
             bool show_test_window=true;
-            ImVec4 clear_color = ImColor(114, 144, 154);
+            static ImVec4 clear_color = ImColor(114, 144, 154);
             static float f = 0.0f;
             ImGui::Text("Hello, world!");
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
@@ -63,6 +63,8 @@ public:
             if (ImGui::Button("Test Window")) show_test_window ^= 1;
             if (ImGui::Button("Another Window")) show_another_window ^= 1;
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            static char strInput[256];
+            ImGui::InputText("Window title", strInput, 255);
         }
         ImGui::Render();
         swapBuffers();
@@ -196,8 +198,8 @@ public:
     void runEvents(SceneManager* sceneManager){
         SDL_Event sdlEvent;
         while (SDL_PollEvent(&sdlEvent)){
-            ImGui_ImplChaos_ProcessEvent(&sdlEvent);
             chaos::Event ev = translateEvent(&sdlEvent);
+            ImGui_ImplChaos_ProcessEvent(&ev, this);
             if(sceneManager != nullptr){
                 if(ev.type != Event::KeyDown)
                     sceneManager->deliverEvent(&ev);
@@ -240,8 +242,11 @@ public:
             ev.type = chaos::Event::KeyDown;
             if(sdlEv->type == SDL_KEYUP)
                 ev.type = chaos::Event::KeyUp;
-
             ev.keyEvent.keyCode = mKeyCodes[sdlEv->key.keysym.sym];
+        }
+        else if(sdlEv->type == SDL_TEXTINPUT){
+            ev.type = chaos::Event::TextInput;
+            strcpy(ev.textInputEvent.text, sdlEv->text.text);
         }
         else if(sdlEv->type == SDL_MOUSEMOTION){
             ev.type = chaos::Event::MouseMotion;
@@ -250,7 +255,12 @@ public:
             ev.motionEvent.relX = sdlEv->motion.xrel;
             ev.motionEvent.relY = sdlEv->motion.yrel;
         }
-
+        else if(sdlEv->type == SDL_MOUSEWHEEL){
+            ev.type = chaos::Event::MouseWheel;
+            ev.wheelEvent.x = sdlEv->wheel.x;
+            ev.wheelEvent.y = sdlEv->wheel.y;
+            ev.wheelEvent.direction = sdlEv->wheel.direction;
+        }
         return ev;
     }
 
