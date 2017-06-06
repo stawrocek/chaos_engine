@@ -1,10 +1,6 @@
 #include "../include/imgui/imgui.h"
 #include "../include/ImGUI_Impl_Chaos.hpp"
 
-// SDL,GL3W
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_syswm.h>
-
 // Data
 static double       g_Time = 0.0f;
 static bool         g_MousePressed[3] = { false, false, false };
@@ -116,14 +112,14 @@ void ImGui_ImplChaos_RenderDrawLists(ImDrawData* draw_data)
     glScissor(last_scissor_box[0], last_scissor_box[1], (GLsizei)last_scissor_box[2], (GLsizei)last_scissor_box[3]);
 }
 
-static const char* ImGui_ImplChaos_GetClipboardText(void*)
+static const char* ImGui_ImplChaos_GetClipboardText(void* windowPtr)
 {
-    return SDL_GetClipboardText();
+    return ((chaos::Window*)windowPtr)->getClipboardText(windowPtr);
 }
 
-static void ImGui_ImplChaos_SetClipboardText(void*, const char* text)
+static void ImGui_ImplChaos_SetClipboardText(void* windowPtr, const char* text)
 {
-    SDL_SetClipboardText(text);
+    ((chaos::Window*)windowPtr)->setClipboardText(windowPtr, text);
 }
 
 bool ImGui_ImplChaos_ProcessEvent(chaos::Event* event, chaos::InputManager* inputManager)
@@ -293,7 +289,7 @@ void ImGui_ImplChaos_InvalidateDeviceObjects()
     }
 }
 
-bool    ImGui_ImplChaos_Init(SDL_Window* window)
+bool ImGui_ImplChaos_Init(chaos::Window* window)
 {
     ImGuiIO& io = ImGui::GetIO();
     io.KeyMap[ImGuiKey_Tab] = chaos::KeyboardEvent::KeyTab;                     // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
@@ -320,13 +316,10 @@ bool    ImGui_ImplChaos_Init(SDL_Window* window)
     io.RenderDrawListsFn = ImGui_ImplChaos_RenderDrawLists;   // Alternatively you can set this to NULL and call ImGui::GetDrawData() after ImGui::Render() to get the same ImDrawData pointer.
     io.SetClipboardTextFn = ImGui_ImplChaos_SetClipboardText;
     io.GetClipboardTextFn = ImGui_ImplChaos_GetClipboardText;
-    io.ClipboardUserData = NULL;
+    io.ClipboardUserData = window;
 
 #ifdef _WIN32
-    SDL_SysWMinfo wmInfo;
-    SDL_VERSION(&wmInfo.version);
-    SDL_GetWindowWMInfo(window, &wmInfo);
-    io.ImeWindowHandle = wmInfo.info.win.window;
+    io.ImeWindowHandle = window->getWindowW32Handle();
 #else
     (void)window;
 #endif
@@ -340,7 +333,7 @@ void ImGui_ImplChaos_Shutdown()
     ImGui::Shutdown();
 }
 
-void ImGui_ImplChaos_NewFrame(SDL_Window* window)
+void ImGui_ImplChaos_NewFrame(chaos::Window* window)
 {
     if (!g_FontTexture)
         ImGui_ImplChaos_CreateDeviceObjects();
@@ -348,15 +341,13 @@ void ImGui_ImplChaos_NewFrame(SDL_Window* window)
     ImGuiIO& io = ImGui::GetIO();
 
     // Setup display size (every frame to accommodate for window resizing)
-    int w, h;
-    int display_w, display_h;
-    SDL_GetWindowSize(window, &w, &h);
-    SDL_GL_GetDrawableSize(window, &display_w, &display_h);
+    int w = window->getWidth(), h = window->getHeight();
+    int display_w = window->getGLDrawableWidth(), display_h = window->getGLDrawableHeight();
     io.DisplaySize = ImVec2((float)w, (float)h);
     io.DisplayFramebufferScale = ImVec2(w > 0 ? ((float)display_w / w) : 0, h > 0 ? ((float)display_h / h) : 0);
 
     // Setup time step
-    Uint32	time = SDL_GetTicks();
+    GLfloat time = window->getRunningTime();
     double current_time = time / 1000.0;
     io.DeltaTime = g_Time > 0.0 ? (float)(current_time - g_Time) : (float)(1.0f / 60.0f);
     if(io.DeltaTime <= 0.0)
@@ -365,23 +356,22 @@ void ImGui_ImplChaos_NewFrame(SDL_Window* window)
 
     // Setup inputs
     // (we already got mouse wheel, keyboard keys & characters from SDL_PollEvent())
-    int mx, my;
-    Uint32 mouseMask = SDL_GetMouseState(&mx, &my);
-    if (SDL_GetWindowFlags(window) & SDL_WINDOW_MOUSE_FOCUS)
+    int mx = window->inputManager->getMouseX(), my=window->inputManager->getMouseY();
+    if (window->isFocused())
         io.MousePos = ImVec2((float)mx, (float)my);   // Mouse position, in pixels (set to -1,-1 if no mouse / on another screen, etc.)
     else
         io.MousePos = ImVec2(-1, -1);
 
-    io.MouseDown[0] = g_MousePressed[0] || (mouseMask & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0;		// If a mouse press event came, always pass it as "mouse held this frame", so we don't miss click-release events that are shorter than 1 frame.
-    io.MouseDown[1] = g_MousePressed[1] || (mouseMask & SDL_BUTTON(SDL_BUTTON_RIGHT)) != 0;
-    io.MouseDown[2] = g_MousePressed[2] || (mouseMask & SDL_BUTTON(SDL_BUTTON_MIDDLE)) != 0;
+    io.MouseDown[0] = window->isTouched(chaos::TouchEvent::ButtonLeft);		// If a mouse press event came, always pass it as "mouse held this frame", so we don't miss click-release events that are shorter than 1 frame.
+    io.MouseDown[1] = window->isTouched(chaos::TouchEvent::ButtonMiddle);
+    io.MouseDown[2] = window->isTouched(chaos::TouchEvent::ButtonRight);
     g_MousePressed[0] = g_MousePressed[1] = g_MousePressed[2] = false;
 
     io.MouseWheel = g_MouseWheel;
     g_MouseWheel = 0.0f;
 
     // Hide OS mouse cursor if ImGui is drawing it
-    SDL_ShowCursor(io.MouseDrawCursor ? 0 : 1);
+    window->showCursor(io.MouseDrawCursor ? 0 : 1);
 
     // Start the frame
     ImGui::NewFrame();

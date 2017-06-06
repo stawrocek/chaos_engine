@@ -28,7 +28,7 @@ public:
         glewExperimental = GL_TRUE;
         glewInit();
 
-        ImGui_ImplChaos_Init(window);
+        ImGui_ImplChaos_Init(this);
     }
 
     virtual ~SDL2Window(){
@@ -113,7 +113,7 @@ public:
             SDL_SetRelativeMouseMode(SDL_FALSE);
     }
 
-    GLvoid* getWindowW32Handle(){
+    GLvoid* getWindowW32Handle() override {
         #ifdef WINDOWS
         SDL_SysWMinfo wmInfo;
         SDL_VERSION(&wmInfo.version);
@@ -123,17 +123,24 @@ public:
         return nullptr;
     }
 
-    GLboolean isFocused(){
-        return SDL_GetWindowFlags(window) & SDL_WINDOW_MOUSE_FOCUS;
+    GLboolean isFocused() override {
+        return (SDL_GetWindowFlags(window) & SDL_WINDOW_MOUSE_FOCUS) == SDL_WINDOW_MOUSE_FOCUS;
     }
 
-    GLvoid showCursor(GLboolean flag){
+    GLvoid showCursor(GLboolean flag) override {
         SDL_ShowCursor(flag);
+    }
+
+    const GLchar* getClipboardText(void* clipboardPtr) override {
+        return SDL_GetClipboardText();
+    }
+    void setClipboardText(void* clipboardPtr, const char* text) override {
+        SDL_SetClipboardText(text);
     }
 
     void runEvents(SceneManager* sceneManager) override {
         inputManager->runEvents(sceneManager);
-        ImGui_ImplChaos_NewFrame(window);
+        ImGui_ImplChaos_NewFrame(this);
     }
 
 protected:

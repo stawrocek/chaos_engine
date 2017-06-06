@@ -59,6 +59,8 @@ public:
     GLboolean isKeyDown(GLuint k);
     virtual GLboolean isFocused()=0;
     virtual GLvoid showCursor(GLboolean flag)=0;
+    virtual const GLchar* getClipboardText(void*)=0;
+    virtual void setClipboardText(void*, const char* text)=0;
     InputManager* inputManager;
 
 protected:

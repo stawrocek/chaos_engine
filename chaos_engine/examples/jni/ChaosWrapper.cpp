@@ -14,10 +14,6 @@ extern "C"
 {
 	class EGLWindow: public chaos::Window{
 		public:
-		EGLWindow(){
-			setDepthEnabled(true);
-			setBlendingEnabled(true);
-		};
 		EGLWindow(chaos::WindowStyle ws)
 		:Window(ws)
 		{
@@ -37,6 +33,8 @@ extern "C"
 		void* getWindowW32Handle(){return nullptr;}
 		GLboolean isFocused(){return true;}		//To be implemented
 		GLvoid showCursor(GLboolean flag){}		//hmm...
+		const GLchar* getClipboardText(void* clipboardPtr){return "to-be-implemented";}
+		void setClipboardText(void* clipboardPtr, const char* text){}
 	};
 
 class AndroidInputManager: public chaos::InputManager{
@@ -80,8 +78,7 @@ public:
 	JNIEnv* env, jobject obj, jstring dataStoragePath )
 	{
 		if(window == nullptr){
-			window = new EGLWindow();
-			window->setStyle(chaos::WindowStyle("Chaos - EGL", 0,0,700,700));
+			window = new EGLWindow(chaos::WindowStyle("Chaos - EGL", 0,0,700,700));
 			window->inputManager = new AndroidInputManager();
 			SHOUT("%s", "created in nativeOnSurfaceCreated");
 		}
@@ -100,7 +97,7 @@ public:
 	{
 		SHOUT( "nativeOnSurfaceChanged: %i x %i", width, height );
 		if(window==nullptr){
-			window = new EGLWindow();
+			window = new EGLWindow(chaos::WindowStyle("Chaos - EGL", 0,0,700,700));
             window->inputManager = new AndroidInputManager();
             SHOUT("%s", "created in onSurfaceChanged\n");
 		}
