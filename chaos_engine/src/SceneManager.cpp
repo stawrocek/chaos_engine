@@ -39,4 +39,5 @@ void chaos::SceneManager::deliverEvent(chaos::Event* e){
 void chaos::SceneManager::runSceneFrame(GLfloat delta){
     actScene->update(delta);
     actScene->draw(delta);
+    actScene->onGUI();
 }

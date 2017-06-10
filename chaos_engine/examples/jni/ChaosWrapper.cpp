@@ -19,22 +19,38 @@ extern "C"
 		{
 			setDepthEnabled(true);
 			setBlendingEnabled(true);
+			ImGui_ImplChaos_Init(this);
+		}
+		virtual ~EGLWindow(){
+			ImGui_ImplChaos_Shutdown();
 		}
 
-		void update(){};
-		void swapBuffers(){};
-		int getWidth(){return winStyle.width;}
-		int getGLDrawableWidth(){return winStyle.width;}
-		int getHeight(){return winStyle.height;}
-		int getGLDrawableHeight(){return winStyle.height;}
-		int getPosX(){return winStyle.posX;}
-		int getPosY(){return winStyle.posY;}
-		void setRelativeMode(GLboolean mode){}
-		void* getWindowW32Handle(){return nullptr;}
-		GLboolean isFocused(){return true;}		//To be implemented
-		GLvoid showCursor(GLboolean flag){}		//hmm...
-		const GLchar* getClipboardText(void* clipboardPtr){return "to-be-implemented";}
-		void setClipboardText(void* clipboardPtr, const char* text){}
+		void update() override {
+			deltaTimer.restart();
+			if(fpsTimer.getTime() >= 1000){
+				fpsVal = fpsCtr;
+				fpsCtr=0;
+				fpsTimer.restart();
+			}
+		};
+		
+		void swapBuffers() override {};
+		int getWidth() override {return winStyle.width;}
+		int getGLDrawableWidth() override {return winStyle.width;}
+		int getHeight() override {return winStyle.height;}
+		int getGLDrawableHeight() override {return winStyle.height;}
+		int getPosX() override {return winStyle.posX;}
+		int getPosY() override {return winStyle.posY;}
+		void setRelativeMode(GLboolean mode) override {}
+		void* getWindowW32Handle() override {return nullptr;}
+		GLboolean isFocused() override {return true;}		//To be implemented
+		GLvoid showCursor(GLboolean flag) override {}		//hmm...
+		const GLchar* getClipboardText(void* clipboardPtr) override {return "to-be-implemented";}
+		void setClipboardText(void* clipboardPtr, const char* text) override {}
+		void runEvents(chaos::SceneManager* sceneManager) override {
+			inputManager->runEvents(sceneManager);
+			ImGui_ImplChaos_NewFrame(this);
+		}
 	};
 
 class AndroidInputManager: public chaos::InputManager{
@@ -42,6 +58,7 @@ public:
     virtual void runEvents(chaos::SceneManager* sceneManager){
         while(!qEvents.empty()){
             chaos::Event ev = qEvents.front();
+			ImGui_ImplChaos_ProcessEvent(&ev, this);
             qEvents.pop();
             if(sceneManager != nullptr){
                 sceneManager->deliverEvent(&ev);

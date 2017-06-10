@@ -50,6 +50,7 @@ void ChaosExampleLibraryApp::onDraw(){
     GLfloat deltaTime = window->getDeltaTime();
     runEvents();
     sceneManager->runSceneFrame(0.001);
+    ImGui::Render();
     window->update();
 }
 

@@ -53,7 +53,7 @@ public:
     virtual GLvoid* getWindowW32Handle() = 0;
 
     //input
-    virtual void runEvents(SceneManager* sceneManager);
+    virtual void runEvents(SceneManager* sceneManager)=0;
     //virtual void runImmediateGUI();
     GLboolean isTouched(TouchEvent::ButtonCode btn=TouchEvent::ButtonLeft);
     GLboolean isKeyDown(GLuint k);

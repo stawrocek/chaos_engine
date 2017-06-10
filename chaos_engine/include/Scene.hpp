@@ -29,6 +29,7 @@ public:
     virtual void draw(GLfloat deltaTime);
     virtual void deliverEvent(Event* e);
     virtual void onSceneDeactivate();
+    virtual void onGUI();
 
     std::string getName();
     void setSceneManager(SceneManager* mgr);
