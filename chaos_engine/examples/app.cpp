@@ -37,11 +37,11 @@ void ChaosExampleLibraryApp::onCreate(){
     resourceManager = new chaos::ResourceManager();
     sceneManager = new chaos::SceneManager(resourceManager, renderer);
 
-    sceneManager->registerScene<ColorfulTriangles>("ColorfulTriangles");
-    sceneManager->registerScene<Lighting>("Lighting");
-    sceneManager->registerScene<VAOnShaders>("VAOnShaders");
-    sceneManager->registerScene<GizmosTest>("GizmosTest");
+    //sceneManager->registerScene<ColorfulTriangles>("ColorfulTriangles");
     sceneManager->registerScene<ImGUITest>("ImGUI");
+    //sceneManager->registerScene<VAOnShaders>("VAOnShaders");
+    //sceneManager->registerScene<GizmosTest>("GizmosTest");
+    //sceneManager->registerScene<ImGUITest>("ImGUI");
     //sceneManager->registerScene<Rubik>("Rubik");
     sceneManager->setActiveScene("ImGUI");
 }

@@ -5,6 +5,7 @@
 #include "../../include/Texture.hpp"
 #include "../../include/Sprite.hpp"
 #include "../../include/ImGUI_Impl_Chaos.hpp"
+#include "../../include/Primitives.hpp"
 
 class ImGUITest: public chaos::Scene{
 public:
