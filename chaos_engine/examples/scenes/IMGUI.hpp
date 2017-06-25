@@ -33,18 +33,31 @@ public:
 
     void onGUI(){
         {
-            bool show_another_window=false;
-            bool show_test_window=true;
-            static ImVec4 clear_color = ImColor(114, 144, 154);
             static float f = 0.0f;
+            ImGui::SetNextWindowSize(ImVec2(200, 200), ImGuiSetCond_FirstUseEver);
             ImGui::Text("Hello, world!");
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-            ImGui::ColorEdit3("clear color", (float*)&clear_color);
-            if (ImGui::Button("Test Window")) show_test_window ^= 1;
-            if (ImGui::Button("Another Window")) show_another_window ^= 1;
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            static char strInput[256];
-            ImGui::InputText("Window title", strInput, 255);
+            ImGui::ColorEdit3("clear color", (float *) &imClearColor);
+            if (ImGui::Button("Test Window")) showTestWindow = !showTestWindow;
+            if (ImGui::Button("Another Window")) showAnotherWindow = !showAnotherWindow;
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+                        1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        }
+
+        // 2. Show another simple window, this time using an explicit Begin/End pair
+        if (showAnotherWindow)
+        {
+            ImGui::SetNextWindowSize(ImVec2(200,100), ImGuiSetCond_FirstUseEver);
+            ImGui::Begin("Another Window", &showAnotherWindow);
+            ImGui::Text("Hello");
+            ImGui::End();
+        }
+
+        // 3. Show the ImGui test window. Most of the sample code is in ImGui::ShowTestWindow()
+        if (showTestWindow)
+        {
+            ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiSetCond_FirstUseEver);
+            ImGui::ShowTestWindow(&showTestWindow);
         }
     }
 
@@ -54,8 +67,9 @@ public:
 
 private:
     chaos::Rectangle* rect=nullptr;
-    bool show_test_window = true;
-    bool show_another_window = false;
+    bool showTestWindow = true;
+    bool showAnotherWindow = false;
+    ImVec4 imClearColor;
 };
 
 #endif // IMGUITEST_HPP
