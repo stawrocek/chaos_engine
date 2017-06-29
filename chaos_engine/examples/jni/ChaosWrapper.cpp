@@ -55,7 +55,7 @@ extern "C"
 
 class AndroidInputManager: public chaos::InputManager{
 public:
-    virtual void runEvents(chaos::SceneManager* sceneManager){
+    virtual void runEvents(chaos::SceneManager* sceneManager) override {
         while(!qEvents.empty()){
             chaos::Event ev = qEvents.front();
 			ImGui_ImplChaos_ProcessEvent(&ev, this);
@@ -64,13 +64,19 @@ public:
                 sceneManager->deliverEvent(&ev);
             }
             if (ev.type == chaos::Event::TouchDown){
-                SHOUT("running TouchDown");
                 mTouchDown[ev.touchEvent.buttonCode]=true;
+				mousePosX = ev.touchEvent.posX;
+				mousePosY = ev.touchEvent.posY;
             }
             else if(ev.type == chaos::Event::TouchUp){
-                SHOUT("running TouchUp");
                 mTouchDown[ev.touchEvent.buttonCode]=false;
-            }
+				//mousePosX = -1;
+				//mousePosY = -1;
+			}
+			else if(ev.type == chaos::Event::MouseMotion){
+				mousePosX = ev.motionEvent.posX;
+				mousePosY = ev.motionEvent.posY;
+			}
             else if (ev.type == chaos::Event::KeyDown){
                 mKeyDown[ev.keyEvent.keyCode]=true;
             }
@@ -79,13 +85,15 @@ public:
             }
         }
     }
-    virtual GLuint getMouseX(){return -1;}
-    virtual GLuint getMouseY(){return -1;}
-    virtual chaos::Event translateEvent(void* nativeEvent){
+    virtual GLuint getMouseX() override {return mousePosX;}
+    virtual GLuint getMouseY() override {return mousePosY;}
+    virtual chaos::Event translateEvent(void* nativeEvent) override {
         chaos::Event e;
         e.type = chaos::Event::None;
         return e;
     }
+protected:
+	GLuint mousePosX=-1, mousePosY=-1;
 };
 
 	EGLWindow* window=nullptr;

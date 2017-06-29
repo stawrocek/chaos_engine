@@ -41,7 +41,6 @@ void ChaosExampleLibraryApp::onCreate(){
     sceneManager->registerScene<ImGUITest>("ImGUI");
     //sceneManager->registerScene<VAOnShaders>("VAOnShaders");
     //sceneManager->registerScene<GizmosTest>("GizmosTest");
-    //sceneManager->registerScene<ImGUITest>("ImGUI");
     //sceneManager->registerScene<Rubik>("Rubik");
     sceneManager->setActiveScene("ImGUI");
 }

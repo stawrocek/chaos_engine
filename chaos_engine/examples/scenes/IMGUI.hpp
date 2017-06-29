@@ -28,7 +28,8 @@ public:
         renderer->setCamCombined(glm::mat4(1));
 
         rect->rotateZ(deltaTime);
-        rect->draw();
+        if(!window->isTouched(chaos::TouchEvent::ButtonLeft))
+            rect->draw();
     }
 
     void onGUI(){
