@@ -85,7 +85,7 @@ void ImGui_ImplChaos_RenderDrawLists(ImDrawData* draw_data)
 
         glBindBuffer(GL_ARRAY_BUFFER, g_VboHandle);
         glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
-		#ifdef ANDROID	
+		#ifdef ANDROID
 				glEnableVertexAttribArray(g_AttribLocationPosition);
 				glEnableVertexAttribArray(g_AttribLocationUV);
 				glEnableVertexAttribArray(g_AttribLocationColor);
@@ -96,8 +96,8 @@ void ImGui_ImplChaos_RenderDrawLists(ImDrawData* draw_data)
 				glVertexAttribPointer(g_AttribLocationColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, col));
 			#undef OFFSETOF
 		#endif
-			
-			
+
+
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_ElementsHandle);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, GL_STREAM_DRAW);
 
@@ -154,20 +154,20 @@ bool ImGui_ImplChaos_ProcessEvent(chaos::Event* event, chaos::InputManager* inpu
         io.AddInputCharactersUTF8(event->textInputEvent.text);
         return true;
     }
-    if(event->type == chaos::Event::MouseWheel){
+    else if(event->type == chaos::Event::MouseWheel){
         if (event->wheelEvent.y > 0)
             g_MouseWheel = 1;
         if (event->wheelEvent.y < 0)
             g_MouseWheel = -1;
         return true;
     }
-    if(event->type == chaos::Event::TouchDown){
+    else if(event->type == chaos::Event::TouchDown){
         if (event->touchEvent.buttonCode == chaos::TouchEvent::ButtonLeft) g_MousePressed[0] = true;
         if (event->touchEvent.buttonCode == chaos::TouchEvent::ButtonRight) g_MousePressed[1] = true;
         if (event->touchEvent.buttonCode == chaos::TouchEvent::ButtonMiddle) g_MousePressed[2] = true;
         return true;
     }
-    if(event->type == chaos::Event::KeyDown || event->type == chaos::Event::KeyUp){
+    else if(event->type == chaos::Event::KeyDown || event->type == chaos::Event::KeyUp){
         io.KeysDown[event->keyEvent.keyCode] = (event->type == chaos::Event::KeyDown);
         io.KeyShift = (inputManager->isKeyDown(chaos::KeyboardEvent::KeyLeftShift) || inputManager->isKeyDown(chaos::KeyboardEvent::KeyRightShift));
         io.KeyCtrl = (inputManager->isKeyDown(chaos::KeyboardEvent::KeyLeftControl) || inputManager->isKeyDown(chaos::KeyboardEvent::KeyRightControl));
@@ -398,9 +398,9 @@ void ImGui_ImplChaos_NewFrame(chaos::Window* window)
     else
         io.MousePos = ImVec2(-1, -1);
 
-    io.MouseDown[0] = window->isTouched(chaos::TouchEvent::ButtonLeft);		// If a mouse press event came, always pass it as "mouse held this frame", so we don't miss click-release events that are shorter than 1 frame.
-    io.MouseDown[1] = window->isTouched(chaos::TouchEvent::ButtonMiddle);
-    io.MouseDown[2] = window->isTouched(chaos::TouchEvent::ButtonRight);
+    io.MouseDown[0] = g_MousePressed[0] || window->isTouched(chaos::TouchEvent::ButtonLeft);		// If a mouse press event came, always pass it as "mouse held this frame", so we don't miss click-release events that are shorter than 1 frame.
+    io.MouseDown[1] = g_MousePressed[1] || window->isTouched(chaos::TouchEvent::ButtonMiddle);
+    io.MouseDown[2] = g_MousePressed[2] || window->isTouched(chaos::TouchEvent::ButtonRight);
     g_MousePressed[0] = g_MousePressed[1] = g_MousePressed[2] = false;
 
     io.MouseWheel = g_MouseWheel;
