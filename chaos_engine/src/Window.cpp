@@ -91,3 +91,8 @@ GLboolean chaos::Window::isTouched(TouchEvent::ButtonCode btn){
 GLboolean chaos::Window::isKeyDown(GLuint k){
     return inputManager->isKeyDown(k);
 }
+
+GLboolean chaos::Window::initializeGLEW(){
+    glewExperimental = true;
+    return glewInit() == GLEW_OK;
+}

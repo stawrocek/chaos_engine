@@ -6,7 +6,7 @@
 
 #include "../include/Window.hpp"
 #include "../include/SceneManager.hpp"
-#include "../include/ImGUI_Impl_Chaos.hpp"
+#include "../lib-loaders/ImGUI_Impl_Chaos.hpp"
 
 namespace chaos{
 
@@ -22,13 +22,16 @@ public:
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-        setDepthEnabled(true);
+        //setDepthEnabled(true);
         setBlendingEnabled(true);
 
-        glewExperimental = GL_TRUE;
-        glewInit();
-
-        ImGui_ImplChaos_Init(this);
+        GLboolean isInitializationOk = initializeGLEW();
+        if(isInitializationOk){
+            SHOUT("GLEW initialization ok\n");
+        }
+        else{
+            SHOUT("GLEW initialization error\n");
+        }
     }
 
     virtual ~SDL2Window(){
@@ -45,6 +48,7 @@ public:
         SDL_GL_SwapWindow(window);
     }
     void update(){
+        ImGui::Render();
         deltaTimer.restart();
         if(fpsTimer.getTime() >= 1000){
             fpsVal = fpsCtr;

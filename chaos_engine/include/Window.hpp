@@ -51,7 +51,6 @@ public:
     void setStyle(WindowStyle ws);
 
     virtual GLvoid* getWindowW32Handle() = 0;
-
     //input
     virtual void runEvents(SceneManager* sceneManager)=0;
     //virtual void runImmediateGUI();
@@ -62,6 +61,7 @@ public:
     virtual const GLchar* getClipboardText(void*)=0;
     virtual void setClipboardText(void*, const char* text)=0;
     InputManager* inputManager;
+    GLboolean initializeGLEW();
 
 protected:
     GLboolean depthEnabled = true;

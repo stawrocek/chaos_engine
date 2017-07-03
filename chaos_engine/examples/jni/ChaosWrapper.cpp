@@ -26,6 +26,7 @@ extern "C"
 		}
 
 		void update() override {
+			ImGui::Render();
 			deltaTimer.restart();
 			if(fpsTimer.getTime() >= 1000){
 				fpsVal = fpsCtr;

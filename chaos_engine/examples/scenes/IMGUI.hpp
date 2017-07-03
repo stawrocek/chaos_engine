@@ -4,7 +4,7 @@
 #include "../../include/Scene.hpp"
 #include "../../include/Texture.hpp"
 #include "../../include/Sprite.hpp"
-#include "../../include/ImGUI_Impl_Chaos.hpp"
+#include "../../lib-loaders/ImGUI_Impl_Chaos.hpp"
 #include "../../include/Primitives.hpp"
 
 class ImGUITest: public chaos::Scene{

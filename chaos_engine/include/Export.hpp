@@ -1,12 +1,19 @@
 #ifndef EXPORT_HPP
 #define EXPORT_HPP
 
+//comment DEVELOPMENT_MODE if you want to build .dll
+#define DEVELOPMENT_MODE
+
 #include <string>
 
 #ifdef ANDROID
 #include <GLES2/gl2.h>
 #else
-#define GLEW_STATIC
+    #ifdef DEVELOPMENT_MODE
+        #define GLEW_STATIC
+    #else
+        #define GLEW_STATIC
+    #endif
 #include <GL/glew.h>
 #endif // ANDROID
 
@@ -26,9 +33,6 @@
 #endif //texture-loaders
 
 namespace chaos{
-
-//uncomment DEVELOPMENT_MODE if you want to build dll
-#define DEVELOPMENT_MODE
 
 #ifndef DEVELOPMENT_MODE
     #ifdef _WIN32
