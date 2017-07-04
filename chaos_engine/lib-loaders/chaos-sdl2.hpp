@@ -44,10 +44,10 @@ public:
     SDL_Window* getWindowHandle()       {return window;}
     SDL_GLContext* getGLContextHandle() {return &context;}
 
-    void swapBuffers(){
+    void swapBuffers() override {
         SDL_GL_SwapWindow(window);
     }
-    void update(){
+    void update() override {
         ImGui::Render();
         deltaTimer.restart();
         if(fpsTimer.getTime() >= 1000){
@@ -59,43 +59,43 @@ public:
         swapBuffers();
     }
 
-    GLint getWidth(){
+    GLint getWidth() override {
         GLint winWidth, winHeight;
         SDL_GetWindowSize(window, &winWidth, &winHeight);
         return winWidth;
     }
 
-    GLint getGLDrawableWidth(){
+    GLint getGLDrawableWidth() override {
         GLint winWidth, winHeight;
         SDL_GL_GetDrawableSize(window, &winWidth, &winHeight);
         return winWidth;
     }
 
-    GLint getHeight(){
+    GLint getHeight() override {
         GLint winWidth, winHeight;
         SDL_GetWindowSize(window, &winWidth, &winHeight);
         return winHeight;
     }
 
-    GLint getGLDrawableHeight(){
+    GLint getGLDrawableHeight() override {
         GLint winWidth, winHeight;
         SDL_GL_GetDrawableSize(window, &winWidth, &winHeight);
         return winHeight;
     }
 
-    GLint getPosX(){
+    GLint getPosX() override {
         GLint posX, posY;
         SDL_GetWindowPosition(window,&posX, &posY);
         return posX;
     }
 
-    GLint getPosY(){
+    GLint getPosY() override {
         GLint posX, posY;
         SDL_GetWindowPosition(window,&posX, &posY);
         return posY;
     }
 
-    void setRelativeMode(GLboolean mode){
+    void setRelativeMode(GLboolean mode) override {
         if(mode == true)
             SDL_SetRelativeMouseMode(SDL_TRUE);
         else

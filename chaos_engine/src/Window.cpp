@@ -93,6 +93,10 @@ GLboolean chaos::Window::isKeyDown(GLuint k){
 }
 
 GLboolean chaos::Window::initializeGLEW(){
+#ifndef ANDROID
     glewExperimental = true;
     return glewInit() == GLEW_OK;
+#else
+    return true;
+#endif
 }

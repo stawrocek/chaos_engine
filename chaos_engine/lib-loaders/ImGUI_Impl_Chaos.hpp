@@ -1,15 +1,15 @@
 #ifndef IMGUI_IMPL_CHAOS_HPP
 #define IMGUI_IMPL_CHAOS_HPP
 
-#include "Export.hpp"
+#include "../include/Export.hpp"
 #include <iostream>
 
-#include "Window.hpp"
-#include "Logger.hpp"
-#include "Shader.hpp"
-#include "Event.hpp"
+#include "../include/Window.hpp"
+#include "../include/Logger.hpp"
+#include "../include/Shader.hpp"
+#include "../include/Event.hpp"
 
-#include "imgui/imgui.h"
+#include "../include/imgui/imgui.h"
 
 CHAOS_EXPORT bool           ImGui_ImplChaos_Init(chaos::Window*);
 CHAOS_EXPORT void           ImGui_ImplChaos_Shutdown();
