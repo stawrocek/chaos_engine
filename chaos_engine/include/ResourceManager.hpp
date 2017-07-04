@@ -7,6 +7,8 @@
 
 #include "Export.hpp"
 #include "Resource.hpp"
+#include "Texture.hpp"
+#include "Logger.hpp"
 
 namespace chaos{
 
@@ -24,6 +26,15 @@ public:
         cache[id] = tmp;
         return tmp;
     }
+    chaos::Texture* loadResource(std::string fpath, std::string id){
+        SHOUT("loading texture!\n");
+        if(cache.find(id) != cache.end()){
+            return dynamic_cast<chaos::Texture*>(cache[id]);
+        }
+        chaos::Texture* tmp = new chaos::Texture(fpath, textureLoader);
+        cache[id] = tmp;
+        return tmp;
+    }
     template <typename T>
     T* getResource(std::string id){
         if(cache.find(id) == cache.end()){
@@ -38,9 +49,18 @@ public:
             cache.erase(id);
         }
     }
-private:
-    std::unordered_map<std::string, Resource*> cache;
 
+    TextureLoader* getTextureLoader(){
+        return textureLoader;
+    }
+
+    void setTextureLoader(TextureLoader* _textureLoader){
+        textureLoader = _textureLoader;
+    }
+
+protected:
+    std::unordered_map<std::string, Resource*> cache;
+    TextureLoader* textureLoader=nullptr;
 };
 
 }

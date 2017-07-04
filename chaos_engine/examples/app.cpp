@@ -18,24 +18,23 @@ ChaosExampleLibraryApp::~ChaosExampleLibraryApp(){
 
 void ChaosExampleLibraryApp::onCreate(){
     glEnable(GL_DEPTH_TEST);
-#if defined(ANDROID) && defined(TEXTURES_FREEIMAGE)
-    FreeImage_Initialise(false);
+#ifdef TEXTURES_FREEIMAGE
+    textureLoader = new FreeImageTextureLoader();
 #endif
-#if defined(TEXTURES_SDLIMAGE) && !defined (__EMSCRIPTEN__)
-    int flags=IMG_INIT_JPG|IMG_INIT_PNG;
-    int initted=IMG_Init(flags);
-    if((initted&flags) != flags) {
-        printf("IMG_Init: Failed to init required jpg and png support!\n");
-        printf("IMG_Init: %s\n", IMG_GetError());
-        // handle error
-    }
-    else{
-        printf("init ok\n");
-    }
+#ifdef TEXTURES_SDLIMAGE
+    textureLoader = new SDLTextureLoader();
 #endif
+    if(textureLoader == nullptr){
+        SHOUT("texture laoder not initialized!\n");
+    }
+/*#if defined(TEXTURES_SDLIMAGE) && !defined (__EMSCRIPTEN__)
+
+#endif*/
     renderer = new chaos::Renderer(window);
     resourceManager = new chaos::ResourceManager();
     sceneManager = new chaos::SceneManager(resourceManager, renderer);
+
+    resourceManager->setTextureLoader(textureLoader);
 
     //sceneManager->registerScene<ColorfulTriangles>("ColorfulTriangles");
     sceneManager->registerScene<ImGUITest>("ImGUI");

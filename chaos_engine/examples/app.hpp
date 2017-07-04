@@ -28,6 +28,7 @@
 #include "../include/ResourceManager.hpp"
 #include "../include/SceneManager.hpp"
 #include "../include/Logger.hpp"
+#include "../include/Texture.hpp"
 #endif
 
 
@@ -37,6 +38,12 @@
 //#include "scenes/Lighting.hpp"
 //#include "scenes/Rubik.hpp"
 #include "scenes/IMGUI.hpp"
+
+#ifdef __EMSCRIPTEN__
+#include "../lib-loaders/SDL_Texture_Loader.hpp"
+#else
+#include "../lib-loaders/FreeImageTextureLoader.hpp"
+#endif //texture-loaders
 
 class ChaosExampleLibraryApp: public chaos::Application{
 public:
@@ -55,6 +62,7 @@ public:
     chaos::SceneManager* sceneManager = nullptr;
     chaos::ResourceManager* resourceManager=nullptr;
     chaos::Renderer* renderer=nullptr;
+    chaos::TextureLoader* textureLoader = nullptr;
 };
 
 #endif //BASIC_APP

@@ -1,19 +1,30 @@
 #ifndef FREEIMAGE_TEXTURE_LOADER_HPP
 #define FREEIMAGE_TEXTURE_LOADER_HPP
 
+#define TEXTURES_FREEIMAGE
+
+
 #include <FreeImage.h>
 #include "../include/Logger.hpp"
+#include "../include/Texture.hpp"
 
-class CHAOS_EXPORT TextureLoader{
+class CHAOS_EXPORT FreeImageTextureLoader: public chaos::TextureLoader{
 public:
-    TextureLoader()=delete;
-    ~TextureLoader(){
+    FreeImageTextureLoader(){
+        initializeTextureLoader();
+    }
+    ~FreeImageTextureLoader(){
         FreeImage_Unload(bitmap32);
         if(bpp != 32) {
             FreeImage_Unload(bitmap);
         }
     }
-    TextureLoader(std::string fpath){
+    FreeImageTextureLoader(std::string& fpath){
+        loadTexture(fpath);
+    }
+
+    void loadTexture(std::string& fpath) override {
+        SHOUT("freeimage is trying to read texture from %s\n", fpath.c_str());
         FREE_IMAGE_FORMAT format = FreeImage_GetFileType(fpath.c_str(), 0);
         if(format == FIF_UNKNOWN) {
             SHOUT("Failed to read format %s", fpath.c_str());
@@ -44,8 +55,12 @@ public:
         }
     }
 
-    GLuint width, height;
-    GLubyte* textureData;
+    GLboolean initializeTextureLoader() override {
+        FreeImage_Initialise(false);
+        return true;
+    }
+
+private:
     FIBITMAP* bitmap;
     FIBITMAP* bitmap32;
     int bpp;

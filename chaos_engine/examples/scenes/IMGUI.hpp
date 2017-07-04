@@ -17,6 +17,20 @@ public:
         rect = new chaos::Rectangle(renderer);
         rect->setScale(0.3, 0.3, 0.3);
         rect->setColor(1.0, 1.0, 0.0, 1.0);
+
+        #if defined(__EMSCRIPTEN__)
+        //no .jpg support on windows for now ;/
+        textureTestJPG = resourceManager->loadResource("files/textures/composition-a-1923-piet-mondrian.png", "pietJPG");
+        #else
+        textureTestJPG = resourceManager->loadResource("files/textures/composition-a-1923-piet-mondrian.jpg", "pietJPG");
+        #endif // __EMSCRIPTEN__
+        textureTestPNG = resourceManager->loadResource("files/textures/composition-a-1923-piet-mondrian.png", "pietPNG");
+        spriteLeft = new chaos::Sprite(renderer, textureTestJPG);
+        spriteRight = new chaos::Sprite(renderer, textureTestPNG);
+        spriteLeft->setScale(0.2, 0.2, 0.2);
+        spriteRight->setScale(0.2, 0.2, 0.2);
+        spriteLeft->moveX(-0.3);
+        spriteRight->moveX(0.3);
     }
 
     void onSceneActivate(){
@@ -28,8 +42,11 @@ public:
         renderer->setCamCombined(glm::mat4(1));
 
         rect->rotateZ(deltaTime);
-        if(!window->isTouched(chaos::TouchEvent::ButtonLeft))
+        if(!window->isTouched(chaos::TouchEvent::ButtonLeft)){
             rect->draw();
+            spriteLeft->draw();
+            spriteRight->draw();
+        }
     }
 
     void onGUI(){
@@ -68,6 +85,10 @@ public:
 
 private:
     chaos::Rectangle* rect=nullptr;
+    chaos::Texture* textureTestJPG=nullptr;
+    chaos::Texture* textureTestPNG=nullptr;
+    chaos::Sprite* spriteLeft=nullptr;
+    chaos::Sprite* spriteRight=nullptr;
     bool showTestWindow = true;
     bool showAnotherWindow = false;
     ImVec4 imClearColor;

@@ -15,20 +15,42 @@
 
 #include "Resource.hpp"
 
-#ifdef TEXTURES_FREEIMAGE
+/*#ifdef TEXTURES_FREEIMAGE
 #include "../lib-loaders/FreeImageTextureLoader.hpp"
 
 #else
 #include "../lib-loaders/SDL_Texture_Loader.hpp"
 
-#endif
+#endif*/
 
 namespace chaos{
+
+class CHAOS_EXPORT TextureLoader{
+public:
+    TextureLoader(){};
+    TextureLoader(const TextureLoader& that) = delete;
+    TextureLoader(std::string& fpath){};
+    virtual void loadTexture(std::string& fpath)=0;
+    virtual GLuint getWidth(){
+        return width;
+    }
+    virtual GLuint getHeight(){
+        return height;
+    }
+    virtual GLubyte* getTextureData(){
+        return textureData;
+    }
+    virtual GLboolean initializeTextureLoader() = 0;
+
+protected:
+    GLuint width, height;
+    GLubyte* textureData;
+};
 
 class CHAOS_EXPORT Texture: public Resource
 {
 public:
-    Texture(std::string fpath);
+    Texture(std::string fpath, TextureLoader* textureLoader);
     virtual ~Texture();
 
     GLuint getWidth();

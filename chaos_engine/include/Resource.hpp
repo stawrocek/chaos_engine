@@ -10,6 +10,7 @@ namespace chaos{
 
 class CHAOS_EXPORT Resource{
 public:
+    Resource()=delete;
     Resource(std::string& fpath);
     virtual ~Resource();
 };

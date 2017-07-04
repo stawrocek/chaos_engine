@@ -4,10 +4,10 @@
 
 using namespace chaos;
 
-BitmapFont::BitmapFont(std::string fpath)
+BitmapFont::BitmapFont(std::string fpath, TextureLoader* textureLoader)
 :Resource(fpath)
 {
-    load(fpath);
+    load(fpath, textureLoader);
 }
 
 BitmapFont::~BitmapFont(){
@@ -17,7 +17,7 @@ BitmapFont::~BitmapFont(){
     std::cout << "Destructor of BitmapFont(" << face << ")\n";
 }
 
-void BitmapFont::load(std::string fpath) {
+void BitmapFont::load(std::string fpath, TextureLoader* textureLoader) {
     std::cout << "load\n";
     vecPages.clear();
     mapChars.clear();
@@ -27,14 +27,14 @@ void BitmapFont::load(std::string fpath) {
     if(dir == fpath)dir="";
     for(GLuint i = 0; i < file.size(); i++){
         if(file[i]=='\n'){
-            readLine(tmp, dir);
+            readLine(tmp, dir, textureLoader);
             tmp="";
         }
         else
             tmp += file[i];
     }
     if(tmp.size() > 1)
-        readLine(tmp, dir);
+        readLine(tmp, dir, textureLoader);
 }
 
 int BitmapFont::getInt(std::map<std::string, std::string>& m, std::string key) {
@@ -51,7 +51,7 @@ std::string BitmapFont::getStr(std::map<std::string, std::string>& m, std::strin
     return m[key];
 }
 
-void BitmapFont::readLine(std::string & s, std::string dirPath) {
+void BitmapFont::readLine(std::string & s, std::string dirPath, TextureLoader* textureLoader) {
     if(s[s.size()-1] == '\r')s.pop_back();
     s+=" ";
     std::string typeId="";
@@ -126,7 +126,7 @@ void BitmapFont::readLine(std::string & s, std::string dirPath) {
     }
     if(typeId == "page") {
         std::string fpath = ((dirPath=="")?(getStr(data, "file")) : (dirPath+"/"+getStr(data, "file")));
-        vecPages.push_back(new Texture(fpath));
+        vecPages.push_back(new Texture(fpath, textureLoader));
         std::cout << fpath << "\n";
     }
     //char id=0    x=254   y=0     width=0     height=32    xoffset=0     yoffset=0     xadvance=0     page=0  chnl=15

@@ -1,15 +1,24 @@
 #ifndef SDL_IMAGE_TEXTURE_LOADER_HPP
 #define SDL_IMAGE_TEXTURE_LOADER_HPP
 
+#define TEXTURES_SDLIMAGE
+
 #include <SDL2/SDL_image.h>
 
-class CHAOS_EXPORT TextureLoader{
+class CHAOS_EXPORT SDLTextureLoader: public chaos::TextureLoader{
 public:
-    TextureLoader()=delete;
-    ~TextureLoader(){
+    SDLTextureLoader(){
+        initializeTextureLoader();
+    }
+    ~SDLTextureLoader(){
         SDL_FreeSurface(image);
     }
-    TextureLoader(std::string fpath){
+    SDLTextureLoader(std::string& fpath){
+        loadTexture(fpath);
+    }
+
+    void loadTexture(std::string& fpath) override {
+        SHOUT("sdlimage is trying to read texture from %s\n", fpath.c_str());
         image=IMG_Load(fpath.c_str());
         if (image==NULL) {
             printf("IMG_Load: %s\n", IMG_GetError());
@@ -21,9 +30,19 @@ public:
         textureData=(GLubyte*)image->pixels;
     }
 
-    GLuint width, height;
-    GLubyte* textureData;
+    GLboolean initializeTextureLoader() override {
+        int flags=IMG_INIT_JPG|IMG_INIT_PNG;
+        int initted=IMG_Init(flags);
+        if((initted&flags) != flags) {
+            printf("IMG_Init: Failed to init required jpg and png support! %s\n", IMG_GetError());
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 
+protected:
     SDL_Surface *image;
 };
 

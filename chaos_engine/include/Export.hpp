@@ -2,7 +2,7 @@
 #define EXPORT_HPP
 
 //comment DEVELOPMENT_MODE if you want to build .dll
-#define DEVELOPMENT_MODE
+//#define DEVELOPMENT_MODE
 
 #include <string>
 
@@ -25,12 +25,6 @@
 #if !defined(ANDROID) && !defined(__EMSCRIPTEN__)
     #define LAYOUT_LOCATION
 #endif
-
-#ifdef __EMSCRIPTEN__
-#define TEXTURES_SDLIMAGE
-#else
-#define TEXTURES_FREEIMAGE
-#endif //texture-loaders
 
 namespace chaos{
 

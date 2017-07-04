@@ -12,6 +12,7 @@
 namespace chaos {
 
 class Texture;
+class TextureLoader;
 
 struct CHAOS_EXPORT CharData {
     int id, x, y, width, height, xoffset, yoffset, xadvance, page, chnl;
@@ -25,12 +26,12 @@ struct CHAOS_EXPORT CharData {
 
 class CHAOS_EXPORT BitmapFont: public Resource{
 public:
-    BitmapFont(std::string fpath);
+    BitmapFont(std::string fpath, TextureLoader* textureLoader);
     virtual ~BitmapFont();
-    void load(std::string fpath);
+    void load(std::string fpath, TextureLoader* textureLoader);
     int getInt(std::map<std::string, std::string>& m, std::string key);
     std::string getStr(std::map<std::string, std::string>& m, std::string key);
-    void readLine(std::string & s, std::string dirPath);
+    void readLine(std::string & s, std::string dirPath, TextureLoader* textureLoader);
 
     /*font data*/
     std::string face="", charset="";
