@@ -38,6 +38,7 @@ public:
 
     glm::mat4 getCamCombined();
     void setCamCombined(glm::mat4 mx);
+    void setCamCombined(Camera*);
     void setTargetWindow(Window* _win);
     Window* getTargetWindow();
     //slow af

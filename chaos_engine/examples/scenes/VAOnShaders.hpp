@@ -1,7 +1,12 @@
 #ifndef VAONSHADERS_HPP
 #define VAONSHADERS_HPP
 
+/*
+    Basic example of Transform, ShaderProgram and VertexArray in use
+*/
+
 #include "../../include/Scene.hpp"
+#include "../../include/Transform.hpp"
 
 class VAOnShaders: public chaos::Scene{
 public:
@@ -44,19 +49,7 @@ public:
     }
 
     void deliverEvent(chaos::Event* event){
-        /*SDL_Event* e = (SDL_Event*)event;
-        if (e->type == SDL_KEYDOWN){
-            if(e->key.keysym.sym == SDLK_9)
-                scnManager->setActiveScene("ColorfulTriangles");
-            if(e->key.keysym.sym == SDLK_0)
-                scnManager->setActiveScene("GizmosTest");
-        }*/
-        if (event->type == chaos::Event::KeyDown){
-            if(event->keyEvent.keyCode == chaos::KeyboardEvent::Key9)
-                scnManager->setActiveScene("ColorfulTriangles");
-            if(event->keyEvent.keyCode == chaos::KeyboardEvent::Key0)
-                scnManager->setActiveScene("GizmosTest");
-        }
+
     }
 
 private:

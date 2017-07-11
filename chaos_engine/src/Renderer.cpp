@@ -7,7 +7,7 @@
 #include "../include/MeshPrefab.hpp"
 #include "../include/Utils.hpp"
 #include "../include/Window.hpp"
-
+#include "../include/Camera.hpp"
 
 chaos::Renderer::Renderer(Window* w){
     setTargetWindow(w);
@@ -93,6 +93,8 @@ void chaos::Renderer::initEngineStuff(){
                 std::make_pair("files/shaders/Model3d.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3d");
     addShader({ std::make_pair("files/shaders/Model3dLightsOn.vs", GL_VERTEX_SHADER),
                 std::make_pair("files/shaders/Model3dLightsOn.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3dLightsOn");
+    addShader({ std::make_pair("files/shaders/CubeMap.vs", GL_VERTEX_SHADER),
+                std::make_pair("files/shaders/CubeMap.fs", GL_FRAGMENT_SHADER)}, "Shader_Skybox");
 
     std::vector<GLfloat> rect_Pos = {
         -1.f, -1.f, 0.f,
@@ -262,6 +264,49 @@ void chaos::Renderer::initEngineStuff(){
         -1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f
     };
 
+    std::vector<GLfloat> cubemap_Pos = {
+        -1.0f,  1.0f, -1.0f,
+        -1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+         1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+
+        -1.0f, -1.0f,  1.0f,
+        -1.0f, -1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f,  1.0f,
+        -1.0f, -1.0f,  1.0f,
+
+         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+
+        -1.0f, -1.0f,  1.0f,
+        -1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f, -1.0f,  1.0f,
+        -1.0f, -1.0f,  1.0f,
+
+        -1.0f,  1.0f, -1.0f,
+         1.0f,  1.0f, -1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+        -1.0f,  1.0f,  1.0f,
+        -1.0f,  1.0f, -1.0f,
+
+        -1.0f, -1.0f, -1.0f,
+        -1.0f, -1.0f,  1.0f,
+         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+        -1.0f, -1.0f,  1.0f,
+         1.0f, -1.0f,  1.0f
+    };
     GLuint circleCount = 32;
     GLfloat lastX = 1.f;
     GLfloat lastY = 0.f;
@@ -280,6 +325,7 @@ void chaos::Renderer::initEngineStuff(){
     addVAO(3, 0, 0, 1, &rect_Pos_Id,"Rectangle:Pos_Id");
     addVAO(3, 3, 2, 0, &rect_Pos_Normal_Uv, "Rectangle:Vao_Pos.Normal.Uv");
     addVAO(3, 0, 0, 0, &cube_Pos, "Cube:Vao_Pos");
+    addVAO(3, 0, 0, 0, &cubemap_Pos, "CubeMap:Vao_Pos");
     addVAO(3, 3, 0, 0, &cube_Pos_Normal, "Cube:Vao_Pos.Norm");
     addVAO(3, 0, 2, 0, &cube_Pos_Uv, "Cube:Vao_Pos.Uv");
     addVAO(3, 0, 0, 0, &circle_Pos, "Circle:Vao_Pos");
@@ -295,6 +341,11 @@ glm::mat4 chaos::Renderer::getCamCombined(){
 
 void chaos::Renderer::setCamCombined(glm::mat4 mx){
     camCombined = mx;
+}
+
+void chaos::Renderer::setCamCombined(Camera* cam){
+    setActiveCamera(cam);
+    camCombined = cam->getProjectionMatrix()*cam->getViewMatrix();
 }
 
 void chaos::Renderer::setTargetWindow(Window* _win){

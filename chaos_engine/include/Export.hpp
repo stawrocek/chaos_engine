@@ -2,7 +2,7 @@
 #define EXPORT_HPP
 
 //comment DEVELOPMENT_MODE if you want to build .dll
-//#define DEVELOPMENT_MODE
+#define DEVELOPMENT_MODE
 
 #include <string>
 

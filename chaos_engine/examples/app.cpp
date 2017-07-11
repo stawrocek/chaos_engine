@@ -25,7 +25,7 @@ void ChaosExampleLibraryApp::onCreate(){
     textureLoader = new SDLTextureLoader();
 #endif
     if(textureLoader == nullptr){
-        SHOUT("texture laoder not initialized!\n");
+        SHOUT("texture loader not initialized!\n");
     }
 /*#if defined(TEXTURES_SDLIMAGE) && !defined (__EMSCRIPTEN__)
 
@@ -37,11 +37,11 @@ void ChaosExampleLibraryApp::onCreate(){
     resourceManager->setTextureLoader(textureLoader);
 
     //sceneManager->registerScene<ColorfulTriangles>("ColorfulTriangles");
-    sceneManager->registerScene<ImGUITest>("ImGUI");
+    sceneManager->registerScene<Transforms>("Transforms");
     //sceneManager->registerScene<VAOnShaders>("VAOnShaders");
     //sceneManager->registerScene<GizmosTest>("GizmosTest");
     //sceneManager->registerScene<Rubik>("Rubik");
-    sceneManager->setActiveScene("ImGUI");
+    sceneManager->setActiveScene("Transforms");
 }
 
 void ChaosExampleLibraryApp::onDraw(){

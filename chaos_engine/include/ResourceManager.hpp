@@ -4,11 +4,13 @@
 #include <unordered_map>
 #include <string>
 #include <iostream>
+#include <initializer_list>
 
 #include "Export.hpp"
 #include "Resource.hpp"
 #include "Texture.hpp"
 #include "Logger.hpp"
+#include "CubeMap.hpp"
 
 namespace chaos{
 
@@ -32,6 +34,15 @@ public:
             return dynamic_cast<chaos::Texture*>(cache[id]);
         }
         chaos::Texture* tmp = new chaos::Texture(fpath, textureLoader);
+        cache[id] = tmp;
+        return tmp;
+    }
+    chaos::CubeMap* loadResource(std::string fpath, const std::initializer_list<std::string>& listFileNames, std::string id){
+        SHOUT("loading cubemap!\n");
+        if(cache.find(id) != cache.end()){
+            return dynamic_cast<chaos::CubeMap*>(cache[id]);
+        }
+        chaos::CubeMap* tmp = new chaos::CubeMap(fpath, textureLoader, listFileNames);
         cache[id] = tmp;
         return tmp;
     }

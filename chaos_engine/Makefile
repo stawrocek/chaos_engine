@@ -31,12 +31,12 @@ src/VertexArray.cpp src/Window.cpp
 #include/imgui/imgui.cpp include/imgui/imgui_draw.cpp
 
 OBJECTS=build/Application.o build/BitmapFont.o build/BitmapFontSprite.o \
-build/Camera.o build/GameObject.o \
+build/Camera.o build/CubeMap.o build/GameObject.o \
 build/InputManager.o build/LightCaster.o build/Material.o \
 build/MeshPrefab.o build/Model.o build/Primitives.o \
 build/Renderer.o build/Resource.o build/ResourceManager.o \
 build/Scene.o build/SceneManager.o build/Shader.o \
-build/ShaderProgram.o \
+build/ShaderProgram.o build/Skybox.o \
 build/Sprite.o \
 build/Texture.o build/Timer.o build/Transform.o \
 build/VertexArray.o build/Window.o
@@ -61,6 +61,9 @@ build/BitmapFontSprite.o: src/BitmapFontSprite.cpp include/BitmapFontSprite.hpp
 build/Camera.o: src/Camera.cpp include/Camera.hpp
 	$(CC) -c -DDLL_EXPORT src/Camera.cpp $(HEADERS) $(CFLAGS) -o build/Camera.o	
 
+build/CubeMap.o: src/CubeMap.cpp include/CubeMap.hpp
+	$(CC) -c -DDLL_EXPORT src/CubeMap.cpp $(HEADERS) $(CFLAGS) -o build/CubeMap.o	
+	
 build/GameObject.o: src/GameObject.cpp include/GameObject.hpp
 	$(CC) -c -DDLL_EXPORT src/GameObject.cpp $(HEADERS) $(CFLAGS) -o build/GameObject.o	
 
@@ -106,6 +109,9 @@ build/Shader.o: src/Shader.cpp include/Shader.hpp
 build/ShaderProgram.o: src/ShaderProgram.cpp include/ShaderProgram.hpp
 	$(CC) -c -DDLL_EXPORT src/ShaderProgram.cpp $(HEADERS) $(CFLAGS) -o build/ShaderProgram.o
 
+build/Skybox.o: src/Skybox.cpp include/Skybox.hpp
+	$(CC) -c -DDLL_EXPORT src/Skybox.cpp $(HEADERS) $(CFLAGS) -o build/Skybox.o
+	
 build/Sprite.o: src/Sprite.cpp include/Sprite.hpp
 	$(CC) -c -DDLL_EXPORT src/Sprite.cpp $(HEADERS) $(CFLAGS) -o build/Sprite.o		
 	

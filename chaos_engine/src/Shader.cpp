@@ -134,7 +134,7 @@ std::string chaos::Shader::translateGL3ShaderGLES2Shader(std::string shader, GLe
                 }
                 out += "\n";
             }
-            else if(type == GL_FRAGMENT_SHADER && line.find("texture") != std::string::npos && line.find("texture2d") == std::string::npos){
+            else if(type == GL_FRAGMENT_SHADER && line.find("texture") != std::string::npos && line.find("texture2d") == std::string::npos && line.find("textureCube") == std::string::npos){
                 std::string tmp = std::string(line.begin(), line.begin()+line.find("texture")) +
                                     "texture2D"
                                     + std::string(line.begin()+line.find("texture")+7, line.end());
