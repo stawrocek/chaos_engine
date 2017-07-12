@@ -18,14 +18,19 @@ chaos::CubeMap::CubeMap(std::string fpath, chaos::TextureLoader* textureLoader, 
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    #ifndef ANDROID
+    #if !defined(ANDROID) && !defined(__EMSCRIPTEN__)
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
     #endif
 }
 
-chaos::CubeMap::~CubeMap(){}
+chaos::CubeMap::~CubeMap(){
+    glDeleteTextures(1, &id);
+}
 
 void chaos::CubeMap::bind(){
     glBindTexture(GL_TEXTURE_CUBE_MAP, id);
 }
 
+GLuint chaos::CubeMap::getId(){
+    return id;
+}

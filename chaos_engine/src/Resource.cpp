@@ -4,4 +4,6 @@ chaos::Resource::Resource(std::string& fpath){
     fpath = chaos::Application::getDataStorageDirectory()+fpath;
 }
 
+chaos::Resource::Resource(){}
+
 chaos::Resource::~Resource(){}

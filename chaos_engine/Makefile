@@ -31,7 +31,7 @@ src/VertexArray.cpp src/Window.cpp
 #include/imgui/imgui.cpp include/imgui/imgui_draw.cpp
 
 OBJECTS=build/Application.o build/BitmapFont.o build/BitmapFontSprite.o \
-build/Camera.o build/CubeMap.o build/GameObject.o \
+build/Camera.o build/CubeMap.o build/FBO.cpp build/GameObject.o \
 build/InputManager.o build/LightCaster.o build/Material.o \
 build/MeshPrefab.o build/Model.o build/Primitives.o \
 build/Renderer.o build/Resource.o build/ResourceManager.o \
@@ -63,6 +63,9 @@ build/Camera.o: src/Camera.cpp include/Camera.hpp
 
 build/CubeMap.o: src/CubeMap.cpp include/CubeMap.hpp
 	$(CC) -c -DDLL_EXPORT src/CubeMap.cpp $(HEADERS) $(CFLAGS) -o build/CubeMap.o	
+
+build/FBO.o: src/FBO.cpp include/FBO.hpp
+	$(CC) -c -DDLL_EXPORT src/FBO.cpp $(HEADERS) $(CFLAGS) -o build/FBO.o
 	
 build/GameObject.o: src/GameObject.cpp include/GameObject.hpp
 	$(CC) -c -DDLL_EXPORT src/GameObject.cpp $(HEADERS) $(CFLAGS) -o build/GameObject.o	

@@ -51,6 +51,7 @@ class CHAOS_EXPORT Texture: public Resource
 {
 public:
     Texture(std::string fpath, TextureLoader* textureLoader);
+    Texture(GLuint glId, GLuint w, GLuint h);
     virtual ~Texture();
 
     GLuint getWidth();

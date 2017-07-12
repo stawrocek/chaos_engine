@@ -24,6 +24,14 @@ chaos::Texture::Texture(std::string fpath, TextureLoader* textureLoader)
     textureCounter++;
 }
 
+chaos::Texture::Texture(GLuint glId, GLuint w, GLuint h)
+{
+    width=w;
+    height=h;
+    id = glId;
+    batchId = textureCounter++;
+}
+
 chaos::Texture::~Texture(){
     glDeleteTextures(1, &id);
 }

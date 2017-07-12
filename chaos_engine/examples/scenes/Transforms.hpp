@@ -14,6 +14,8 @@
 #include "../../include/Camera.hpp"
 #include "../../include/CubeMap.hpp"
 #include "../../include/Skybox.hpp"
+#include "../../include/FBO.hpp"
+#include "../../include/Sprite.hpp"
 
 class Transforms: public chaos::Scene{
 public:
@@ -44,12 +46,17 @@ public:
         camera->moveZ(1.0);
         window->setRelativeMode(true);
 
-        skyboxTexture = resourceManager->loadResource("files/textures/skyboxes/skybox1/",
-                        {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"},"skybox1");
-        //skyboxTexture = resourceManager->loadResource("files/textures/",
-        //                {"brick.png","brick.png","brick.png","brick.png","brick.png","brick.png"},"skybox1");
+        //skyboxTexture = resourceManager->loadResource("files/textures/skyboxes/skybox1/",
+        //                {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"},"skybox1");
+        skyboxTexture = resourceManager->loadResource("files/textures/",
+                        {"brick.png","brick.png","brick.png","brick.png","brick.png","brick.png"},"skybox1");
         skybox = new chaos::Skybox(renderer, skyboxTexture);
         skybox->rotateZ(3.1415);
+
+        fbo = new chaos::FBO(window->getGLDrawableWidth(), window->getGLDrawableHeight(), 1);
+        fboTexture = fbo->getTexture(0);
+        fboSprite = new chaos::Sprite(renderer, fboTexture);
+        //fboSprite->setScale(0.2, 0.2, 0.2);
     }
 
     void onSceneActivate(){
@@ -65,12 +72,6 @@ public:
             camera->processKeyboard(chaos::FORWARD, deltaTime*cameraMoveSpeed);
         if(window->isKeyDown(chaos::KeyboardEvent::KeyS))
             camera->processKeyboard(chaos::BACKWARD, deltaTime*cameraMoveSpeed);
-
-        renderer->setCamCombined(camera);
-        window->clearColor(0.2, 0.7, 0.2, 1.0);
-
-        skybox->draw();
-
         for(int i = 0; i < vecCubes.size(); i++){
             if(i%3 == 0)
                 vecCubes[i]->rotateZ(rotSpeed);
@@ -78,8 +79,20 @@ public:
                 vecCubes[i]->rotateY(rotSpeed);
             if(i%3 == 2)
                 vecCubes[i]->rotateX(rotSpeed);
-            vecCubes[i]->draw();
         }
+        renderer->setCamCombined(camera);
+        fbo->bind();
+        window->clearColor(0.2, 0.7, 0.2, 1.0);
+        skybox->draw();
+        for(auto cb: vecCubes)
+            cb->draw();
+        fbo->unbind();
+        window->clearColor(0.2, 0.7, 0.2, 1.0);
+        skybox->draw();
+        for(auto cb: vecCubes)
+            cb->draw();
+        //if(window->isKeyDown(chaos::KeyboardEvent::KeyP))
+            fboSprite->draw();
     }
 
     void deliverEvent(chaos::Event* event){
@@ -95,6 +108,9 @@ private:
     GLfloat rotSpeed = 0.001;
     chaos::CubeMap* skyboxTexture=nullptr;
     chaos::Skybox* skybox=nullptr;
+    chaos::FBO* fbo=nullptr;
+    chaos::Texture* fboTexture=nullptr;
+    chaos::Sprite* fboSprite=nullptr;
 };
 
 #endif // VAONSHADERS_HPP
