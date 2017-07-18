@@ -43,3 +43,7 @@ chaos::ProjectionMode chaos::Camera::getProjectionMode(){
 void chaos::Camera::setProjectionMode(ProjectionMode m){
     projectionMode = m;
 }
+
+void chaos::Camera::invertPitch(){
+    setRotX(-getRotX());
+}

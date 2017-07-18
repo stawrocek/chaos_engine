@@ -32,7 +32,7 @@ public:
     void setProjectionMatrix(glm::mat4 m);
     ProjectionMode getProjectionMode();
     void setProjectionMode(ProjectionMode m);
-
+    void invertPitch();
 private:
     ProjectionMode projectionMode;
     glm::mat4 mxProjection;

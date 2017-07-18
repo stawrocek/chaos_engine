@@ -9,6 +9,8 @@
 
 namespace chaos{
 
+class ResourceManager;
+
 class CHAOS_EXPORT CubeMap: public Resource
 {
 public:

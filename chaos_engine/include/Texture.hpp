@@ -60,7 +60,7 @@ public:
     GLuint getBatchId();
     GLenum getTextureType();
     void bind(GLenum type=GL_TEXTURE_2D);
-    //void bindOnSlot(GLenum slot);
+    void bindOnSlot(GLenum slot=0, GLenum type=GL_TEXTURE_2D);
     void unbind();
 
 private:

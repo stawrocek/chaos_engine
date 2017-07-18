@@ -24,7 +24,7 @@ void emscriptenLoop(void* ){
 }
 
 int main(int argc, char* argv[]){
-    chaos::WindowStyle style("chaos::engine demo", 50, 50, 1024, 600);
+    chaos::WindowStyle style("chaos::engine demo", 200, 50, 1024, 600);
     chaos::SDL2Window window(style, SDL_WINDOW_OPENGL);
     ImGui_ImplChaos_Init(&window);
     window.inputManager = new chaos::SDL2InputManager();

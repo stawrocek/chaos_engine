@@ -95,6 +95,8 @@ void chaos::Renderer::initEngineStuff(){
                 std::make_pair("files/shaders/Model3dLightsOn.fs", GL_FRAGMENT_SHADER)}, "Shader_Mesh3dLightsOn");
     addShader({ std::make_pair("files/shaders/CubeMap.vs", GL_VERTEX_SHADER),
                 std::make_pair("files/shaders/CubeMap.fs", GL_FRAGMENT_SHADER)}, "Shader_Skybox");
+    addShader({ std::make_pair("files/shaders/Water.vs", GL_VERTEX_SHADER),
+                std::make_pair("files/shaders/Water.fs", GL_FRAGMENT_SHADER)}, "Shader_Water");
 
     std::vector<GLfloat> rect_Pos = {
         -1.f, -1.f, 0.f,

@@ -41,10 +41,11 @@ void chaos::Texture::bind(GLenum t) {
     glBindTexture(type, id);
 }
 
-/*void Texture::bindOnSlot(GLenum slot){
+void chaos::Texture::bindOnSlot(GLenum slot, GLenum t){
     glActiveTexture(slot);
+    type=t;
     glBindTexture(type, id);
-}*/
+}
 
 void chaos::Texture::unbind(){
     glBindTexture(type, 0);

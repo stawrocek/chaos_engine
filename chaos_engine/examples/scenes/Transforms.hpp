@@ -16,6 +16,8 @@
 #include "../../include/Skybox.hpp"
 #include "../../include/FBO.hpp"
 #include "../../include/Sprite.hpp"
+#include "../../include/Water.hpp"
+#include "../../lib-loaders/ImGUI_Impl_Chaos.hpp"
 
 class Transforms: public chaos::Scene{
 public:
@@ -52,18 +54,24 @@ public:
                         {"brick.png","brick.png","brick.png","brick.png","brick.png","brick.png"},"skybox1");
         skybox = new chaos::Skybox(renderer, skyboxTexture);
         skybox->rotateZ(3.1415);
-
-        fbo = new chaos::FBO(window->getGLDrawableWidth(), window->getGLDrawableHeight(), 1);
-        fboTexture = fbo->getTexture(0);
-        fboSprite = new chaos::Sprite(renderer, fboTexture);
-        //fboSprite->setScale(0.2, 0.2, 0.2);
+        water = new chaos::Water(renderer, camera);
+        water->setRotX(3.1415/2.0);
+        water->moveY(-0.5);
+        reflectionTexture = water->getReflectionFBO()->getTexture(0);
+        refractionTexture = water->getRefractionFBO()->getTexture(0);
+        reflectionSprite = new chaos::Sprite(renderer, reflectionTexture);
+        refractionSprite = new chaos::Sprite(renderer, refractionTexture);
+        reflectionSprite->setScale(0.2, 0.2, 0.2);
+        refractionSprite->setScale(0.2, 0.2, 0.2);
+        reflectionSprite->moveX(-0.3);
+        refractionSprite->moveX(0.3);
     }
 
     void onSceneActivate(){
 
     }
 
-    void draw(GLfloat deltaTime){
+    void update(GLfloat deltaTime){
         if(window->isKeyDown(chaos::KeyboardEvent::KeyA))
             camera->processKeyboard(chaos::LEFT, deltaTime*cameraMoveSpeed);
         if(window->isKeyDown(chaos::KeyboardEvent::KeyD))
@@ -72,6 +80,8 @@ public:
             camera->processKeyboard(chaos::FORWARD, deltaTime*cameraMoveSpeed);
         if(window->isKeyDown(chaos::KeyboardEvent::KeyS))
             camera->processKeyboard(chaos::BACKWARD, deltaTime*cameraMoveSpeed);
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyQ))
+            camera->moveY(0.001);
         for(int i = 0; i < vecCubes.size(); i++){
             if(i%3 == 0)
                 vecCubes[i]->rotateZ(rotSpeed);
@@ -80,19 +90,45 @@ public:
             if(i%3 == 2)
                 vecCubes[i]->rotateX(rotSpeed);
         }
+    }
+
+    void draw(GLfloat deltaTime){
+        double reflectionMoveDistance = 2.0*(camera->getY() - water->getY());
+        water->getReflectionFBO()->bind();
+        camera->moveY(-reflectionMoveDistance);
+        camera->invertPitch();
         renderer->setCamCombined(camera);
-        fbo->bind();
+        drawScene();
+        camera->moveY(reflectionMoveDistance);
+        camera->invertPitch();
+        renderer->setCamCombined(camera);
+        water->getRefractionFBO()->bind();
+        drawScene();
+
+        water->getRefractionFBO()->unbind();
+        drawScene();
+        water->draw();
+        //if(window->isKeyDown(chaos::KeyboardEvent::KeyP)){
+            reflectionSprite->draw();
+        //}
+        //if(window->isKeyDown(chaos::KeyboardEvent::KeyR)){
+            refractionSprite->draw();
+        //}
+    }
+
+    void drawScene(){
         window->clearColor(0.2, 0.7, 0.2, 1.0);
         skybox->draw();
         for(auto cb: vecCubes)
             cb->draw();
-        fbo->unbind();
-        window->clearColor(0.2, 0.7, 0.2, 1.0);
-        skybox->draw();
-        for(auto cb: vecCubes)
-            cb->draw();
-        //if(window->isKeyDown(chaos::KeyboardEvent::KeyP))
-            fboSprite->draw();
+    }
+
+    void onGUI(){
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::SetNextWindowSize(ImVec2(100,50));
+        ImGui::Begin("fps window");
+        ImGui::Text("fps, %d", window->getFPS());
+        ImGui::End();
     }
 
     void deliverEvent(chaos::Event* event){
@@ -108,9 +144,11 @@ private:
     GLfloat rotSpeed = 0.001;
     chaos::CubeMap* skyboxTexture=nullptr;
     chaos::Skybox* skybox=nullptr;
-    chaos::FBO* fbo=nullptr;
-    chaos::Texture* fboTexture=nullptr;
-    chaos::Sprite* fboSprite=nullptr;
+    chaos::Texture* reflectionTexture=nullptr;
+    chaos::Texture* refractionTexture=nullptr;
+    chaos::Sprite* reflectionSprite=nullptr;
+    chaos::Sprite* refractionSprite=nullptr;
+    chaos::Water* water=nullptr;
 };
 
 #endif // VAONSHADERS_HPP

@@ -1,4 +1,5 @@
 #include "../include/CubeMap.hpp"
+#include "../include/ResourceManager.hpp"
 
 chaos::CubeMap::CubeMap(std::string fpath, chaos::TextureLoader* textureLoader, const std::initializer_list<std::string>& listFileNames)
 :Resource(fpath)
@@ -10,8 +11,8 @@ chaos::CubeMap::CubeMap(std::string fpath, chaos::TextureLoader* textureLoader, 
         std::string filePath = fpath+fileName;
         textureLoader->loadTexture(filePath);
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + textureCounter,0,GL_RGBA,
-                     textureLoader->getWidth(), textureLoader->getHeight(), 0, GL_RGBA,
-                     GL_UNSIGNED_BYTE, textureLoader->getTextureData());
+                        textureLoader->getWidth(), textureLoader->getHeight(), 0, GL_RGBA,
+                        GL_UNSIGNED_BYTE, textureLoader->getTextureData());
         textureCounter++;
     }
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
