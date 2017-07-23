@@ -17,6 +17,8 @@
 #include "../../include/FBO.hpp"
 #include "../../include/Sprite.hpp"
 #include "../../include/Water.hpp"
+#include "../../include/TerrainPrefab.hpp"
+#include "../../include/Terrain.hpp"
 #include "../../lib-loaders/ImGUI_Impl_Chaos.hpp"
 
 class Transforms: public chaos::Scene{
@@ -65,6 +67,11 @@ public:
         refractionSprite->setScale(0.2, 0.2, 0.2);
         reflectionSprite->moveX(-0.3);
         refractionSprite->moveX(0.3);
+        heightmap = resourceManager->loadResource("files/textures/heightmaps/valley.png", "heightmapTest");
+        terrainPrefab = resourceManager->loadResource(heightmap, 0, 5, 0.5, "terrain");
+        renderer->addTerrainVAO(terrainPrefab);
+        terrain = new chaos::Terrain(renderer, terrainPrefab);
+        terrain->moveY(-0.5);
     }
 
     void onSceneActivate(){
@@ -108,17 +115,18 @@ public:
         water->getRefractionFBO()->unbind();
         drawScene();
         water->draw();
-        //if(window->isKeyDown(chaos::KeyboardEvent::KeyP)){
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyP)){
             reflectionSprite->draw();
-        //}
-        //if(window->isKeyDown(chaos::KeyboardEvent::KeyR)){
+        }
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyR)){
             refractionSprite->draw();
-        //}
+        }
     }
 
     void drawScene(){
-        window->clearColor(0.2, 0.7, 0.2, 1.0);
+        window->clearColor(0.2, 0.2, 0.7, 1.0);
         skybox->draw();
+        terrain->draw();
         for(auto cb: vecCubes)
             cb->draw();
     }
@@ -140,7 +148,7 @@ public:
 private:
     std::vector<chaos::Cube*> vecCubes;
     chaos::Camera* camera=nullptr;
-    GLfloat cameraMoveSpeed=0.1f;
+    GLfloat cameraMoveSpeed=2.0f;
     GLfloat rotSpeed = 0.001;
     chaos::CubeMap* skyboxTexture=nullptr;
     chaos::Skybox* skybox=nullptr;
@@ -149,6 +157,9 @@ private:
     chaos::Sprite* reflectionSprite=nullptr;
     chaos::Sprite* refractionSprite=nullptr;
     chaos::Water* water=nullptr;
+    chaos::TerrainPrefab* terrainPrefab=nullptr;
+    chaos::Texture* heightmap=nullptr;
+    chaos::Terrain* terrain=nullptr;
 };
 
 #endif // VAONSHADERS_HPP

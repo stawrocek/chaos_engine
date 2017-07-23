@@ -96,6 +96,9 @@ public class ChaosActivity extends Activity
 		try{
 			in = getAssets().open(fpath);
 			File outFile = new File(sdpath);
+			//Log.w(DEBUG_TAG, sdpath);
+			outFile.getParentFile().mkdirs();
+			outFile.createNewFile();
 			out = new FileOutputStream(outFile);
 			copyFiles(in, out);
 		} catch (IOException e){

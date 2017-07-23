@@ -19,11 +19,11 @@ public:
             FreeImage_Unload(bitmap);
         }
     }
-    FreeImageTextureLoader(std::string& fpath){
+    FreeImageTextureLoader(std::string fpath){
         loadTexture(fpath);
     }
 
-    void loadTexture(std::string& fpath) override {
+    void loadTexture(std::string fpath) override {
         SHOUT("freeimage is trying to read texture from %s\n", fpath.c_str());
         FREE_IMAGE_FORMAT format = FreeImage_GetFileType(fpath.c_str(), 0);
         if(format == FIF_UNKNOWN) {

@@ -11,6 +11,7 @@
 #include "Texture.hpp"
 #include "Logger.hpp"
 #include "CubeMap.hpp"
+#include "TerrainPrefab.hpp"
 
 namespace chaos{
 
@@ -43,6 +44,15 @@ public:
             return dynamic_cast<chaos::CubeMap*>(cache[id]);
         }
         chaos::CubeMap* tmp = new chaos::CubeMap(fpath, textureLoader, listFileNames);
+        cache[id] = tmp;
+        return tmp;
+    }
+    chaos::TerrainPrefab* loadResource(chaos::Texture* heightmap, GLfloat minHeight, GLfloat maxHeight, GLfloat groundZeroHeightPercent, std::string id){
+        SHOUT("loading terrain prefab!\n");
+        if(cache.find(id) != cache.end()){
+            return dynamic_cast<chaos::TerrainPrefab*>(cache[id]);
+        }
+        chaos::TerrainPrefab* tmp = new chaos::TerrainPrefab(heightmap, minHeight, maxHeight, groundZeroHeightPercent);
         cache[id] = tmp;
         return tmp;
     }

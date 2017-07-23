@@ -13,11 +13,11 @@ public:
     ~SDLTextureLoader(){
         SDL_FreeSurface(image);
     }
-    SDLTextureLoader(std::string& fpath){
+    SDLTextureLoader(std::string fpath){
         loadTexture(fpath);
     }
 
-    void loadTexture(std::string& fpath) override {
+    void loadTexture(std::string fpath) override {
         SHOUT("sdlimage is trying to read texture from %s\n", fpath.c_str());
         image=IMG_Load(fpath.c_str());
         if (image==NULL) {

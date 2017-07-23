@@ -1,21 +1,19 @@
 #include "../include/MeshPrefab.hpp"
 
-using namespace chaos;
+GLuint chaos::MeshPrefab::meshCounter = 0;
 
-GLuint MeshPrefab::meshCounter = 0;
-
-MeshPrefab::MeshPrefab(std::string fpath)
+chaos::MeshPrefab::MeshPrefab(std::string fpath)
     :Resource(fpath)
 {
-    load(fpath);
+    load(getFilePath());
     meshId = meshCounter++;
 }
 
-GLboolean MeshPrefab::load(std::string fpath){
+GLboolean chaos::MeshPrefab::load(std::string fpath){
     return loadObj(fpath);
 }
 
-GLboolean MeshPrefab::loadObj(std::string fpath){
+GLboolean chaos::MeshPrefab::loadObj(std::string fpath){
     FILE * file = fopen(fpath.c_str(), "rb");
     if( file == nullptr )
     {
@@ -81,15 +79,7 @@ GLboolean MeshPrefab::loadObj(std::string fpath){
     return true;
 }
 
-void MeshPrefab::recalculateVertexData(){
-    /*vboData = {
-         0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-         0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-        -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
-         0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-        -0.5f,  0.5f, 0.0f, 0.0f, 1.0f
-    };*/
+void chaos::MeshPrefab::recalculateVertexData(){
     vboData.clear();
     for(unsigned int i=0; i<vecVerticesIndices.size(); i++)
     {
@@ -108,10 +98,10 @@ void MeshPrefab::recalculateVertexData(){
     }
 }
 
-std::vector<GLfloat>* MeshPrefab::getVBOData(){
+std::vector<GLfloat>* chaos::MeshPrefab::getVBOData(){
     return &vboData;
 }
 
-GLuint MeshPrefab::getMeshId(){
+GLuint chaos::MeshPrefab::getMeshId(){
     return meshId;
 }

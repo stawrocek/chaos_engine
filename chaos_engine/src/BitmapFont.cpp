@@ -7,7 +7,7 @@ using namespace chaos;
 BitmapFont::BitmapFont(std::string fpath, TextureLoader* textureLoader)
 :Resource(fpath)
 {
-    load(fpath, textureLoader);
+    load(getFilePath(), textureLoader);
 }
 
 BitmapFont::~BitmapFont(){

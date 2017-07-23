@@ -11,8 +11,11 @@ namespace chaos{
 class CHAOS_EXPORT Resource{
 public:
     Resource();
-    Resource(std::string& fpath);       //must be via reference
+    Resource(std::string fpath);       //must be via reference
     virtual ~Resource();
+    std::string getFilePath();
+protected:
+    std::string fpathDeviceDependent;
 };
 
 }

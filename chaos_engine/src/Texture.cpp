@@ -9,9 +9,18 @@ chaos::Texture::Texture(std::string fpath, TextureLoader* textureLoader)
     glGenTextures(1, &id);
     bind(GL_TEXTURE_2D);
 
-    textureLoader->loadTexture(fpath);
+    textureLoader->loadTexture(getFilePath());
     width = textureLoader->getWidth();
     height = textureLoader->getHeight();
+    vecTextureData.resize(height);
+    GLuint ctr=0;
+    for(GLuint i = 0; i < height; i++){
+        vecTextureData[(height-1)-i].resize(width);
+        for(GLuint j = 0; j < width; j++){
+            vecTextureData[(height-1)-i][j] = textureLoader->getColorsFromIndex(ctr);
+            ctr += 4;
+        }
+    }
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -19,7 +28,6 @@ chaos::Texture::Texture(std::string fpath, TextureLoader* textureLoader)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE,textureLoader->getTextureData());
-
     unbind();
     textureCounter++;
 }
@@ -69,5 +77,9 @@ GLuint chaos::Texture::getId(){
 
 GLuint chaos::Texture::getBatchId(){
     return batchId;
+}
+
+std::vector<std::vector<glm::vec4> > chaos::Texture::getTextureData() const {
+    return vecTextureData;
 }
 

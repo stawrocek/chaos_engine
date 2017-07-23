@@ -6,6 +6,7 @@
 #include <iostream>
 #include <streambuf>
 #include <fstream>
+#include <vector>
 
 #ifdef _WIN32
     #include "windows.h"
@@ -29,8 +30,8 @@ class CHAOS_EXPORT TextureLoader{
 public:
     TextureLoader(){};
     TextureLoader(const TextureLoader& that) = delete;
-    TextureLoader(std::string& fpath){};
-    virtual void loadTexture(std::string& fpath)=0;
+    TextureLoader(std::string fpath){};
+    virtual void loadTexture(std::string fpath)=0;
     virtual GLuint getWidth(){
         return width;
     }
@@ -39,6 +40,9 @@ public:
     }
     virtual GLubyte* getTextureData(){
         return textureData;
+    }
+    virtual glm::vec4 getColorsFromIndex(GLuint index){
+        return glm::vec4(textureData[index], textureData[index+1], textureData[index+2], textureData[index+3]);
     }
     virtual GLboolean initializeTextureLoader() = 0;
 
@@ -62,14 +66,16 @@ public:
     void bind(GLenum type=GL_TEXTURE_2D);
     void bindOnSlot(GLenum slot=0, GLenum type=GL_TEXTURE_2D);
     void unbind();
+    std::vector<std::vector<glm::vec4> > getTextureData() const;
 
-private:
+protected:
     GLuint width;
     GLuint height;
     GLenum type=GL_TEXTURE_2D;
     GLuint id;                      //opengl id
     GLuint batchId;                 //batching id (different Texture => different batchId)
     static GLuint textureCounter;   //generates batchId
+    std::vector<std::vector<glm::vec4> > vecTextureData;
 
 };
 

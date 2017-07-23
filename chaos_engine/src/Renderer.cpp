@@ -5,6 +5,7 @@
 #include "../include/ShaderProgram.hpp"
 #include "../include/VertexArray.hpp"
 #include "../include/MeshPrefab.hpp"
+#include "../include/TerrainPrefab.hpp"
 #include "../include/Utils.hpp"
 #include "../include/Window.hpp"
 #include "../include/Camera.hpp"
@@ -97,6 +98,8 @@ void chaos::Renderer::initEngineStuff(){
                 std::make_pair("files/shaders/CubeMap.fs", GL_FRAGMENT_SHADER)}, "Shader_Skybox");
     addShader({ std::make_pair("files/shaders/Water.vs", GL_VERTEX_SHADER),
                 std::make_pair("files/shaders/Water.fs", GL_FRAGMENT_SHADER)}, "Shader_Water");
+    addShader({ std::make_pair("files/shaders/Terrain.vs", GL_VERTEX_SHADER),
+                std::make_pair("files/shaders/Terrain.fs", GL_FRAGMENT_SHADER)}, "Shader_Terrain");
 
     std::vector<GLfloat> rect_Pos = {
         -1.f, -1.f, 0.f,
@@ -335,6 +338,10 @@ void chaos::Renderer::initEngineStuff(){
 
 void chaos::Renderer::addMeshVAO(MeshPrefab* mesh){
     addVAO(3, 3, 2, 0, mesh->getVBOData(), "Mesh:Vao_Pos.Uv("+toString(mesh->getMeshId())+")");
+}
+
+void chaos::Renderer::addTerrainVAO(TerrainPrefab* mesh){
+    addVAO(3, 0, 0, 0, mesh->getVBOData(), "Terrain:Vao_Pos("+mesh->getId()+")");
 }
 
 glm::mat4 chaos::Renderer::getCamCombined(){

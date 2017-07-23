@@ -15,6 +15,7 @@ class Camera;
 class ShaderProgram;
 class VertexArray;
 class MeshPrefab;
+class TerrainPrefab;
 class Window;
 class LightCaster;
 
@@ -35,6 +36,7 @@ public:
     void removeVAO(std::string id);
     void initEngineStuff();
     void addMeshVAO(MeshPrefab* mesh);
+    void addTerrainVAO(TerrainPrefab* mesh);
 
     glm::mat4 getCamCombined();
     void setCamCombined(glm::mat4 mx);

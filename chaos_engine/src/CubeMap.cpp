@@ -8,7 +8,7 @@ chaos::CubeMap::CubeMap(std::string fpath, chaos::TextureLoader* textureLoader, 
     bind();
     GLuint textureCounter=0;
     for (std::string fileName : listFileNames) {
-        std::string filePath = fpath+fileName;
+        std::string filePath = getFilePath()+fileName;
         textureLoader->loadTexture(filePath);
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + textureCounter,0,GL_RGBA,
                         textureLoader->getWidth(), textureLoader->getHeight(), 0, GL_RGBA,
