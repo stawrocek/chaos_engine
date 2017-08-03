@@ -16,8 +16,8 @@ chaos::Water::Water(chaos::Renderer* ren, Camera* cam)
 
 void chaos::Water::draw(){
     shader->run();
-    reflectionFBO->getTexture(0)->bindOnSlot(0);
-    refractionFBO->getTexture(0)->bindOnSlot(1);
+    reflectionFBO->getTexture(0)->bindOnSlot(GL_TEXTURE0);
+    refractionFBO->getTexture(0)->bindOnSlot(GL_TEXTURE1);
     shader->setUniform("mx",renderer->getCamCombined()*getGlobalTransformMatrix());
     shader->setUniform("uniColor", color);
     vao->bind();

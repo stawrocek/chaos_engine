@@ -12,16 +12,21 @@ namespace chaos{
 class TerrainPrefab : public Resource
 {
 public:
-    TerrainPrefab(Texture* heightmap, GLfloat minHeight, GLfloat maxHeight, GLfloat groundZeroHeightPercent);
+    TerrainPrefab(Texture* heightmap, GLfloat _minHeight, GLfloat _maxHeight, GLfloat _groundZeroHeightPercent);
     virtual ~TerrainPrefab();
     GLuint getTerrainId() const;
-    GLuint getHeight(GLuint x, GLuint y) const;
+    GLfloat getHeight(GLuint x, GLuint y) const;
     std::vector<GLfloat>* getVBOData();
     std::string getId();
 protected:
+    GLfloat terrainWidth, terrainDepth;
+    GLfloat minHeight, maxHeight;
+    GLfloat groundZeroPercent;
+    void addFloatToVBOAndNormalize(GLfloat x, GLfloat y, GLfloat z);
     GLuint terrainId=0;
     static GLuint terrainCounter;
     std::vector<GLfloat> vboData;
+    std::vector<std::vector<GLfloat> > vecHeight;
     std::string strId;
 };
 

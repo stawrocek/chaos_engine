@@ -54,6 +54,11 @@ public:
         //                {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"},"skybox1");
         skyboxTexture = resourceManager->loadResource("files/textures/",
                         {"brick.png","brick.png","brick.png","brick.png","brick.png","brick.png"},"skybox1");
+        textureBlendMap = resourceManager->loadResource("files/textures/terrain_maps/blendmap.png", "blendmap");
+        textureFlowers = resourceManager->loadResource("files/textures/terrain_maps/grassFlowers.png", "flowers");
+        textureGrass = resourceManager->loadResource("files/textures/terrain_maps/grass.png", "grass");
+        textureMud = resourceManager->loadResource("files/textures/terrain_maps/sand.png", "mud");
+        texturePath = resourceManager->loadResource("files/textures/brick.png", "path");
         skybox = new chaos::Skybox(renderer, skyboxTexture);
         skybox->rotateZ(3.1415);
         water = new chaos::Water(renderer, camera);
@@ -70,8 +75,17 @@ public:
         heightmap = resourceManager->loadResource("files/textures/heightmaps/valley.png", "heightmapTest");
         terrainPrefab = resourceManager->loadResource(heightmap, 0, 5, 0.5, "terrain");
         renderer->addTerrainVAO(terrainPrefab);
-        terrain = new chaos::Terrain(renderer, terrainPrefab);
-        terrain->moveY(-0.5);
+        terrain = new chaos::Terrain(renderer, terrainPrefab, {
+                {chaos::Terrain::BLEND_MAP, textureBlendMap},
+                {chaos::Terrain::BACKGROUND, textureGrass},
+                {chaos::Terrain::TEXTURE_R, textureMud},
+                {chaos::Terrain::TEXTURE_G, textureFlowers},
+                {chaos::Terrain::TEXTURE_B, texturePath}
+            });
+        //terrain->moveY(-0.5);
+        test = new chaos::Cube(renderer);
+        test->setColor(0,1,0,1);
+        test->setScale(8, 1, 1);
     }
 
     void onSceneActivate(){
@@ -129,6 +143,7 @@ public:
         terrain->draw();
         for(auto cb: vecCubes)
             cb->draw();
+        test->draw();
     }
 
     void onGUI(){
@@ -148,7 +163,7 @@ public:
 private:
     std::vector<chaos::Cube*> vecCubes;
     chaos::Camera* camera=nullptr;
-    GLfloat cameraMoveSpeed=2.0f;
+    GLfloat cameraMoveSpeed=5.0f;
     GLfloat rotSpeed = 0.001;
     chaos::CubeMap* skyboxTexture=nullptr;
     chaos::Skybox* skybox=nullptr;
@@ -160,6 +175,12 @@ private:
     chaos::TerrainPrefab* terrainPrefab=nullptr;
     chaos::Texture* heightmap=nullptr;
     chaos::Terrain* terrain=nullptr;
+    chaos::Texture* textureBlendMap;
+    chaos::Texture* textureMud;
+    chaos::Texture* textureGrass;
+    chaos::Texture* texturePath;
+    chaos::Texture* textureFlowers;
+    chaos::Cube* test=nullptr;
 };
 
 #endif // VAONSHADERS_HPP

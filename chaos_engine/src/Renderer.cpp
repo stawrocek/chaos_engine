@@ -341,7 +341,7 @@ void chaos::Renderer::addMeshVAO(MeshPrefab* mesh){
 }
 
 void chaos::Renderer::addTerrainVAO(TerrainPrefab* mesh){
-    addVAO(3, 0, 0, 0, mesh->getVBOData(), "Terrain:Vao_Pos("+mesh->getId()+")");
+    addVAO(3, 0, 2, 0, mesh->getVBOData(), "Terrain:Vao_Pos("+mesh->getId()+")");
 }
 
 glm::mat4 chaos::Renderer::getCamCombined(){
