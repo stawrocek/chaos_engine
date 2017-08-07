@@ -1,9 +1,8 @@
 #include "../include/TerrainPrefab.hpp"
 
 GLuint chaos::TerrainPrefab::terrainCounter=0;
-chaos::TerrainPrefab::TerrainPrefab(chaos::Texture* heightmap, GLfloat _minHeight, GLfloat _maxHeight, GLfloat _groundZeroHeightPercent)
-:Resource("terrain("+ heightmap->getFilePath() +")"), minHeight(_minHeight), maxHeight(_maxHeight),
-groundZeroPercent(_groundZeroHeightPercent)
+chaos::TerrainPrefab::TerrainPrefab(chaos::Texture* heightmap, GLfloat _minHeight, GLfloat _maxHeight)
+:Resource("terrain("+ heightmap->getFilePath() +")"), minHeight(_minHeight), maxHeight(_maxHeight)
 {
     strId="terrain("+ heightmap->getFilePath() +")";
     terrainId = terrainCounter++;
@@ -22,33 +21,31 @@ groundZeroPercent(_groundZeroHeightPercent)
             vecHeight[i][j]=z;
         }
     }
-    GLfloat groundLevel = (maxHeight-minHeight)*groundZeroPercent;
     for(GLuint i = 0; i < vecHeight.size()-1; i++){
         for(GLuint j = 0; j < vecHeight[i].size()-1; j++){
             GLfloat x = i, z = j;
-            vboData.insert(vboData.end(), {x,vecHeight[i][j]-groundLevel,z});
-            vboData.insert(vboData.end(), {x/vecHeight.size(), z/vecHeight[i].size()});
-            vboData.insert(vboData.end(), {x,vecHeight[i][j+1]-groundLevel,z+1.0f});
-            vboData.insert(vboData.end(), {x/vecHeight.size(), (z+1.0f)/vecHeight[i].size()});
-            vboData.insert(vboData.end(), {x+1.0f,vecHeight[i+1][j]-groundLevel,z});
-            vboData.insert(vboData.end(), {(x+1.0f)/vecHeight.size(), z/vecHeight[i].size()});
+            addFloatToVBOAndNormalize(x,vecHeight[i][j],z);
+            addFloatToVBOAndNormalize(x,vecHeight[i][j+1],z+1.0f);
+            addFloatToVBOAndNormalize(x+1.0f,vecHeight[i+1][j],z);
 
-
-            vboData.insert(vboData.end(), {x,vecHeight[i][j+1]-groundLevel,z+1.0f});
-            vboData.insert(vboData.end(), {x/vecHeight.size(), (z+1.0f)/vecHeight[i].size()});
-            vboData.insert(vboData.end(), {x+1.0f,vecHeight[i+1][j]-groundLevel,z});
-            vboData.insert(vboData.end(), {(x+1.0f)/vecHeight.size(), z/vecHeight[i].size()});
-            vboData.insert(vboData.end(), {x+1.0f,vecHeight[i+1][j+1]-groundLevel,z+1.0f});
-            vboData.insert(vboData.end(), {(x+1.0f)/vecHeight.size(), (z+1.0f)/vecHeight[i].size()});
+            addFloatToVBOAndNormalize(x,vecHeight[i][j+1],z+1.0f);
+            addFloatToVBOAndNormalize(x+1.0f,vecHeight[i+1][j],z);
+            addFloatToVBOAndNormalize(x+1.0f,vecHeight[i+1][j+1],z+1.0f);
         }
     }
 }
 
 void chaos::TerrainPrefab::addFloatToVBOAndNormalize(GLfloat x, GLfloat y, GLfloat z){
-    GLfloat xNorm = x/terrainWidth;
-    GLfloat yNorm = (maxHeight-minHeight); //implement this!
-    GLfloat zNorm = z/terrainDepth;
-    //vboData.insert(vboData.end(), {xNorm, yNorm, yNorm});
+    GLfloat xNorm = x/(terrainWidth-1);
+    //GLfloat yNorm = (maxHeight-minHeight); //implement this!
+    GLfloat yNorm = y;
+    GLfloat zNorm = z/(terrainDepth-1.0);
+    GLfloat u = xNorm;
+    GLfloat v = zNorm;
+    xNorm *= 2, xNorm -= 1.0f;  //[0,1] -> [-1,1]
+    zNorm *= 2, zNorm -= 1.0f;  //[0,1] -> [-1,1]
+    vboData.insert(vboData.end(), {xNorm, yNorm, zNorm});  //pos
+    vboData.insert(vboData.end(), {u, v});  //uv
 }
 
 chaos::TerrainPrefab::~TerrainPrefab(){}

@@ -47,12 +47,12 @@ public:
         cache[id] = tmp;
         return tmp;
     }
-    chaos::TerrainPrefab* loadResource(chaos::Texture* heightmap, GLfloat minHeight, GLfloat maxHeight, GLfloat groundZeroHeightPercent, std::string id){
+    chaos::TerrainPrefab* loadResource(chaos::Texture* heightmap, GLfloat minHeight, GLfloat maxHeight, std::string id){
         SHOUT("loading terrain prefab!\n");
         if(cache.find(id) != cache.end()){
             return dynamic_cast<chaos::TerrainPrefab*>(cache[id]);
         }
-        chaos::TerrainPrefab* tmp = new chaos::TerrainPrefab(heightmap, minHeight, maxHeight, groundZeroHeightPercent);
+        chaos::TerrainPrefab* tmp = new chaos::TerrainPrefab(heightmap, minHeight, maxHeight);
         cache[id] = tmp;
         return tmp;
     }

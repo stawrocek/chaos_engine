@@ -50,14 +50,14 @@ public:
         camera->moveZ(1.0);
         window->setRelativeMode(true);
 
-        //skyboxTexture = resourceManager->loadResource("files/textures/skyboxes/skybox1/",
-        //                {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"},"skybox1");
-        skyboxTexture = resourceManager->loadResource("files/textures/",
-                        {"brick.png","brick.png","brick.png","brick.png","brick.png","brick.png"},"skybox1");
-        textureBlendMap = resourceManager->loadResource("files/textures/terrain_maps/blendmap.png", "blendmap");
+        skyboxTexture = resourceManager->loadResource("files/textures/skyboxes/skybox1/",
+                        {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"},"skybox1");
+        //skyboxTexture = resourceManager->loadResource("files/textures/",
+        //                {"brick.png","brick.png","brick.png","brick.png","brick.png","brick.png"},"skybox1");
+        textureBlendMap = resourceManager->loadResource("files/textures/terrain_maps/blendmap2.png", "blendmap");
         textureFlowers = resourceManager->loadResource("files/textures/terrain_maps/grassFlowers.png", "flowers");
         textureGrass = resourceManager->loadResource("files/textures/terrain_maps/grass.png", "grass");
-        textureMud = resourceManager->loadResource("files/textures/terrain_maps/sand.png", "mud");
+        textureSand = resourceManager->loadResource("files/textures/terrain_maps/sand.png", "sand");
         texturePath = resourceManager->loadResource("files/textures/brick.png", "path");
         skybox = new chaos::Skybox(renderer, skyboxTexture);
         skybox->rotateZ(3.1415);
@@ -73,19 +73,19 @@ public:
         reflectionSprite->moveX(-0.3);
         refractionSprite->moveX(0.3);
         heightmap = resourceManager->loadResource("files/textures/heightmaps/valley.png", "heightmapTest");
-        terrainPrefab = resourceManager->loadResource(heightmap, 0, 5, 0.5, "terrain");
+        terrainPrefab = resourceManager->loadResource(heightmap, 0, 2, "terrain");
         renderer->addTerrainVAO(terrainPrefab);
         terrain = new chaos::Terrain(renderer, terrainPrefab, {
                 {chaos::Terrain::BLEND_MAP, textureBlendMap},
-                {chaos::Terrain::BACKGROUND, textureGrass},
-                {chaos::Terrain::TEXTURE_R, textureMud},
-                {chaos::Terrain::TEXTURE_G, textureFlowers},
-                {chaos::Terrain::TEXTURE_B, texturePath}
+                {chaos::Terrain::BACKGROUND, textureSand},
+                {chaos::Terrain::TEXTURE_R, texturePath},
+                {chaos::Terrain::TEXTURE_G, textureGrass},
+                {chaos::Terrain::TEXTURE_B, textureFlowers}
             });
         //terrain->moveY(-0.5);
         test = new chaos::Cube(renderer);
-        test->setColor(0,1,0,1);
-        test->setScale(8, 1, 1);
+        test->setColor(0,1,0,0.5);
+        test->setScale(1, 2.5, 1);
     }
 
     void onSceneActivate(){
@@ -101,8 +101,6 @@ public:
             camera->processKeyboard(chaos::FORWARD, deltaTime*cameraMoveSpeed);
         if(window->isKeyDown(chaos::KeyboardEvent::KeyS))
             camera->processKeyboard(chaos::BACKWARD, deltaTime*cameraMoveSpeed);
-        if(window->isKeyDown(chaos::KeyboardEvent::KeyQ))
-            camera->moveY(0.001);
         for(int i = 0; i < vecCubes.size(); i++){
             if(i%3 == 0)
                 vecCubes[i]->rotateZ(rotSpeed);
@@ -135,6 +133,12 @@ public:
         if(window->isKeyDown(chaos::KeyboardEvent::KeyR)){
             refractionSprite->draw();
         }
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyQ)){
+            water->moveY(-0.005);
+        }
+        if(window->isKeyDown(chaos::KeyboardEvent::KeyE)){
+            water->moveY(0.005);
+        }
     }
 
     void drawScene(){
@@ -143,7 +147,7 @@ public:
         terrain->draw();
         for(auto cb: vecCubes)
             cb->draw();
-        test->draw();
+        //test->draw();
     }
 
     void onGUI(){
@@ -176,10 +180,11 @@ private:
     chaos::Texture* heightmap=nullptr;
     chaos::Terrain* terrain=nullptr;
     chaos::Texture* textureBlendMap;
-    chaos::Texture* textureMud;
     chaos::Texture* textureGrass;
     chaos::Texture* texturePath;
     chaos::Texture* textureFlowers;
+    chaos::Texture* textureSand;
+
     chaos::Cube* test=nullptr;
 };
 

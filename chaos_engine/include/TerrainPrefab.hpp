@@ -12,7 +12,7 @@ namespace chaos{
 class TerrainPrefab : public Resource
 {
 public:
-    TerrainPrefab(Texture* heightmap, GLfloat _minHeight, GLfloat _maxHeight, GLfloat _groundZeroHeightPercent);
+    TerrainPrefab(Texture* heightmap, GLfloat _minHeight, GLfloat _maxHeight);
     virtual ~TerrainPrefab();
     GLuint getTerrainId() const;
     GLfloat getHeight(GLuint x, GLuint y) const;
