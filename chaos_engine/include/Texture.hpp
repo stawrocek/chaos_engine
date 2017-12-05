@@ -66,6 +66,7 @@ public:
     void bind(GLenum type=GL_TEXTURE_2D);
     void bindOnSlot(GLenum slot=0, GLenum type=GL_TEXTURE_2D);
     void unbind();
+    void unbindUnit();
     std::vector<std::vector<glm::vec4> > getTextureData() const;
 
 protected:

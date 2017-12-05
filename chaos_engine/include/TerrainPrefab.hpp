@@ -22,7 +22,7 @@ protected:
     GLfloat terrainWidth, terrainDepth;
     GLfloat minHeight, maxHeight;
     GLfloat groundZeroPercent;
-    void addFloatToVBOAndNormalize(GLfloat x, GLfloat y, GLfloat z);
+    void addFloatToVBOAndNormalize(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v);
     GLuint terrainId=0;
     static GLuint terrainCounter;
     std::vector<GLfloat> vboData;

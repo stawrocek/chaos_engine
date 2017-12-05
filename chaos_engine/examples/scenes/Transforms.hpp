@@ -19,6 +19,7 @@
 #include "../../include/Water.hpp"
 #include "../../include/TerrainPrefab.hpp"
 #include "../../include/Terrain.hpp"
+#include "../../include/Logger.hpp"
 #include "../../lib-loaders/ImGUI_Impl_Chaos.hpp"
 
 class Transforms: public chaos::Scene{
@@ -47,7 +48,7 @@ public:
         vecCubes.front()->setScale(0.01, 0.01, 0.01);
 
         camera = new chaos::Camera(renderer, chaos::PERSPECTIVE, glm::perspective(glm::radians(45.0f), (GLfloat)window->getStyle().width/window->getStyle().height, 0.1f, 100.0f));
-        camera->moveZ(1.0);
+        //camera->moveZ(1.0);
         window->setRelativeMode(true);
 
         skyboxTexture = resourceManager->loadResource("files/textures/skyboxes/skybox1/",
@@ -68,10 +69,14 @@ public:
         refractionTexture = water->getRefractionFBO()->getTexture(0);
         reflectionSprite = new chaos::Sprite(renderer, reflectionTexture);
         refractionSprite = new chaos::Sprite(renderer, refractionTexture);
-        reflectionSprite->setScale(0.2, 0.2, 0.2);
-        refractionSprite->setScale(0.2, 0.2, 0.2);
-        reflectionSprite->moveX(-0.3);
-        refractionSprite->moveX(0.3);
+        reflectionSprite->setParent(camera);
+        refractionSprite->setParent(camera);
+        reflectionSprite->setScale(0.4, 0.4, 0.4);
+        refractionSprite->setScale(0.4, 0.4, 0.4);
+        reflectionSprite->moveZ(-3);
+        refractionSprite->moveZ(-3);
+        reflectionSprite->moveX(-1);
+        refractionSprite->moveX(1);
         heightmap = resourceManager->loadResource("files/textures/heightmaps/valley.png", "heightmapTest");
         terrainPrefab = resourceManager->loadResource(heightmap, 0, 2, "terrain");
         renderer->addTerrainVAO(terrainPrefab);
@@ -82,10 +87,6 @@ public:
                 {chaos::Terrain::TEXTURE_G, textureGrass},
                 {chaos::Terrain::TEXTURE_B, textureFlowers}
             });
-        //terrain->moveY(-0.5);
-        test = new chaos::Cube(renderer);
-        test->setColor(0,1,0,0.5);
-        test->setScale(1, 2.5, 1);
     }
 
     void onSceneActivate(){
@@ -147,7 +148,6 @@ public:
         terrain->draw();
         for(auto cb: vecCubes)
             cb->draw();
-        //test->draw();
     }
 
     void onGUI(){
@@ -161,6 +161,9 @@ public:
     void deliverEvent(chaos::Event* event){
         if(event->type == chaos::Event::MouseMotion){
             camera->processMouse(event->motionEvent.relX, -event->motionEvent.relY);
+        }
+        if(event->type == chaos::Event::KeyDown && event->keyEvent.keyCode == chaos::KeyboardEvent::KeyC){
+            water->scaleUp(2,1,2);
         }
     }
 
@@ -184,8 +187,6 @@ private:
     chaos::Texture* texturePath;
     chaos::Texture* textureFlowers;
     chaos::Texture* textureSand;
-
-    chaos::Cube* test=nullptr;
 };
 
 #endif // VAONSHADERS_HPP

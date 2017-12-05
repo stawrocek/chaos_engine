@@ -59,6 +59,10 @@ void chaos::Texture::unbind(){
     glBindTexture(type, 0);
 }
 
+void chaos::Texture::unbindUnit(){
+    glActiveTexture(GL_TEXTURE0);
+}
+
 GLenum chaos::Texture::getTextureType(){
     return type;
 }

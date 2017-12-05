@@ -111,21 +111,21 @@ void chaos::Renderer::initEngineStuff(){
     };
 
     std::vector<GLfloat> rect_Pos_Uv = {
-        -1.f, -1.f, -1.f,  0.0f, 0.0f,
-         1.f, -1.f, -1.f,  1.0f, 0.0f,
-         1.f,  1.f, -1.f,  1.0f, 1.0f,
-         1.f,  1.f, -1.f,  1.0f, 1.0f,
-        -1.f,  1.f, -1.f,  0.0f, 1.0f,
-        -1.f, -1.f, -1.f,  0.0f, 0.0f
+        -1.f, -1.f, 0.f,  0.0f, 0.0f,
+         1.f, -1.f, 0.f,  1.0f, 0.0f,
+         1.f,  1.f, 0.f,  1.0f, 1.0f,
+         1.f,  1.f, 0.f,  1.0f, 1.0f,
+        -1.f,  1.f, 0.f,  0.0f, 1.0f,
+        -1.f, -1.f, 0.f,  0.0f, 0.0f
     };
 
     std::vector<GLfloat> rect_Pos_Normal_Uv = {
-        -1.f, -1.f, -1.f,  0.0f,  1.0f, 0.0f,   0.0f, 0.0f,
-         1.f, -1.f, -1.f,  0.0f,  1.0f, 0.0f,   1.0f, 0.0f,
-         1.f,  1.f, -1.f,  0.0f,  1.0f, 0.0f,   1.0f, 1.0f,
-         1.f,  1.f, -1.f,  0.0f,  1.0f, 0.0f,   1.0f, 1.0f,
-        -1.f,  1.f, -1.f,  0.0f,  1.0f, 0.0f,   0.0f, 1.0f,
-        -1.f, -1.f, -1.f,  0.0f,  1.0f, 0.0f,   0.0f, 0.0f
+        -1.f, -1.f, 0.f,  0.0f,  1.0f, 0.0f,   0.0f, 0.0f,
+         1.f, -1.f, 0.f,  0.0f,  1.0f, 0.0f,   1.0f, 0.0f,
+         1.f,  1.f, 0.f,  0.0f,  1.0f, 0.0f,   1.0f, 1.0f,
+         1.f,  1.f, 0.f,  0.0f,  1.0f, 0.0f,   1.0f, 1.0f,
+        -1.f,  1.f, 0.f,  0.0f,  1.0f, 0.0f,   0.0f, 1.0f,
+        -1.f, -1.f, 0.f,  0.0f,  1.0f, 0.0f,   0.0f, 0.0f
     };
 
     std::vector<GLfloat> rect_Pos_Id {
@@ -341,7 +341,7 @@ void chaos::Renderer::addMeshVAO(MeshPrefab* mesh){
 }
 
 void chaos::Renderer::addTerrainVAO(TerrainPrefab* mesh){
-    addVAO(3, 0, 2, 0, mesh->getVBOData(), "Terrain:Vao_Pos("+mesh->getId()+")");
+    addVAO(3, 0, 2, 2, mesh->getVBOData(), "Terrain:Vao_Pos("+mesh->getId()+")");
 }
 
 glm::mat4 chaos::Renderer::getCamCombined(){

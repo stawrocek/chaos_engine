@@ -13,11 +13,9 @@ void chaos::Camera::processMouse(float xoff, float yoff) {
     rotateY(-xoff);
     rotateX(yoff);
 
-    if(getRotX() > PI/2.0-0.01)
-        setRotX(PI/2.0-0.01);
-    if(getRotX() < -PI/2.0+0.01)
-        setRotX(PI/2.0+0.01);
-
+    rotateY(-xoff);
+    if(getRotX() + yoff < PI/2.0 && getRotX() + yoff > -PI/2.0)
+        rotateX(yoff);
 }
 
 void chaos::Camera::processKeyboard(CameraDirection dir, float delta) {

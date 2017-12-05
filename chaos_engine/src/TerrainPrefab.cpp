@@ -24,28 +24,29 @@ chaos::TerrainPrefab::TerrainPrefab(chaos::Texture* heightmap, GLfloat _minHeigh
     for(GLuint i = 0; i < vecHeight.size()-1; i++){
         for(GLuint j = 0; j < vecHeight[i].size()-1; j++){
             GLfloat x = i, z = j;
-            addFloatToVBOAndNormalize(x,vecHeight[i][j],z);
-            addFloatToVBOAndNormalize(x,vecHeight[i][j+1],z+1.0f);
-            addFloatToVBOAndNormalize(x+1.0f,vecHeight[i+1][j],z);
+            addFloatToVBOAndNormalize(x,      vecHeight[i][j],     z,      0, 0);
+            addFloatToVBOAndNormalize(x,      vecHeight[i][j+1],   z+1.0f, 0, 1);
+            addFloatToVBOAndNormalize(x+1.0f, vecHeight[i+1][j],   z,      1, 0);
 
-            addFloatToVBOAndNormalize(x,vecHeight[i][j+1],z+1.0f);
-            addFloatToVBOAndNormalize(x+1.0f,vecHeight[i+1][j],z);
-            addFloatToVBOAndNormalize(x+1.0f,vecHeight[i+1][j+1],z+1.0f);
+            addFloatToVBOAndNormalize(x,      vecHeight[i][j+1],   z+1.0f, 0, 1);
+            addFloatToVBOAndNormalize(x+1.0f, vecHeight[i+1][j],   z,      1, 0);
+            addFloatToVBOAndNormalize(x+1.0f, vecHeight[i+1][j+1], z+1.0f, 1, 1);
         }
     }
 }
 
-void chaos::TerrainPrefab::addFloatToVBOAndNormalize(GLfloat x, GLfloat y, GLfloat z){
+void chaos::TerrainPrefab::addFloatToVBOAndNormalize(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v){
     GLfloat xNorm = x/(terrainWidth-1);
     //GLfloat yNorm = (maxHeight-minHeight); //implement this!
     GLfloat yNorm = y;
     GLfloat zNorm = z/(terrainDepth-1.0);
-    GLfloat u = xNorm;
-    GLfloat v = zNorm;
+    GLfloat blendMapU = xNorm;
+    GLfloat blendMapV = zNorm;
     xNorm *= 2, xNorm -= 1.0f;  //[0,1] -> [-1,1]
     zNorm *= 2, zNorm -= 1.0f;  //[0,1] -> [-1,1]
     vboData.insert(vboData.end(), {xNorm, yNorm, zNorm});  //pos
     vboData.insert(vboData.end(), {u, v});  //uv
+    vboData.insert(vboData.end(), {blendMapU, blendMapV});
 }
 
 chaos::TerrainPrefab::~TerrainPrefab(){}

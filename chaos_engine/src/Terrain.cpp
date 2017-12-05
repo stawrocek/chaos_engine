@@ -8,7 +8,6 @@ chaos::Terrain::Terrain(Renderer* ren, chaos::TerrainPrefab* prefab, std::initia
 {
     setTerrainMesh(prefab);
     shader = renderer->getShader("Shader_Terrain");
-    setColor(0,1,0,1);
     std::vector<Texture*> vecTmp;
     vecTextures.clear();
     vecTextures.resize(textureTypesCount, nullptr);

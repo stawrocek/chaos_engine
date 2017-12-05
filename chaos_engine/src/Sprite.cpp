@@ -15,12 +15,12 @@ chaos::Sprite::Sprite(Renderer* ren, Texture* tex)
 void chaos::Sprite::draw(){
     shader->run();
     if(!isLighting){
-        texture->bind();
+        texture->bindOnSlot(GL_TEXTURE0);
         shader->setUniform("uniColor", color);
         shader->setUniform("mx",renderer->getCamCombined()*getGlobalTransformMatrix());
     }
     else{
-        texture->bind();
+        texture->bindOnSlot(GL_TEXTURE0);
         shader->setUniform("model", getGlobalTransformMatrix());
         shader->setUniform("mx",renderer->getCamCombined()*getGlobalTransformMatrix());
         shader->setUniform("uniViewPos", renderer->getActiveCamera()->getPosition());
