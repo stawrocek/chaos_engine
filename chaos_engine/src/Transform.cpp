@@ -6,7 +6,8 @@
 chaos::Transform::Transform()
 :posX(0.f),posY(0.f),posZ(0.f),
 scaleX(1.f),scaleY(1.f),scaleZ(1.f),
-rotX(0.0f),rotY(0.0f),rotZ(0.0f)
+rotX(0.0f),rotY(0.0f),rotZ(0.0f),
+keyX(0.0), keyY(0.0), keyZ(0.0)
 {
     mxTransform = glm::mat4();
     parent = nullptr;
@@ -18,14 +19,12 @@ glm::mat4 chaos::Transform::getLocalTransformMatrix() {
     mxTransform = glm::mat4();
     mxTransform = glm::translate(mxTransform, glm::vec3(posX, posY, posZ));
     mxTransform = glm::scale(mxTransform, glm::vec3(scaleX, scaleY, scaleZ));
-    glm::quat q(glm::vec3(rotX, rotY, rotZ));
-    /*mxTransform = glm::rotate(mxTransform, rotX, getRight());
-    mxTransform = glm::rotate(mxTransform, rotY, getUp());
-    mxTransform = glm::rotate(mxTransform, rotZ, getFront());*/
-    mxTransform = mxTransform*glm::toMat4(q);
-
-
+    glm::quat quatKey(glm::vec3(keyX, keyY, keyZ));
+    keyX=keyY=keyZ=0.0f;
+    quatStorage = quatKey*quatStorage;
+    quatStorage = glm::normalize(quatStorage);
     needUpdate=false;
+    mxTransform = mxTransform*glm::toMat4(quatStorage);
     return mxTransform;
 }
 
@@ -55,6 +54,10 @@ void chaos::Transform::translate(glm::vec3 vec) {
 }
 
 void chaos::Transform::rotate(GLfloat dx, GLfloat dy, GLfloat dz) {
+    keyX += dx;
+    keyY += dy;
+    keyZ += dz;
+
     rotX += dx;
     rotY += dy;
     rotZ += dz;
@@ -62,6 +65,10 @@ void chaos::Transform::rotate(GLfloat dx, GLfloat dy, GLfloat dz) {
 }
 
 void chaos::Transform::rotate(glm::vec3 vec) {
+    keyX += vec.x;
+    keyY += vec.y;
+    keyZ += vec.z;
+
     rotX += vec.x;
     rotY += vec.y;
     rotZ += vec.z;
@@ -97,6 +104,10 @@ void chaos::Transform::setPosition(glm::vec3 vec) {
 }
 
 void chaos::Transform::setRotation(GLfloat x, GLfloat y, GLfloat z) {
+    keyX += x-rotX;
+    keyY += y-rotY;
+    keyZ += z-rotZ;
+
     rotX = x;
     rotY = y;
     rotZ = z;
@@ -104,6 +115,10 @@ void chaos::Transform::setRotation(GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void chaos::Transform::setRotation(glm::vec3 vec) {
+    keyX += vec.x-rotX;
+    keyY += vec.y-rotY;
+    keyZ += vec.z-rotZ;
+
     rotX = vec.x;
     rotY = vec.y;
     rotZ = vec.z;
@@ -154,14 +169,17 @@ glm::vec3 chaos::Transform::getUp(){
 }
 
 void chaos::Transform::rotateX(GLfloat dx){
+    keyX += dx;
     rotX+=dx;needUpdate=true;
 }
 
 void chaos::Transform::rotateY(GLfloat dy){
+    keyY += dy;
     rotY+=dy;needUpdate=true;
 }
 
 void chaos::Transform::rotateZ(GLfloat dz){
+    keyZ += dz;
     rotZ+=dz;needUpdate=true;
 }
 
@@ -250,15 +268,21 @@ void chaos::Transform::setScaleZ(GLfloat z){
 }
 
 void chaos::Transform::setRotX(GLfloat x){
-    rotX=x;needUpdate=true;
+    keyX += x-rotX;
+    rotX=x;
+    needUpdate=true;
 }
 
 void chaos::Transform::setRotY(GLfloat y){
-    rotY=y;needUpdate=true;
+    keyY += y-rotY;
+    rotY=y;
+    needUpdate=true;
 }
 
 void chaos::Transform::setRotZ(GLfloat z){
-    rotZ=z;needUpdate=true;
+    keyZ += z-rotZ;
+    rotZ=z;
+    needUpdate=true;
 }
 
 glm::vec3 chaos::Transform::getPosition(){

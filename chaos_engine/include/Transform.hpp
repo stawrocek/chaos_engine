@@ -93,7 +93,8 @@ protected:
     GLfloat posX, posY, posZ;
     GLfloat scaleX, scaleY, scaleZ;
     GLfloat rotX, rotY, rotZ;
-    glm::quat rotQuat;
+    GLfloat keyX, keyY, keyZ;
+    glm::quat quatStorage;
     Transform* parent;
     std::vector<Transform* > vecChildren;
 };
